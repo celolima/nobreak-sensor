@@ -3,14 +3,12 @@
 
 CREATE TABLE IF NOT EXISTS TB_DEVICE (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    cod INTEGER NOT NULL,
     desc text NOT NULL,
     key text NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS TB_PARAM (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    cod INTEGER NOT NULL,
     desc text NOT NULL
 );
 
@@ -31,3 +29,8 @@ CREATE TABLE IF NOT EXISTS TB_LOG (
 );
 
 PRAGMA foreign_keys = ON;
+
+INSERT INTO TB_DEVICE (id,desc, key) VALUES (1,'Sensor AB01', '443DAS#!@#FF');
+INSERT INTO TB_PARAM (id,desc) VALUES (1,'Temperatura');
+INSERT INTO TB_DEVICE_PARAM (id,fk_device,fk_param) VALUES (1,1,1);
+INSERT INTO TB_LOG (fk_device_param,value,data_hora) VALUES (1,'40',DATETIME('now'));
