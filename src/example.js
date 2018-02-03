@@ -1,6 +1,7 @@
+var http = require('http')
 var mqtt = require('mqtt')
-var client  = mqtt.connect('mqtt://test.mosquitto.org')
 var sqlite = require('sqlite-sync')
+var client  = mqtt.connect('mqtt://test.mosquitto.org')
 
 console.log('\nScript que testa mosquitto, sqlite-sync:\n');
 
