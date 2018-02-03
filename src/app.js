@@ -8,4 +8,4 @@ dao.disconnect();
 
 
 broker.subscribe('/device01/sensor04');
-broker.publish('/device01/sensor04','50');
+//broker.publish('/device01/sensor04','50');

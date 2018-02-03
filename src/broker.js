@@ -16,7 +16,7 @@ let publish = function(topic, message) {
 
 client.on('message', function (topic, message) {        
     console.log('Got %s - %s', topic, message.toString());
-    client.end();
+    //client.end();
 });
 
 client.on('offline', function () {
