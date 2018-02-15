@@ -7,8 +7,16 @@
     "mqtt": "~2.15.1",
     "sqlite3": "~3.1.13"
   },
+  "devDependencies": {
+    "concurrently": "2.2.0",
+    "live-server": "https://github.com/acco/live-server.git"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "go": "open http://localhost:3000; npm run server",
+    "e2e": "nightwatch",    
+    "start": "npm run server",
+    "server": "live-server public --host=localhost --port=3000 --middleware=./client/disable-browser-cache.js"
   },
   "author": "m_lima",
   "license": "ISC"
