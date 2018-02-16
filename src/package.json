@@ -2,21 +2,14 @@
   "name": "src",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
   "dependencies": {
     "mqtt": "~2.15.1",
-    "sqlite3": "~3.1.13"
-  },
-  "devDependencies": {
-    "concurrently": "2.2.0",
-    "live-server": "https://github.com/acco/live-server.git"
+    "express": "4.13.3",
+    "ejs": "1.0.0",
+    "path": "0.12.7"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "go": "open http://localhost:3000; npm run server",
-    "e2e": "nightwatch",    
-    "start": "npm run server",
-    "server": "live-server public --host=localhost --port=3000 --middleware=./client/disable-browser-cache.js"
+    "test": "npm run reset-data; ./node_modules/.bin/concurrently -k 'npm run server' 'npm run e2e'"
   },
   "author": "m_lima",
   "license": "ISC"

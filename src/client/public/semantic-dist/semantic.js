@@ -1,5 +1,5 @@
  /*
- * # Semantic UI - 2.2.8
+ * # Semantic UI - 2.2.7
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -9,7 +9,7 @@
  *
  */
 /*!
- * # Semantic UI 2.2.8 - Site
+ * # Semantic UI 2.2.7 - Site
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -497,7 +497,7 @@ $.extend($.expr[ ":" ], {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.8 - Form Validation
+ * # Semantic UI 2.2.7 - Form Validation
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -2056,7 +2056,7 @@ $.fn.form.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.8 - Accordion
+ * # Semantic UI 2.2.7 - Accordion
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -2667,7 +2667,7 @@ $.extend( $.easing, {
 
 
 /*!
- * # Semantic UI 2.2.8 - Checkbox
+ * # Semantic UI 2.2.7 - Checkbox
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -3499,7 +3499,7 @@ $.fn.checkbox.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.8 - Dimmer
+ * # Semantic UI 2.2.7 - Dimmer
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -4208,7 +4208,7 @@ $.fn.dimmer.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.8 - Dropdown
+ * # Semantic UI 2.2.7 - Dropdown
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -4670,10 +4670,6 @@ $.fn.dropdown = function(parameters) {
             ? callback
             : function(){}
           ;
-          if(!module.can.show() && module.is.remote()) {
-            module.debug('No API results retrieved, searching before show');
-            module.queryRemote(module.get.query(), module.show);
-          }
           if( module.can.show() && !module.is.active() ) {
             module.debug('Showing dropdown');
             if(module.has.message() && !(module.has.maxSelections() || module.has.allResultsFiltered()) ) {
@@ -4830,17 +4826,8 @@ $.fn.dropdown = function(parameters) {
                 .on('mousedown' + eventNamespace, module.event.mousedown)
                 .on('mouseup'   + eventNamespace, module.event.mouseup)
                 .on('focus'     + eventNamespace, module.event.focus)
+                .on('blur'      + eventNamespace, module.event.blur)
               ;
-              if(module.has.menuSearch() ) {
-                $module
-                  .on('blur' + eventNamespace, selector.search, module.event.search.blur)
-                ;
-              }
-              else {
-                $module
-                  .on('blur' + eventNamespace, module.event.blur)
-                ;
-              }
             }
             $menu
               .on('mouseenter' + eventNamespace, selector.item, module.event.item.mouseenter)
@@ -4924,9 +4911,6 @@ $.fn.dropdown = function(parameters) {
           if(settings.apiSettings) {
             if( module.can.useAPI() ) {
               module.queryRemote(searchTerm, function() {
-                if(settings.filterRemoteData) {
-                  module.filterItems(searchTerm);
-                }
                 afterFiltered();
               });
             }
@@ -5014,15 +4998,12 @@ $.fn.dropdown = function(parameters) {
                 }
                 if(settings.match == 'both' || settings.match == 'value') {
                   value = String(module.get.choiceValue($choice, text));
+
                   if(value.search(beginsWithRegExp) !== -1) {
                     results.push(this);
                     return true;
                   }
-                  else if (settings.fullTextSearch === 'exact' && module.exactSearch(searchTerm, value)) {
-                    results.push(this);
-                    return true;
-                  }
-                  else if (settings.fullTextSearch === true && module.fuzzySearch(searchTerm, value)) {
+                  else if(settings.fullTextSearch && module.fuzzySearch(searchTerm, value)) {
                     results.push(this);
                     return true;
                   }
@@ -5104,7 +5085,7 @@ $.fn.dropdown = function(parameters) {
               : $activeItem,
             hasSelected = ($selectedItem.length > 0)
           ;
-          if(hasSelected && !module.is.multiple()) {
+          if(hasSelected) {
             module.debug('Forcing partial selection to selected item', $selectedItem);
             module.event.item.click.call($selectedItem, {}, true);
             return;
@@ -6411,7 +6392,7 @@ $.fn.dropdown = function(parameters) {
             $text.addClass(className.placeholder);
           },
           tabbable: function() {
-            if( module.is.searchSelection() ) {
+            if( module.has.search() ) {
               module.debug('Added tabindex to searchable dropdown');
               $search
                 .val('')
@@ -6523,13 +6504,12 @@ $.fn.dropdown = function(parameters) {
           },
           selectedItem: function($item) {
             var
-              value      = module.get.choiceValue($item),
-              searchText = module.get.choiceText($item, false),
-              text       = module.get.choiceText($item, true)
+              value = module.get.choiceValue($item),
+              text  = module.get.choiceText($item, false)
             ;
             module.debug('Setting user selection to item', $item);
             module.remove.activeItem();
-            module.set.partialSearch(searchText);
+            module.set.partialSearch(text);
             module.set.activeItem($item);
             module.set.selected(value, $item);
             module.set.text(text);
@@ -7118,7 +7098,7 @@ $.fn.dropdown = function(parameters) {
             ;
           },
           tabbable: function() {
-            if( module.is.searchSelection() ) {
+            if( module.has.search() ) {
               module.debug('Searchable dropdown initialized');
               $search
                 .removeAttr('tabindex')
@@ -7311,9 +7291,6 @@ $.fn.dropdown = function(parameters) {
           },
           multiple: function() {
             return $module.hasClass(className.multiple);
-          },
-          remote: function() {
-            return settings.apiSettings && module.can.useAPI();
           },
           single: function() {
             return !module.is.multiple();
@@ -7735,10 +7712,7 @@ $.fn.dropdown.settings = {
   apiSettings            : false,
   selectOnKeydown        : true,       // Whether selection should occur automatically when keyboard shortcuts used
   minCharacters          : 0,          // Minimum characters required to trigger API call
-
-  filterRemoteData       : false,      // Whether API results should be filtered after being returned for query term
   saveRemoteData         : true,       // Whether remote name/value pairs should be stored in sessionStorage to allow remote data to be restored on page refresh
-
   throttle               : 200,        // How long to wait after last user input to search remotely
 
   context                : window,     // Context to use when determining if on screen
@@ -7976,7 +7950,7 @@ $.fn.dropdown.settings.templates = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.8 - Embed
+ * # Semantic UI 2.2.7 - Embed
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -8673,7 +8647,7 @@ $.fn.embed.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.8 - Modal
+ * # Semantic UI 2.2.7 - Modal
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -9587,7 +9561,7 @@ $.fn.modal.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.8 - Nag
+ * # Semantic UI 2.2.7 - Nag
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -10095,7 +10069,7 @@ $.extend( $.easing, {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.8 - Popup
+ * # Semantic UI 2.2.7 - Popup
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -11571,7 +11545,7 @@ $.fn.popup.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.8 - Progress
+ * # Semantic UI 2.2.7 - Progress
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -12503,7 +12477,7 @@ $.fn.progress.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.8 - Rating
+ * # Semantic UI 2.2.7 - Rating
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -13012,7 +12986,7 @@ $.fn.rating.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.8 - Search
+ * # Semantic UI 2.2.7 - Search
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -13052,29 +13026,28 @@ $.fn.search = function(parameters) {
           ? $.extend(true, {}, $.fn.search.settings, parameters)
           : $.extend({}, $.fn.search.settings),
 
-        className        = settings.className,
-        metadata         = settings.metadata,
-        regExp           = settings.regExp,
-        fields           = settings.fields,
-        selector         = settings.selector,
-        error            = settings.error,
-        namespace        = settings.namespace,
+        className       = settings.className,
+        metadata        = settings.metadata,
+        regExp          = settings.regExp,
+        fields          = settings.fields,
+        selector        = settings.selector,
+        error           = settings.error,
+        namespace       = settings.namespace,
 
-        eventNamespace   = '.' + namespace,
-        moduleNamespace  = namespace + '-module',
+        eventNamespace  = '.' + namespace,
+        moduleNamespace = namespace + '-module',
 
-        $module          = $(this),
-        $prompt          = $module.find(selector.prompt),
-        $searchButton    = $module.find(selector.searchButton),
-        $results         = $module.find(selector.results),
-        $result          = $module.find(selector.result),
-        $category        = $module.find(selector.category),
+        $module         = $(this),
+        $prompt         = $module.find(selector.prompt),
+        $searchButton   = $module.find(selector.searchButton),
+        $results        = $module.find(selector.results),
+        $result         = $module.find(selector.result),
+        $category       = $module.find(selector.category),
 
-        element          = this,
-        instance         = $module.data(moduleNamespace),
+        element         = this,
+        instance        = $module.data(moduleNamespace),
 
-        disabledBubbled  = false,
-        resultsDismissed = false,
+        disabledBubbled = false,
 
         module
       ;
@@ -13161,12 +13134,11 @@ $.fn.search = function(parameters) {
           },
           focus: function() {
             module.set.focus();
-            if(settings.searchOnFocus && module.has.minimumCharacters() ) {
-              module.query(function() {
-                if(module.can.show() ) {
-                  module.showResults();
-                }
-              });
+            if( module.has.minimumCharacters() ) {
+              module.query();
+              if( module.can.show() ) {
+                module.showResults();
+              }
             }
           },
           blur: function(event) {
@@ -13181,7 +13153,6 @@ $.fn.search = function(parameters) {
             if(pageLostFocus) {
               return;
             }
-            resultsDismissed = false;
             if(module.resultsClicked) {
               module.debug('Determining if user action caused search to close');
               $module
@@ -13274,8 +13245,7 @@ $.fn.search = function(parameters) {
           // search shortcuts
           if(keyCode == keys.escape) {
             module.verbose('Escape key pressed, blurring search field');
-            module.hideResults();
-            resultsDismissed = true;
+            module.trigger.blur();
           }
           if( module.is.visible() ) {
             if(keyCode == keys.enter) {
@@ -13335,7 +13305,7 @@ $.fn.search = function(parameters) {
         },
 
         setup: {
-          api: function(searchTerm, callback) {
+          api: function(searchTerm) {
             var
               apiSettings = {
                 debug             : settings.debug,
@@ -13347,13 +13317,11 @@ $.fn.search = function(parameters) {
                 },
                 onSuccess         : function(response) {
                   module.parse.response.call(element, response, searchTerm);
-                  callback();
+                },
+                onAbort           : function(response) {
                 },
                 onFailure         : function() {
                   module.displayMessage(error.serverError);
-                  callback();
-                },
-                onAbort : function(response) {
                 },
                 onError           : module.error
               },
@@ -13402,6 +13370,20 @@ $.fn.search = function(parameters) {
           },
           focused: function() {
             return ($prompt.filter(':focus').length > 0);
+          }
+        },
+
+        trigger: {
+          blur: function() {
+            var
+              events        = document.createEvent('HTMLEvents'),
+              promptElement = $prompt[0]
+            ;
+            if(promptElement) {
+              module.verbose('Triggering native blur event');
+              events.initEvent('blur', false, false);
+              promptElement.dispatchEvent(events);
+            }
           }
         },
 
@@ -13502,36 +13484,28 @@ $.fn.search = function(parameters) {
           }
         },
 
-        query: function(callback) {
-          callback = $.isFunction(callback)
-            ? callback
-            : function(){}
-          ;
+        query: function() {
           var
             searchTerm = module.get.value(),
             cache = module.read.cache(searchTerm)
           ;
-          callback = callback || function() {};
           if( module.has.minimumCharacters() )  {
             if(cache) {
               module.debug('Reading result from cache', searchTerm);
               module.save.results(cache.results);
               module.addResults(cache.html);
               module.inject.id(cache.results);
-              callback();
             }
             else {
               module.debug('Querying for', searchTerm);
               if($.isPlainObject(settings.source) || $.isArray(settings.source)) {
                 module.search.local(searchTerm);
-                callback();
               }
               else if( module.can.useAPI() ) {
-                module.search.remote(searchTerm, callback);
+                module.search.remote(searchTerm);
               }
               else {
                 module.error(error.source);
-                callback();
               }
             }
             settings.onSearchQuery.call(element, searchTerm);
@@ -13562,15 +13536,11 @@ $.fn.search = function(parameters) {
               results : results
             });
           },
-          remote: function(searchTerm, callback) {
-            callback = $.isFunction(callback)
-              ? callback
-              : function(){}
-            ;
+          remote: function(searchTerm) {
             if($module.api('is loading')) {
               $module.api('abort');
             }
-            module.setup.api(searchTerm, callback);
+            module.setup.api(searchTerm);
             $module
               .api('query')
             ;
@@ -13697,15 +13667,6 @@ $.fn.search = function(parameters) {
               numCharacters = searchTerm.length
             ;
             return (numCharacters >= settings.minCharacters);
-          },
-          results: function() {
-            if($results.length === 0) {
-              return false;
-            }
-            var
-              html = $results.html()
-            ;
-            return html != '';
           }
         },
 
@@ -13872,21 +13833,12 @@ $.fn.search = function(parameters) {
             module.showResults();
           }
           else {
-            module.hideResults(function() {
-              $results.empty();
-            });
+            module.hideResults();
           }
         },
 
-        showResults: function(callback) {
-          callback = $.isFunction(callback)
-            ? callback
-            : function(){}
-          ;
-          if(resultsDismissed) {
-            return;
-          }
-          if(!module.is.visible() && module.has.results()) {
+        showResults: function() {
+          if(!module.is.visible()) {
             if( module.can.transition() ) {
               module.debug('Showing results with css animations');
               $results
@@ -13895,9 +13847,6 @@ $.fn.search = function(parameters) {
                   debug      : settings.debug,
                   verbose    : settings.verbose,
                   duration   : settings.duration,
-                  onComplete : function() {
-                    callback();
-                  },
                   queue      : true
                 })
               ;
@@ -13912,11 +13861,7 @@ $.fn.search = function(parameters) {
             settings.onResultsOpen.call($results);
           }
         },
-        hideResults: function(callback) {
-          callback = $.isFunction(callback)
-            ? callback
-            : function(){}
-          ;
+        hideResults: function() {
           if( module.is.visible() ) {
             if( module.can.transition() ) {
               module.debug('Hiding results with css animations');
@@ -13926,9 +13871,6 @@ $.fn.search = function(parameters) {
                   debug      : settings.debug,
                   verbose    : settings.verbose,
                   duration   : settings.duration,
-                  onComplete : function() {
-                    callback();
-                  },
                   queue      : true
                 })
               ;
@@ -14188,9 +14130,6 @@ $.fn.search.settings = {
 
   // object to search
   source            : false,
-
-  // Whether search should query current term on focus
-  searchOnFocus     : true,
 
   // fields to search
   searchFields   : [
@@ -14455,7 +14394,7 @@ $.fn.search.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.8 - Shape
+ * # Semantic UI 2.2.7 - Shape
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -15377,7 +15316,7 @@ $.fn.shape.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.8 - Sidebar
+ * # Semantic UI 2.2.7 - Sidebar
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -16414,7 +16353,7 @@ $.fn.sidebar.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.8 - Sticky
+ * # Semantic UI 2.2.7 - Sticky
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -17357,7 +17296,7 @@ $.fn.sticky.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.8 - Tab
+ * # Semantic UI 2.2.7 - Tab
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -17834,10 +17773,7 @@ $.fn.tab = function(parameters) {
                   settings.onFirstLoad.call($tab[0], tabPath, parameterArray, historyEvent);
                   settings.onLoad.call($tab[0], tabPath, parameterArray, historyEvent);
 
-                  if(settings.loadOnce) {
-                    module.cache.add(fullTabPath, true);
-                  }
-                  else if(typeof settings.cacheType == 'string' && settings.cacheType.toLowerCase() == 'dom' && $tab.children().length > 0) {
+                  if(typeof settings.cacheType == 'string' && settings.cacheType.toLowerCase() == 'dom' && $tab.children().length > 0) {
                     setTimeout(function() {
                       var
                         $clone = $tab.children().clone(true)
@@ -17867,13 +17803,11 @@ $.fn.tab = function(parameters) {
             if(settings.cache && cachedContent) {
               module.activate.tab(tabPath);
               module.debug('Adding cached content', fullTabPath);
-              if(!settings.loadOnce) {
-                if(settings.evaluateScripts == 'once') {
-                  module.update.content(tabPath, cachedContent, false);
-                }
-                else {
-                  module.update.content(tabPath, cachedContent);
-                }
+              if(settings.evaluateScripts == 'once') {
+                module.update.content(tabPath, cachedContent, false);
+              }
+              else {
+                module.update.content(tabPath, cachedContent);
               }
               settings.onLoad.call($tab[0], tabPath, parameterArray, historyEvent);
             }
@@ -18261,7 +18195,6 @@ $.fn.tab.settings = {
 
   alwaysRefresh   : false,      // load tab content new every tab click
   cache           : true,       // cache the content requests to pull locally
-  loadOnce        : false,      // Whether tab data should only be loaded once when using remote content
   cacheType       : 'response', // Whether to cache exact response, or to html cache contents after scripts execute
   ignoreFirstLoad : false,      // don't load remote content on first load
 
@@ -18310,7 +18243,7 @@ $.fn.tab.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.8 - Transition
+ * # Semantic UI 2.2.7 - Transition
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -19406,7 +19339,7 @@ $.fn.transition.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.8 - API
+ * # Semantic UI 2.2.7 - API
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -20574,7 +20507,7 @@ $.api.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.8 - State
+ * # Semantic UI 2.2.7 - State
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -21283,7 +21216,7 @@ $.fn.state.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.8 - Visibility
+ * # Semantic UI 2.2.7 - Visibility
  * http://github.com/semantic-org/semantic-ui/
  *
  *
