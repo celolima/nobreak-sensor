@@ -4,20 +4,19 @@
 */
 class DevicesDashboard extends React.Component {
   state = {
-    devices: [
-      {
-        id: uuid.v4(),
-        desc: 'Dev-01',
-      },
-      {
-        id: uuid.v4(),
-        desc: 'Dev-02',
-      },
-      {
-        id: uuid.v4(),
-        desc: 'Dev-03',
-      },
-    ],
+    devices: [],
+  };
+
+  componentDidMount() {
+    this.loadDevicesFormServer();
+    setInterval(this.loadDevicesFormServer, 5000);
+  }
+
+  loadDevicesFormServer = () => {
+    client.getDevices((serverDevices) => (
+        this.setState({ devices: serverDevices })
+      )
+    );
   };
 
   handleCreateFormSubmit = (device) => {
@@ -32,14 +31,13 @@ class DevicesDashboard extends React.Component {
     this.deleteDevice(deviceId);
   };
 
-  //TODO: implementar
   createDevice = (device) => {
-    /*
-    const t = helpers.newTimer(timer);
+    const t = helpers.newDevice(device);
     this.setState({
-      timers: this.state.timers.concat(t),
+      devices: this.state.devices.concat(t),
     });
-    */
+
+    //client.createTimer(t);
   };
 
   updateDevice = (attrs) => {

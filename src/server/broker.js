@@ -14,15 +14,19 @@ let publish = function(topic, message) {
     });
 };
 
+let checkConn = function() {
+    client.on('offline', function () {
+        console.log('MQTT is offline');
+        client.end();
+        return 'MQTT is offline';
+    });
+}
+
 client.on('message', function (topic, message) {        
     console.log('Got %s - %s', topic, message.toString());
     //client.end();
 });
 
-client.on('offline', function () {
-    console.log('\nNot able to connect on MQTT\n');
-    client.end();
-});
-
 exports.subscribe = subscribe;
 exports.publish = publish;
+exports.checkConn = checkConn;
