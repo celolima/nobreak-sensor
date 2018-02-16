@@ -32,12 +32,12 @@ class DevicesDashboard extends React.Component {
   };
 
   createDevice = (device) => {
-    const t = helpers.newDevice(device);
+    const d = helpers.newDevice(device);
     this.setState({
-      devices: this.state.devices.concat(t),
+      devices: this.state.devices.concat(d),
     });
 
-    //client.createTimer(t);
+    client.createDevice(d);
   };
 
   updateDevice = (attrs) => {
@@ -52,12 +52,18 @@ class DevicesDashboard extends React.Component {
         }
       }),
     });
+
+    client.updateDevice(attrs);
   };
 
   deleteDevice = (deviceId) => {
     this.setState({
       devices: this.state.devices.filter(d => d.id !== deviceId),
     });
+
+    client.deleteDevice(
+      { id: deviceId }
+    );
   };  
 
   render() {

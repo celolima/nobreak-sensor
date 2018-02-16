@@ -10,9 +10,9 @@ window.client = (function () {
       .then(parseJSON)
       .then(success);
   }
-/*
-  function createTimer(data) {
-    return fetch('/api/timers', {
+
+  function createDevice(data) {
+    return fetch('/api/devices', {
       method: 'post',
       body: JSON.stringify(data),
       headers: {
@@ -22,8 +22,8 @@ window.client = (function () {
     }).then(checkStatus);
   }
 
-  function updateTimer(data) {
-    return fetch('/api/timers', {
+  function updateDevice(data) {
+    return fetch('/api/devices', {
       method: 'put',
       body: JSON.stringify(data),
       headers: {
@@ -33,8 +33,8 @@ window.client = (function () {
     }).then(checkStatus);
   }
 
-  function deleteTimer(data) {
-    return fetch('/api/timers', {
+  function deleteDevice(data) {
+    return fetch('/api/devices', {
       method: 'delete',
       body: JSON.stringify(data),
       headers: {
@@ -43,12 +43,12 @@ window.client = (function () {
       },
     }).then(checkStatus);
   }
-*/
+
   function checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
       return response;
     } else {
-      const error = new Error(`HTTP Error ${response.statusText}`);
+      var error = new Error('HTTP Error ${response.statusText}');
       error.status = response.statusText;
       error.response = response;
       console.log(error);
@@ -61,6 +61,9 @@ window.client = (function () {
   }
 
   return {
-    getDevices
+    getDevices,
+    createDevice,
+    updateDevice,
+    deleteDevice
   };
 }());
