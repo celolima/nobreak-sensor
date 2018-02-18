@@ -250,6 +250,11 @@ class Device extends React.Component {
     this.props.onTrashClick(this.props.id);
   };
 
+  componentDidMount() {
+    const canvasID = 'canvas-' + this.props.id;
+    iconGen.draw(canvasID);
+  }
+
   render() {
     return (
       <div className='ui centered card'>
@@ -271,6 +276,7 @@ class Device extends React.Component {
               <i className='trash icon' />
             </span>
           </div>
+          <canvas id={'canvas-' + this.props.id}></canvas>
         </div>
       </div>
     );
