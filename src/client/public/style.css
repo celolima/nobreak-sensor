@@ -9,7 +9,7 @@
 /*ICON GENERATOR*/
 
 body{
-  background: black;
+  background: #F5F5F5;
 }
 
 #container{
@@ -20,7 +20,7 @@ body{
 }
 
 canvas{
-  display: block;
+  float: right;
   margin: 0 auto;
 }
 

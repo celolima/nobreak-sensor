@@ -68,7 +68,7 @@ class DevicesDashboard extends React.Component {
 
   render() {
     return (
-      <div className='ui three column centered grid'>
+      <div className='ui two column centered grid'>
         <div className='column'>
           <EditableDeviceList
             devices={this.state.devices}
@@ -224,7 +224,7 @@ class DeviceForm extends React.Component {
                 onChange={this.handleDescChange}
               />
             </div>
-            <div className='ui two bottom attached buttons'>
+            <div className='ui two bottom attached'>
               <button
                 className='ui basic blue button'
                 onClick={this.handleSubmit}
@@ -261,6 +261,7 @@ class Device extends React.Component {
         <div className='content'>
           <div className='header'>
             {this.props.desc}
+            <canvas id={'canvas-' + this.props.id}></canvas>
           </div>
           <div className='extra content'>
             <span
@@ -270,13 +271,19 @@ class Device extends React.Component {
               <i className='edit icon' />
             </span>
             <span
-              className='right floated trash icon'
+              className='right floated plus square outline icon'
+            >
+              <i className="plus square outline icon"></i>
+            </span>
+          </div>          
+          <div className='extra content'>
+          <span
+              className='left floated trash icon'
               onClick={this.handleTrashClick}
             >
               <i className='trash icon' />
             </span>
-          </div>
-          <canvas id={'canvas-' + this.props.id}></canvas>
+          </div>          
         </div>
       </div>
     );
