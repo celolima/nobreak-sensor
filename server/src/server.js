@@ -7,7 +7,7 @@ const broker = require('./broker');
 //const dao = require('./dao');
 
 const app = express();
-const path_client = "../client/public";
+const path_client = "../../client/public";
 const apiObject = require("./api.js");
 const apiInstance = new apiObject(app);
 
