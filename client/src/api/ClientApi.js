@@ -1,39 +1,34 @@
 import axios from 'axios';  
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-axios.defaults.baseURL= 'https://jsonplaceholder.typicode.com';
+axios.defaults.headers.put['Content-Type'] = 'application/json';
+axios.defaults.headers.delete['Content-Type'] = 'application/json';
+
+axios.defaults.baseURL= 'http://localhost:3000/api';
 
 const getDevices = () => {
-  return axios.get('/posts')
-    .then(response => {
-      const posts = response.data;
-      const serverDevices = posts.map(p =>{
-        return {
-          id: p.id,
-          desc: p.title
-        }        
-      });
-      return serverDevices;
-    });
+  return axios.get('/devices')
+    .then(response => response.data);
 };
 
 const createDevice = (data) => {
-  axios.post('/posts', data)
+  axios.post('/devices/', data)
   .then(response => {
       console.log('Created' + response);
   });
 };
 
 const updateDevice = (data) => {
-  axios.put('/posts/' + data.id)
+  axios.put('/devices/', data)
   .then(response => {
       console.log('Updated' + response);
   });
 };
 
 const deleteDevice = (data) => {
-  axios.delete('/posts/' + data.id)
+  console.log(data);
+  axios.delete('/devices/', data)
   .then(response => {
-      console.log('Deleted' + response);
+      console.log('Deleted');
   });
 };
 

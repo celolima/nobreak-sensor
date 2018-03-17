@@ -16,7 +16,6 @@ class DevicesDashboard extends Component {
   }
 
   loadDevicesFormServer = () => {
-    console.log('Loading...');
     clientApi.getDevices().then(data => {this.setState({devices : data})});
   };
 
@@ -53,7 +52,6 @@ class DevicesDashboard extends Component {
         }
       }),
     });
-
     clientApi.updateDevice(attrs);
   };
 
@@ -61,8 +59,7 @@ class DevicesDashboard extends Component {
     this.setState({
       devices: this.state.devices.filter(d => d.id !== deviceId),
     });
-    
-    clientApi.deleteDevice({ id: deviceId });
+    clientApi.deleteDevice(deviceId);
   };  
 
   render() {
