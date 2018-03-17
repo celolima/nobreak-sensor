@@ -4,6 +4,7 @@ import ToggleableDeviceForm from './ToggleableDeviceForm';
 import * as ClientApi from '../api/ClientApi';
 import * as Helper from '../helpers/Helper'
 import { Container } from 'reactstrap';
+import axios from 'axios';
 
 class DevicesDashboard extends Component {
   state = {
@@ -13,6 +14,19 @@ class DevicesDashboard extends Component {
   componentDidMount() {
     //this.loadDevicesFormServer();
     //setInterval(this.loadDevicesFormServer, 5000);
+    axios.get('https://jsonplaceholder.typicode.com/posts') 
+      .then(response => {
+        const posts = response.data;
+        const devs = posts.map(p =>{
+          return {
+            id: p.id,
+            desc: p.title
+          }
+        });
+        this.setState({devices: devs});
+
+      });
+
   }
 
   loadDevicesFormServer = () => {
@@ -73,13 +87,13 @@ class DevicesDashboard extends Component {
   render() {
     return (
       <Container>        
+          <ToggleableDeviceForm
+            onFormSubmit={this.handleCreateFormSubmit}
+          />
           <EditableDeviceList
             devices={this.state.devices}
             onFormSubmit={this.handleEditFormSubmit}
             onTrashClick={this.handleTrashClick}
-          />
-          <ToggleableDeviceForm
-            onFormSubmit={this.handleCreateFormSubmit}
           />
       </Container>
     );

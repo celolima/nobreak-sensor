@@ -7,13 +7,13 @@ class App extends Component {
     return (
       <Container>
         <Row>
-          <Col sm="12" md={{ size: 4, offset: 4 }}>
+          <Col>
             <h3>{this.props.title}</h3>
             <hr/>
           </Col>
         </Row>
         <Row>
-          <Col sm="12" md={{ size: 4, offset: 4 }}>
+          <Col>
             <DeviceDashBoard/>
           </Col>
         </Row>

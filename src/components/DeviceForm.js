@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, ButtonGroup, Form, FormGroup, Label, Input, FormText, Row, Col } from 'reactstrap';
+import { Form, FormGroup, Button, Label, Input, Card} from 'reactstrap';
+import './Device.css'
 
 class DeviceForm extends Component {
   state = {
@@ -20,12 +21,12 @@ class DeviceForm extends Component {
   render() {
     const submitText = this.props.id ? 'Update' : 'Create';
     return (
-      <Form>        
+      <Form>
         <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
           <Label for="desc" className="mr-sm-2">Descrição</Label>
           <Input type="text" value={this.state.desc} onChange={this.handleDescChange} id="desc"/>
         </FormGroup>
-        <Button onClick={this.handleSubmit} className="mr-sm-2" color='primary' size='sm'>{submitText}</Button>
+        <Button onClick={this.handleSubmit} className="mr-sm-2" color='primary' size='sm'>{submitText}</Button>{' '}
         <Button onClick={this.props.onFormClose} className="mr-sm-2" size='sm'>Cancel</Button>
       </Form>
     );
