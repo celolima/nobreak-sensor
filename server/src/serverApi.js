@@ -50,9 +50,8 @@ function loadAPI(app) {
         });
       });
     //DELETE
-    app.delete('/api/devices', (req, res) => {        
-        let keys = Object.keys(req.params);
-        console.log(keys);
+    app.delete('/api/devices', (req, res) => {
+        console.log(req.body);
         fs.readFile(DATA_FILE, (err, data) => {
           let devices = JSON.parse(data);
           devices = devices.reduce((memo, dev) => {

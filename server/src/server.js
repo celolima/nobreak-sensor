@@ -8,7 +8,7 @@ const broker = require('./broker');
 
 const app = express();
 const path_client = "../../client/public";
-const apiObject = require("./api.js");
+const apiObject = require("./serverApi");
 const apiInstance = new apiObject(app);
 
 app.set('port', (process.env.API_PORT || 3001));

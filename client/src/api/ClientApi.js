@@ -24,12 +24,12 @@ const updateDevice = (data) => {
   });
 };
 
-const deleteDevice = (data) => {
-  console.log(data);
-  axios.delete('/devices/', data)
-  .then(response => {
+const deleteDevice = (device) => {
+  console.log(device);
+  axios.delete('/devices/',{ data: device } )
+    .then(response => {
       console.log('Deleted');
-  });
+    });;
 };
 
 export { getDevices, createDevice, updateDevice, deleteDevice };

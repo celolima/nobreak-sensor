@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import EditableDeviceList from './EditableDeviceList';
 import ToggleableDeviceForm from './ToggleableDeviceForm';
-import * as clientApi from '../api/ClientApi';
+import * as clientApi from '../api/clientApi';
 import * as Helper from '../helpers/Helper'
 import { Container } from 'reactstrap';
 
@@ -59,7 +59,8 @@ class DevicesDashboard extends Component {
     this.setState({
       devices: this.state.devices.filter(d => d.id !== deviceId),
     });
-    clientApi.deleteDevice(deviceId);
+    //clientApi.deleteDevice(this.state.devices.find(d=> d.id === deviceId));
+    clientApi.deleteDevice({id:deviceId});
   };  
 
   render() {
