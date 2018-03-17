@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Card, CardText, CardBody, CardTitle, Button } from 'reactstrap';
+import { Card, CardText, CardBody, Button } from 'reactstrap';
 import './Device.css';
 
-const iconGen = require('../helpers/IconGen');
+//const iconGen = require('../helpers/IconGen');
 
 class Device extends Component {
 
@@ -20,10 +20,10 @@ class Device extends Component {
       <Card>
         {/*<canvas id={'canvas-' + this.props.id}></canvas>*/}
         <CardBody>
-          <CardText>{this.props.desc}</CardText>          
-          <Button color="primary" size='sm'>add</Button>{' '}
-          <Button color="secondary" size='sm' onClick={this.props.onEditClick}>edit</Button>{' '}          
-          <Button color="danger" size='sm' onClick={this.handleTrashClick}>remove</Button>{' '}
+          <CardText>{this.props.desc}</CardText>                    
+          <Button outline color="primary" size='sm'>add</Button>{' '}
+          <Button outline color="secondary" size='sm' onClick={this.props.onEditClick}>edit</Button>{' '}          
+          <Button outline color="danger" size='sm' onClick={this.handleTrashClick}>remove</Button>{' '}
         </CardBody>
       </Card>
     );

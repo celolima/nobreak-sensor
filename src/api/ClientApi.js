@@ -1,60 +1,40 @@
-const getDevices = (success) => {
-  return fetch('/api/devices', {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(checkStatus)
-    .then(parseJSON)
-    .then(success);
+import axios from 'axios';  
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.baseURL= 'https://jsonplaceholder.typicode.com';
+
+const getDevices = () => {
+  return axios.get('/posts')
+    .then(response => {
+      const posts = response.data;
+      const serverDevices = posts.map(p =>{
+        return {
+          id: p.id,
+          desc: p.title
+        }        
+      });
+      return serverDevices;
+    });
 };
 
 const createDevice = (data) => {
-  return fetch('/api/devices', {
-    method: 'post',
-    body: JSON.stringify(data),
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-  }).then(checkStatus);
+  axios.post('/posts', data)
+  .then(response => {
+      console.log('Created' + response);
+  });
 };
 
 const updateDevice = (data) => {
-  return fetch('/api/devices', {
-    method: 'put',
-    body: JSON.stringify(data),
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-  }).then(checkStatus);
+  axios.put('/posts/' + data.id)
+  .then(response => {
+      console.log('Updated' + response);
+  });
 };
 
 const deleteDevice = (data) => {
-  return fetch('/api/devices', {
-    method: 'delete',
-    body: JSON.stringify(data),
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-  }).then(checkStatus);
+  axios.delete('/posts/' + data.id)
+  .then(response => {
+      console.log('Deleted' + response);
+  });
 };
-
-const checkStatus = (response) => {
-  if (response.status >= 200 && response.status < 300) {
-    return response;
-  } else {
-    var error = new Error('HTTP Error ${response.statusText}');
-    error.status = response.statusText;
-    error.response = response;
-    console.log(error);
-    throw error;
-  }
-};
-
-const parseJSON = (response) => {
-  return response.json();
-}
 
 export { getDevices, createDevice, updateDevice, deleteDevice };

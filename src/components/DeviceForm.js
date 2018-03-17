@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, Button, Label, Input, Card} from 'reactstrap';
+import { Form, FormGroup, Button, Label, Input} from 'reactstrap';
 import './Device.css'
 
 class DeviceForm extends Component {
