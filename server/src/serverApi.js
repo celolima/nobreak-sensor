@@ -36,7 +36,6 @@ function loadAPI(app) {
     });
     //UPDATE
     app.put('/api/devices', (req, res) => {
-        console.log(req.body);
         fs.readFile(DATA_FILE, (err, data) => {
           const devices = JSON.parse(data);
           devices.forEach((dev) => {
@@ -51,7 +50,6 @@ function loadAPI(app) {
       });
     //DELETE
     app.delete('/api/devices', (req, res) => {
-        console.log(req.body);
         fs.readFile(DATA_FILE, (err, data) => {
           let devices = JSON.parse(data);
           devices = devices.reduce((memo, dev) => {
