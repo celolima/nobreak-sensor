@@ -12,13 +12,33 @@ function loadAPI(app) {
     //JSON
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
+
     //GET ALL
     app.get('/api/devices', (req, res) => {
+        console.log('Getting all');
         fs.readFile(DATA_FILE, (err, data) => {
             res.setHeader('Cache-Control', 'no-cache');
             res.json(JSON.parse(data));
         });
     });
+
+    //GET SPECIFIC
+    app.get('/api/devices/:id', (req, res) => {
+      console.log('Getting one: ', req.params.id);
+      let device = null;
+      fs.readFile(DATA_FILE, (err, data) => {
+        const devices = JSON.parse(data);
+        devices.forEach((dev) => {
+          if (dev.id === req.params.id) {
+            device = dev;
+            console.log('Founded: ', device.desc);
+            res.setHeader('Cache-Control', 'no-cache');
+            res.json(device);
+          }
+        });
+      });
+    });
+
     //CREATE NEW
     app.post('/api/devices', (req, res) => {
         fs.readFile(DATA_FILE, (err, data) => {
@@ -34,6 +54,7 @@ function loadAPI(app) {
           });
         });
     });
+
     //UPDATE
     app.put('/api/devices', (req, res) => {
         fs.readFile(DATA_FILE, (err, data) => {
@@ -48,6 +69,7 @@ function loadAPI(app) {
           });
         });
       });
+
     //DELETE
     app.delete('/api/devices', (req, res) => {
         fs.readFile(DATA_FILE, (err, data) => {

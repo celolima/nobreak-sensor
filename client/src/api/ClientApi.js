@@ -29,7 +29,12 @@ const deleteDevice = (device) => {
   axios.delete('/devices/',{ data: device } )
     .then(response => {
       console.log('Deleted');
-    });;
+    });
 };
 
-export { getDevices, createDevice, updateDevice, deleteDevice };
+const getDeviceId = (id) => {
+  return axios.get('/devices/' + id)
+    .then(response => {console.log(response.data); response.data;});
+};
+
+export { getDevices, getDeviceId, createDevice, updateDevice, deleteDevice };

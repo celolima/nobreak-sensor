@@ -39,6 +39,11 @@ class DeviceForm extends Component {
     clientApi.deleteDevice({id:this.state.id});
   };
 
+  handleCancelClick = () => {
+    this.props.history.push( '/devices/');
+  };
+  
+
   render() {
     const submitText = 'Add';
     const deleteBtn = () => {
@@ -59,7 +64,7 @@ class DeviceForm extends Component {
           </FormGroup>
           <Button onClick={this.handleCreateFormSubmit} className="mr-sm-2" color='primary' size='sm'>{submitText}</Button>{' '}
           {deleteBtn}        
-          <Button className="mr-sm-2" size='sm'>Cancel</Button>
+          <Button className="mr-sm-2" size='sm' onClick={this.handleCancelClick}>Cancel</Button>
         </Form>
       </span>
     );

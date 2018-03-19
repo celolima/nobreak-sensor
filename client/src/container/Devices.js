@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import FullDevice from './FullDevice';
 import Device from '../components/Device'
 import * as clientApi from '../api/clientApi';
 import { CardDeck } from 'reactstrap';
@@ -12,6 +11,7 @@ class Devices extends Component {
     };
 
     componentDidMount() {
+        console.log(this.props.match.url);
         this.loadDevicesFromServer();
         //setInterval(this.loadDevicesFormServer, 5000);
     }
@@ -21,7 +21,7 @@ class Devices extends Component {
     };
 
     postSelectedHandler = ( id ) => {
-        this.props.history.push( '/posts/' + id );
+        this.props.history.push( '/devices/' + id );
     }
 
 
@@ -38,10 +38,11 @@ class Devices extends Component {
 
         return (
             <div>
+                <h3>Dispositivos</h3>
+                <hr/>
                 <section>
                     {devices}
                 </section>
-                
             </div>
         );
     }
