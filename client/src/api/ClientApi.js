@@ -34,7 +34,7 @@ const deleteDevice = (device) => {
 
 const getDeviceId = (id) => {
   return axios.get('/devices/' + id)
-    .then(response => {console.log(response.data); response.data;});
+    .then(response => {console.log(response.data); return response.data;});
 };
 
 export { getDevices, getDeviceId, createDevice, updateDevice, deleteDevice };

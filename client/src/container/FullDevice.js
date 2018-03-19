@@ -25,8 +25,8 @@ class FullDevice extends Component {
         if ( this.state.loadedDevice ) {
             device = (
                 <div className="FullPost">
-                    <h1>{this.state.loadedPost.id}</h1>
-                    <p>{this.state.loadedPost.desc}</p>
+                    <h1>{this.state.loadedDevice.id}</h1>
+                    <p>{this.state.loadedDevice.desc}</p>
                     <div className="Edit">
                         <button className="Delete">Delete</button>
                     </div>
