@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Device from '../components/Device'
 import * as clientApi from '../api/clientApi';
-import { CardDeck } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import { Route } from 'react-router-dom';
+import './App.css';
 
 
 class Devices extends Component {
@@ -28,21 +29,20 @@ class Devices extends Component {
     render() {
         let devices = <p style={{ textAlign: 'center' }}>Não foi possível obter os dispositivos com o servidor!</p>;
         devices = this.state.devices.map((device) => (
-            <CardDeck key={device.id}>
-                <Device 
-                    id={device.id} 
-                    desc={device.desc}
-                    clicked={() => this.postSelectedHandler( device.id )}/>
-            </CardDeck>
+            <Device 
+                key={device.id}
+                id={device.id} 
+                desc={device.desc}
+                clicked={() => this.postSelectedHandler( device.id )}/>
         ));
 
         return (
             <div>
                 <h3>Dispositivos</h3>
                 <hr/>
-                <section>
+                <Row>
                     {devices}
-                </section>
+                </Row>
             </div>
         );
     }
