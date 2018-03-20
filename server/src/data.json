@@ -1,30 +1,42 @@
 [
     {
         "desc": "Dev-01",
-        "id": "2c43306e-5b44-4ff8-8753-33c35adbd06f"
+        "id": "2c43306e-5b44-4ff8-8753-33c35adbd06f",
+        "topics": [
+            {
+                "title": "Temperatura",
+                "name": "dev-01/sensor/temp"
+            }
+        ]
     },
     {
         "desc": "Dev-02",
-        "id": "ebbbed0e-0f78-4bd8-9180-2d0f6c9d5c6c"
+        "id": "a45d6002-2cc9-4e52-b79c-25df392fa1a4",
+        "topics": [
+            {
+                "title": "Tensão",
+                "name": "dev-03/sensor/tensão"
+            }
+        ]
     },
     {
         "desc": "Dev-03",
-        "id": "e1968be9-91a8-489f-a7a8-82ad9b03d72e"
-    },
-    {
-        "desc": "Dev-04",
-        "id": "67f8e3f6-f5da-4065-a278-1f896710139c"
+        "id": "9b6fcafa-8a9e-4909-8af2-ca2b01c538e2",
+        "topics": [
+            {
+                "title": "Corrente",
+                "name": "dev-03/sensor/corrente"
+            }
+        ]
     },
     {
         "desc": "Dev-05",
-        "id": "c58e92a7-710a-49a7-bc9f-60d4788ac8a7"
-    },
-    {
-        "desc": "Dev-06",
-        "id": "9507f293-1ff7-42cb-989c-33315ee27dd2"
-    },
-    {
-        "desc": "Dev-13",
-        "id": "d3415e45-ccfe-41d9-9916-d0c6d091f878"
+        "id": "3f58ed33-54df-46f7-9948-3d6a7c31dfd2",
+        "topics": [
+            {
+                "title": "TESTE TITLE",
+                "name": "TESTE NAME"
+            }
+        ]
     }
 ]

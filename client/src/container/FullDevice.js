@@ -20,15 +20,19 @@ class FullDevice extends Component {
         }
     }
 
+    handleTrashClick = () => {
+        clientApi.deleteDevice({id:this.state.loadedDevice.id});
+    };
+
     getData = () => {
         let data = [
-            {name: 'Page A', pv: 2400, amt: 2400},
-            {name: 'Page B', pv: 1398, amt: 2210},
-            {name: 'Page C', pv: 9800, amt: 2290},
-            {name: 'Page D', pv: 3908, amt: 2000},
-            {name: 'Page E', pv: 4800, amt: 2181},
-            {name: 'Page F', pv: 3800, amt: 2500},
-            {name: 'Page G', pv: 4300, amt: 2100},
+            {name: '13:00h', temp: 30},
+            {name: '14:00h', temp: 40},
+            {name: '15:00h', temp: 35},
+            {name: '16:00h', temp: 36},
+            {name: '17:00h', temp: 28},
+            {name: '18:00h', temp: 50},
+            {name: '19:00h', temp: 34}
           ];
         return data;
     }
@@ -50,7 +54,7 @@ class FullDevice extends Component {
                         margin={{top: 5, right: 30, left: 20, bottom: 5}}>
                         <Line
                             type='monotone'
-                            dataKey='pv'
+                            dataKey='temp'
                             stroke='#8884d8'
                             activeDot={{r: 8}}/>
                         <CartesianGrid strokeDasharray='3 3'/>
@@ -59,7 +63,7 @@ class FullDevice extends Component {
                         <XAxis dataKey='name'/>
                         <Legend />
                     </LineChart>                    
-                    <Button outline color="danger" size='sm'>delete</Button>{' '}
+                    <Button outline color="danger" size='sm' onClick={this.handleTrashClick}>delete</Button>{' '}
                 </div>
             );            
         }

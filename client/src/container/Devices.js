@@ -33,6 +33,7 @@ class Devices extends Component {
                 key={device.id}
                 id={device.id} 
                 desc={device.desc}
+                topics={device.topics}
                 clicked={() => this.postSelectedHandler( device.id )}/>
         ));
 

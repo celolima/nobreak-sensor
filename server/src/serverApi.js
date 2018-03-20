@@ -46,6 +46,7 @@ function loadAPI(app) {
           const newDevice = {
             desc: req.body.desc,
             id: req.body.id,
+            topics: req.body.topics
           };
           devices.push(newDevice);
           fs.writeFile(DATA_FILE, JSON.stringify(devices, null, 4), () => {
@@ -62,6 +63,7 @@ function loadAPI(app) {
           devices.forEach((dev) => {
             if (dev.id === req.body.id) {
               dev.desc = req.body.desc;
+              dev.topics = req.body.topics;
             }
           });
           fs.writeFile(DATA_FILE, JSON.stringify(devices, null, 4), () => {

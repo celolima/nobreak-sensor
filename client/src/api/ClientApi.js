@@ -11,7 +11,7 @@ const getDevices = () => {
 };
 
 const createDevice = (data) => {
-  axios.post('/devices/', data)
+  return axios.post('/devices/', data)
   .then(response => {
       console.log('Created' + response);
   });
