@@ -1,32 +1,29 @@
 const mqtt = require('mqtt');
-let client = mqtt.connect('mqtt://test.mosquitto.org');
+let client = null;
 
-let subscribe = function(topic) {
-    client.on('connect', function () {
+class Broker {
+    constructor() {
+        console.log('Criando conexão');
+        client = mqtt.connect('mqtt://test.mosquitto.org');
+        client.on('message', function (topic, message) {        
+            console.log('Got %s - %s', topic, message.toString());
+        });
+    }
+     
+    subscribe(topic) {
         client.subscribe(topic);
         console.log('Subscribed on %s', topic);
-    });
-};
-
-let publish = function(topic, message) {
-    client.on('connect', function () {
+    }
+     
+    publish(topic, message) {
         client.publish(topic,message);
-    });
-};
-
-let checkConn = function() {
-    client.on('offline', function () {
+        console.log('Publishes on %s', topic);
+    }
+     
+    checkConn() {
         console.log('MQTT is offline');
-        client.end();
         return 'MQTT is offline';
-    });
+    }
 }
 
-client.on('message', function (topic, message) {        
-    console.log('Got %s - %s', topic, message.toString());
-    //client.end();
-});
-
-exports.subscribe = subscribe;
-exports.publish = publish;
-exports.checkConn = checkConn;
+module.exports = Broker;
