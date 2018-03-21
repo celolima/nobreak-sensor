@@ -5,6 +5,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 import FullDevice from './FullDevice';
 import { Nav, NavItem, NavLink } from 'reactstrap';
+import './App.css';
 
 class DevicesDashboard extends Component {
   render() {

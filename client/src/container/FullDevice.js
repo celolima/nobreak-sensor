@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as clientApi from '../api/clientApi';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { Button } from 'reactstrap'
+import { Button, Alert } from 'reactstrap'
 
 class FullDevice extends Component {
     state = {
@@ -38,13 +38,13 @@ class FullDevice extends Component {
     }
 
     render() {
-        let device = <p style={{ textAlign: 'center' }}>Favor selecionar um dispositivo!</p>;
+        let device = <Alert className='center' color='danger'>Favor selecionar um dispositivo!</Alert>;
         if ( this.props.match.params.id ) {
-            device = <p style={{ textAlign: 'center' }}>Loading...!</p>;
+            device =  <Alert className='center' color="warning">Loading...!</Alert>;
         }
         if ( this.state.loadedDevice ) {
             device = (
-                <div className="FullPost">
+                <div>
                     <h1>{this.state.loadedDevice.id}</h1>
                     <p>{this.state.loadedDevice.desc}</p>
                     <LineChart

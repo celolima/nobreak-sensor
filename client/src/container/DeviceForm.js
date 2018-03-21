@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, Button, Label, Input} from 'reactstrap';
+import { Alert, Form, FormGroup, Button, Label, Input} from 'reactstrap';
 import { Redirect } from 'react-router-dom';
 import * as clientApi from '../api/clientApi';
 const uuidv4 = require('uuid/v4');
@@ -59,7 +59,7 @@ class DeviceForm extends Component {
 
   render() {
     let redirect = null;
-    let topics = <p style={{ textAlign: 'center' }}>Não existem tópicos inscritos!</p>;
+    let topics = <Alert className='center' color='dark'>Não existem tópicos inscritos!</Alert>;
 
     if (this.state.submitted) {
         redirect = <Redirect to="/devices" />;
@@ -71,11 +71,11 @@ class DeviceForm extends Component {
         <div key={index}>
           <div>
             <Label for={'title_'+index} className="mr-sm-2">Title</Label>
-            <Input type='text' name='title' value={arrayTopics[index].title} onChange={(e) => this.handleTopicChange(e,index)} id={'title_'+index}/>
+            <Input className="form-control-sm" type='text' name='title' value={arrayTopics[index].title} onChange={(e) => this.handleTopicChange(e,index)} id={'title_'+index}/>
           </div>
           <div>
             <Label for={'name_'+index} className="mr-sm-2">Name</Label>
-            <Input type='text' name='name' value={arrayTopics[index].name} onChange={(e) => this.handleTopicChange(e,index)} id={'name_'+index}/>
+            <Input className="form-control-sm" type='text' name='name' value={arrayTopics[index].name} onChange={(e) => this.handleTopicChange(e,index)} id={'name_'+index}/>
           </div>
         </div>
       ));
@@ -88,7 +88,7 @@ class DeviceForm extends Component {
         <Form>
           <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
             <Label for="desc" className="mr-sm-2">Descrição</Label>
-            <Input type="text" value={this.state.desc} onChange={( e ) => this.setState( { desc: e.target.value } )} id="desc"/>
+            <Input className="form-control-sm" type="text" value={this.state.desc} onChange={( e ) => this.setState( { desc: e.target.value } )} id="desc"/>
             <h4>Topics <Button onClick={this.handleAddTopic} className="mr-sm-2" color='primary' size='sm'>Add</Button>{' '}</h4>
             <hr/>
             {topics}
