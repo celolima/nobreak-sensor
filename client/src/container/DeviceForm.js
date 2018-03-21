@@ -13,13 +13,8 @@ class DeviceForm extends Component {
     submitted: false
   };
 
-  componentDidMount() {
-    console.log(uuidv4());
-  };
-
   handleAddTopic = () => {
     arrayTopics.push({title: '', name: ''});
-    console.log('Pushed!!');
     this.setState({topicChanged: true});
   };
 
@@ -68,12 +63,12 @@ class DeviceForm extends Component {
     if(arrayTopics.length !== 0) {    
       topics = arrayTopics.map((t, index) => (
 
-        <div key={index}>
-          <div>
+        <div key={index} className='form-group row'>
+          <div className='col-6'>
             <Label for={'title_'+index} className="mr-sm-2">Title</Label>
             <Input className="form-control-sm" type='text' name='title' value={arrayTopics[index].title} onChange={(e) => this.handleTopicChange(e,index)} id={'title_'+index}/>
           </div>
-          <div>
+          <div className='col-6'>
             <Label for={'name_'+index} className="mr-sm-2">Name</Label>
             <Input className="form-control-sm" type='text' name='name' value={arrayTopics[index].name} onChange={(e) => this.handleTopicChange(e,index)} id={'name_'+index}/>
           </div>

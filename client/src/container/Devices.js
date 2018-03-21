@@ -12,7 +12,6 @@ class Devices extends Component {
     };
 
     componentDidMount() {
-        console.log(this.props.match.url);
         this.loadDevicesFromServer();
         //setInterval(this.loadDevicesFormServer, 5000);
     }
