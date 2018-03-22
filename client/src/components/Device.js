@@ -5,8 +5,7 @@ import './Device.css';
 const device = (props)  => {
   let topics = props.topics.map((t, index) => (
     <div key={index}>
-      <CardText>{t.title}</CardText>
-      <CardText>{t.name}</CardText>
+      <CardText>{t.title}: {t.name}</CardText>
     </div>
   ));
   return (
@@ -14,6 +13,7 @@ const device = (props)  => {
       <Card>
         <CardBody onClick={props.clicked}>
           <CardText>{props.desc}</CardText>
+          <CardText>{props.emailAddress}</CardText>
           {topics}
         </CardBody>
       </Card>

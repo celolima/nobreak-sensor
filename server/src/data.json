@@ -7,7 +7,9 @@
                 "title": "Temperatura",
                 "name": "dev-01/sensor/temp"
             }
-        ]
+        ],
+        "emailAddress": "celorsl@yahoo.com.br",
+        "sendEmail": true
     },
     {
         "desc": "Dev-02",
@@ -17,7 +19,9 @@
                 "title": "Tensão",
                 "name": "dev-03/sensor/tensão"
             }
-        ]
+        ],
+        "emailAddress": "celorsl@yahoo.com.br",
+        "sendEmail": true
     },
     {
         "desc": "Dev-03",
@@ -27,7 +31,9 @@
                 "title": "Corrente",
                 "name": "dev-03/sensor/corrente"
             }
-        ]
+        ],
+        "emailAddress": "celorsl@yahoo.com.br",
+        "sendEmail": true
     },
     {
         "desc": "Dev-05",
@@ -37,7 +43,9 @@
                 "title": "TESTE TITLE",
                 "name": "TESTE NAME"
             }
-        ]
+        ],
+        "emailAddress": "celorsl@yahoo.com.br",
+        "sendEmail": true
     },
     {
         "desc": "Dev-13",
@@ -47,7 +55,9 @@
                 "title": "Temperatura",
                 "name": "/dev-13/temperatura/"
             }
-        ]
+        ],
+        "emailAddress": "celorsl@yahoo.com.br",
+        "sendEmail": true
     },
     {
         "desc": "Dev-14",
@@ -57,6 +67,20 @@
                 "title": "Temperatura",
                 "name": "/dev-14/temperatura/"
             }
-        ]
+        ],
+        "emailAddress": "celorsl@yahoo.com.br",
+        "sendEmail": true
+    },
+    {
+        "id": "0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
+        "desc": "Dev-15",
+        "topics": [
+            {
+                "title": "Temperatura",
+                "name": "/dev-15/temperatura/"
+            }
+        ],
+        "emailAddress": "celorsl@yahoo.com.br",
+        "sendEmail": true
     }
 ]
