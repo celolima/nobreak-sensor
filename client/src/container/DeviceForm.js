@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import TopicForm from './TopicForm';
+import * as clientApi from '../api/clientApi';
 import { Alert, Form, FormGroup, Button, Label, Input} from 'reactstrap';
 import { Redirect } from 'react-router-dom';
-import * as clientApi from '../api/clientApi';
+
 const uuidv4 = require('uuid/v4');
 let arrayTopics = [];
 
@@ -9,19 +11,13 @@ class DeviceForm extends Component {
   state = {
     id: '',
     desc: '',
-    topicChanged: false,
+    sendEmail: false,
     submitted: false
   };
 
   handleAddTopic = () => {
     arrayTopics.push({title: '', name: ''});
     this.setState({topicChanged: true});
-  };
-
-  handleTopicChange = (e,index) => {
-      const field = e.target.name;
-      arrayTopics[index][field] = e.target.value;
-      this.setState({topicChanged: true});
   };
 
   handleCreateFormSubmit = () => {
@@ -54,27 +50,11 @@ class DeviceForm extends Component {
 
   render() {
     let redirect = null;
-    let topics = <Alert className='center' color='dark'>Não existem tópicos inscritos!</Alert>;
 
     if (this.state.submitted) {
         redirect = <Redirect to="/devices" />;
     }
 
-    if(arrayTopics.length !== 0) {    
-      topics = arrayTopics.map((t, index) => (
-
-        <div key={index} className='form-group row'>
-          <div className='col-6'>
-            <Label for={'title_'+index} className="mr-sm-2">Title</Label>
-            <Input className="form-control-sm" type='text' name='title' value={arrayTopics[index].title} onChange={(e) => this.handleTopicChange(e,index)} id={'title_'+index}/>
-          </div>
-          <div className='col-6'>
-            <Label for={'name_'+index} className="mr-sm-2">Name</Label>
-            <Input className="form-control-sm" type='text' name='name' value={arrayTopics[index].name} onChange={(e) => this.handleTopicChange(e,index)} id={'name_'+index}/>
-          </div>
-        </div>
-      ));
-    }
     return (
       <div>
         {redirect}
@@ -86,7 +66,7 @@ class DeviceForm extends Component {
             <Input className="form-control-sm" type="text" value={this.state.desc} onChange={( e ) => this.setState( { desc: e.target.value } )} id="desc"/>
             <h4>Topics <Button onClick={this.handleAddTopic} className="mr-sm-2" color='primary' size='sm'>Add</Button>{' '}</h4>
             <hr/>
-            {topics}
+            <TopicForm array={arrayTopics}/>
           </FormGroup>
           <Button onClick={this.handleCreateFormSubmit} className="mr-sm-2" color='primary' size='sm'>Save</Button>{' '}
           <Button className="mr-sm-2" size='sm' onClick={this.handleCancelClick}>Cancel</Button>
