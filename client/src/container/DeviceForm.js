@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import TopicForm from './TopicForm';
 import * as clientApi from '../api/clientApi';
-import { Alert, Form, FormGroup, Button, Label, Input} from 'reactstrap';
+import { Alert, Form, FormGroup, Button, Label, Input, Row, Col} from 'reactstrap';
 import { Redirect } from 'react-router-dom';
 
 const uuidv4 = require('uuid/v4');
@@ -11,6 +11,7 @@ class DeviceForm extends Component {
   state = {
     id: '',
     desc: '',
+    emailAddress: '',
     sendEmail: false,
     submitted: false
   };
@@ -50,9 +51,28 @@ class DeviceForm extends Component {
 
   render() {
     let redirect = null;
+    let email = null;
 
     if (this.state.submitted) {
-        redirect = <Redirect to="/devices" />;
+      redirect = <Redirect to="/devices" />;
+    }
+
+    if(arrayTopics.length !== 0) {
+      email = (
+        <Row>
+          <Col>
+            <FormGroup check>
+              <Label check>
+                <Input type="checkbox" checked={this.state.sendEmail} onChange={(e) => this.setState({sendEmail: e.target.checked})}/>{' '}
+                Envio de e-mail
+              </Label>
+            </FormGroup>
+          </Col>
+          <Col>
+            <Input className="form-control-sm" type="text" value={this.state.emailAddress} onChange={( e ) => this.setState( { emailAddress: e.target.value } )}/>
+          </Col>
+        </Row>
+      );
     }
 
     return (
@@ -66,6 +86,7 @@ class DeviceForm extends Component {
             <Input className="form-control-sm" type="text" value={this.state.desc} onChange={( e ) => this.setState( { desc: e.target.value } )} id="desc"/>
             <h4>Topics <Button onClick={this.handleAddTopic} className="mr-sm-2" color='primary' size='sm'>Add</Button>{' '}</h4>
             <hr/>
+            {email}
             <TopicForm array={arrayTopics}/>
           </FormGroup>
           <Button onClick={this.handleCreateFormSubmit} className="mr-sm-2" color='primary' size='sm'>Save</Button>{' '}
