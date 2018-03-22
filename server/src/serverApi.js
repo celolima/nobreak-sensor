@@ -44,9 +44,11 @@ function loadAPI(app) {
         fs.readFile(DATA_FILE, (err, data) => {
           const devices = JSON.parse(data);
           const newDevice = {
-            desc: req.body.desc,
             id: req.body.id,
-            topics: req.body.topics
+            desc: req.body.desc,
+            topics: req.body.topics,
+            emailAddress: req.body.emailAddress,
+            sendEmail: req.body.sendEmail
           };
           devices.push(newDevice);
           fs.writeFile(DATA_FILE, JSON.stringify(devices, null, 4), () => {
@@ -63,7 +65,9 @@ function loadAPI(app) {
           devices.forEach((dev) => {
             if (dev.id === req.body.id) {
               dev.desc = req.body.desc;
-              dev.topics = req.body.topics;
+              dev.topics = req.body.topics;             
+              dev.emailAddress = req.body.emailAddress;
+              dev.sendEmail = req.body.sendEmail;
             }
           });
           fs.writeFile(DATA_FILE, JSON.stringify(devices, null, 4), () => {

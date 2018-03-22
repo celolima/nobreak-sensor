@@ -61,16 +61,14 @@ class DeviceForm extends Component {
 
     if(arrayTopics.length !== 0) {
       email = (
-        <FormGroup>
-          <InputGroup>
-            <InputGroupAddon addonType="prepend">
-              <InputGroupText>
-                <Input addon type="checkbox" checked={this.state.sendEmail} onChange={(e) => this.setState({sendEmail: e.target.checked})}/>{' '}
-              </InputGroupText>
-            </InputGroupAddon>
-            <Input placeholder="Check para envio de e-mail" className="form-control-sm" type="text" value={this.state.emailAddress} onChange={( e ) => this.setState( { emailAddress: e.target.value } )}/>
-          </InputGroup>
-        </FormGroup>
+        <InputGroup>
+          <InputGroupAddon addonType="prepend">
+            <InputGroupText>
+              <Input addon type="checkbox" checked={this.state.sendEmail} onChange={(e) => this.setState({sendEmail: e.target.checked})}/>{' '}
+            </InputGroupText>
+          </InputGroupAddon>
+          <Input placeholder="Check para envio de e-mail" className="form-control-sm" type="text" value={this.state.emailAddress} onChange={( e ) => this.setState( { emailAddress: e.target.value } )}/>
+        </InputGroup>
       );
     }
 

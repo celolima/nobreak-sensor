@@ -38,5 +38,25 @@
                 "name": "TESTE NAME"
             }
         ]
+    },
+    {
+        "desc": "Dev-13",
+        "id": "6d6bd462-6e3c-4f05-a7d6-60a6228bb5cc",
+        "topics": [
+            {
+                "title": "Temperatura",
+                "name": "/dev-13/temperatura/"
+            }
+        ]
+    },
+    {
+        "desc": "Dev-14",
+        "id": "0c03bb48-410d-41da-97b9-4a75f4f0a059",
+        "topics": [
+            {
+                "title": "Temperatura",
+                "name": "/dev-14/temperatura/"
+            }
+        ]
     }
 ]
