@@ -1,0 +1,16 @@
+{
+  "name": "thing_speak",
+  "version": "1.0.0",
+  "description": "Envio teste de medições para o ThingSpeak",
+  "main": "env.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "m_lima",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "request": "^2.85.0",
+    "response": "^0.18.0"
+  }
+}
