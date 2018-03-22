@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import TopicForm from './TopicForm';
 import * as clientApi from '../api/clientApi';
-import { Alert, Form, FormGroup, Button, Label, Input, Row, Col} from 'reactstrap';
+import { Alert, Form, FormGroup, Button, Label, Input, InputGroup, InputGroupAddon, InputGroupText} from 'reactstrap';
 import { Redirect } from 'react-router-dom';
 
 const uuidv4 = require('uuid/v4');
@@ -25,7 +25,9 @@ class DeviceForm extends Component {
     const device = {
       id: uuidv4(),
       desc: this.state.desc,
-      topics: arrayTopics
+      topics: arrayTopics,
+      sendEmail: this.state.sendEmail,
+      emailAddress: this.state.emailAddress
     };
     clientApi.createDevice(device).then(() => {this.setState({submitted: true})});
   };
@@ -59,19 +61,16 @@ class DeviceForm extends Component {
 
     if(arrayTopics.length !== 0) {
       email = (
-        <Row>
-          <Col>
-            <FormGroup check>
-              <Label check>
-                <Input type="checkbox" checked={this.state.sendEmail} onChange={(e) => this.setState({sendEmail: e.target.checked})}/>{' '}
-                Envio de e-mail
-              </Label>
-            </FormGroup>
-          </Col>
-          <Col>
-            <Input className="form-control-sm" type="text" value={this.state.emailAddress} onChange={( e ) => this.setState( { emailAddress: e.target.value } )}/>
-          </Col>
-        </Row>
+        <FormGroup>
+          <InputGroup>
+            <InputGroupAddon addonType="prepend">
+              <InputGroupText>
+                <Input addon type="checkbox" checked={this.state.sendEmail} onChange={(e) => this.setState({sendEmail: e.target.checked})}/>{' '}
+              </InputGroupText>
+            </InputGroupAddon>
+            <Input placeholder="Check para envio de e-mail" className="form-control-sm" type="text" value={this.state.emailAddress} onChange={( e ) => this.setState( { emailAddress: e.target.value } )}/>
+          </InputGroup>
+        </FormGroup>
       );
     }
 
