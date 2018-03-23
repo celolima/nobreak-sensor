@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Device from '../components/Device'
 import * as clientApi from '../api/clientApi';
-import { Alert, Row, Col } from 'reactstrap';
+import { Alert, Row } from 'reactstrap';
 
 class Devices extends Component {
     state = {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import TopicForm from './TopicForm';
 import * as clientApi from '../api/clientApi';
-import { Alert, Form, FormGroup, Button, Label, Input, InputGroup, InputGroupAddon, InputGroupText} from 'reactstrap';
+import { Form, FormGroup, Button, Label, Input, InputGroup, InputGroupAddon, InputGroupText} from 'reactstrap';
 import { Redirect } from 'react-router-dom';
 
 const uuidv4 = require('uuid/v4');
@@ -31,7 +31,7 @@ class DeviceForm extends Component {
     };
     clientApi.createDevice(device).then(() => {this.setState({submitted: true})});
   };
-
+/*
   handleEditFormSubmit = (attrs) => {
     this.setState({
       devices: this.state.devices.map((device) => {
@@ -46,7 +46,7 @@ class DeviceForm extends Component {
     });
     clientApi.updateDevice(attrs);
   };
-
+*/
   handleCancelClick = () => {
     this.props.history.push( '/devices/');
   };

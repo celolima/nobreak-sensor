@@ -78,6 +78,14 @@
             {
                 "title": "Temperatura",
                 "name": "/dev-15/temperatura/"
+            },
+            {
+                "title": "Corrente",
+                "name": "/dev-15/corrente/"
+            },
+            {
+                "title": "Tensão",
+                "name": "/dev-15/tensão/"
             }
         ],
         "emailAddress": "celorsl@yahoo.com.br",
