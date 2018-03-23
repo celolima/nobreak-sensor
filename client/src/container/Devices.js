@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import Device from '../components/Device'
 import * as clientApi from '../api/clientApi';
 import { Alert, Row, Col } from 'reactstrap';
-import { Route } from 'react-router-dom';
-import './App.css';
-
 
 class Devices extends Component {
     state = {
@@ -27,15 +24,17 @@ class Devices extends Component {
 
     render() {
         let devices = <Alert className='center' color='danger'>Não foi possível obter os dispositivos com o servidor!</Alert>;
-        devices = this.state.devices.map((device) => (
-            <Device 
-                key={device.id}
-                id={device.id} 
-                desc={device.desc}
-                topics={device.topics}
-                emailAddress={device.emailAddress}
-                clicked={() => this.postSelectedHandler( device.id )}/>
-        ));
+        if(this.state.devices && this.state.devices.length !== 0) {
+            devices = this.state.devices.map((device) => (
+                <Device 
+                    key={device.id}
+                    id={device.id} 
+                    desc={device.desc}
+                    topics={device.topics}
+                    emailAddress={device.emailAddress}
+                    clicked={() => this.postSelectedHandler( device.id )}/>
+            ));
+        }
 
         return (
             <div>
