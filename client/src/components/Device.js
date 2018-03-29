@@ -5,7 +5,7 @@ import './Device.css';
 const device = (props)  => {
   let topics = props.topics.map((t, index) => (
     <div key={index}>
-      <CardText>[{t.id}] {t.title}: {t.name}</CardText>
+      <CardText>[{t.id}] {t.param}: {t.topic}</CardText>
     </div>
   ));
   return (

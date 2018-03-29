@@ -5,8 +5,8 @@
         "topics": [
             {
                 "id": "1",
-                "title": "Temperatura",
-                "name": "dev-01/sensor/temp"
+                "param": "Temperatura",
+                "topic": "dev-01/sensor/temp/"
             }
         ]
     },
@@ -16,18 +16,18 @@
         "topics": [
             {
                 "id": "1",
-                "title": "Temperatura",
-                "name": "/dev-15/temperatura/"
+                "param": "Temperatura",
+                "topic": "/dev-15/temperatura/"
             },
             {
                 "id": "2",
-                "title": "Corrente",
-                "name": "/dev-15/corrente/"
+                "param": "Corrente",
+                "topic": "/dev-15/corrente/"
             },
             {
                 "id": "3",
-                "title": "Tensão",
-                "name": "/dev-15/tensão/"
+                "param": "Tensão",
+                "topic": "/dev-15/tensão/"
             }
         ]
     },
@@ -37,13 +37,24 @@
         "topics": [
             {
                 "id": 1,
-                "title": "Temp",
-                "name": "/dev-06/temp"
+                "param": "Temp",
+                "topic": "/dev-06/temp/"
             },
             {
                 "id": 2,
-                "title": "Current",
-                "name": "/dev-06/current"
+                "param": "Current",
+                "topic": "/dev-06/current/"
+            }
+        ]
+    },
+    {
+        "id": "dbef34df-dc32-446c-830e-66161567afb7",
+        "desc": "Dev-06",
+        "topics": [
+            {
+                "id": 1,
+                "param": "corrente",
+                "topic": "/dev-06/corrente/"
             }
         ]
     }

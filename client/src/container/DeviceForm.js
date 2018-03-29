@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TopicForm from './TopicForm';
+import Field from '../components/Field'
 import * as clientApi from '../api/clientApi';
 import { Form, FormGroup, Button, Label, Input, InputGroup, InputGroupAddon, InputGroupText} from 'reactstrap';
 import { Redirect } from 'react-router-dom';
@@ -11,16 +12,25 @@ class DeviceForm extends Component {
   state = {
     id: '',
     desc: '',
+    fieldErrors: {},
     submitted: false
+  };
+
+  onInputChange = ({ name, value, error }) => {
+    const fieldErrors = this.state.fieldErrors;
+    fieldErrors[name] = error;
+    this.setState({ [name] : value, fieldErrors });
   };
 
   handleAddTopic = () => {
     const nr = arrayTopics.length + 1;
-    arrayTopics.push({id: nr, title: '', name: ''});
+    arrayTopics.push({id: nr, param: '', topic: ''});
     this.setState({topicChanged: true});
   };
 
   handleCreateFormSubmit = () => {
+    if (this.validate()) return;
+
     const device = {
       id: uuidv4(),
       desc: this.state.desc,
@@ -31,6 +41,18 @@ class DeviceForm extends Component {
 
   handleCancelClick = () => {
     this.props.history.push( '/devices/');
+  };
+
+  validate = () => {
+    const fieldErrors = this.state.fieldErrors;
+    const errMessages = Object.keys(fieldErrors).filter((k) => fieldErrors[k]);
+
+    console.log(arrayTopics);
+    if (!this.state.desc) return true;
+    if (arrayTopics.length === 0) return true;
+    if (errMessages.length) return true;
+
+    return false;
   };
 
   render() {
@@ -47,11 +69,16 @@ class DeviceForm extends Component {
         <hr/>
         <Form>
           <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-            <Label for="desc" className="mr-sm-2">Descrição</Label>
-            <Input className="form-control-sm" type="text" value={this.state.desc} onChange={( e ) => this.setState( { desc: e.target.value } )} id="desc"/>
-            <h4>Topics <Button onClick={this.handleAddTopic} className="mr-sm-2" color='primary' size='sm'>Add</Button>{' '}</h4>
+            <Field
+              title='Descrição'
+              name='desc'
+              value={this.state.desc}
+              onChange={this.onInputChange}
+              validate={(val) => (val ? false : '*')}
+            />
+            <h4>Parâmetros <Button onClick={this.handleAddTopic} className="mr-sm-2" color='primary' size='sm'>Add</Button>{' '}</h4>
             <hr/>
-            <TopicForm array={arrayTopics}/>
+            <TopicForm array={arrayTopics} dev={this.state.desc}/>
           </FormGroup>
           <Button onClick={this.handleCreateFormSubmit} className="mr-sm-2" color='primary' size='sm'>Save</Button>{' '}
           <Button className="mr-sm-2" size='sm' onClick={this.handleCancelClick}>Cancel</Button>
