@@ -37,10 +37,10 @@ class ConditionForm extends Component {
     }
 
     handleTopicChange = (event) => {
-        const title = event.target.value;
+        const id = event.target.value;
         let t = [];
-        if(title !== 'invalid') {
-            t = topics.find((val) => {return val.title === title});
+        if(id !== 'invalid') {
+            t = topics.find((val) => {return val.id === id});
         }
         this.setState({topic: t});
     }

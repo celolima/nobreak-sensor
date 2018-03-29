@@ -21,12 +21,13 @@ const conditionDropdown = (props) => {
     }
 
     let optionItems = props.topics.map((t) =>
-        <option key={t.title} value={t.title}>{t.title}</option>
+        <option key={t.id} value={t.id}>{t.title}</option>
     );
+
     topicsInputs = (
         <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
             <Label>Campo</Label>
-            <Input type="select" name="selectTopic" id="topics" bsSize="sm" value={props.topic.title} onChange={props.handleTopicChange}>
+            <Input type="select" name="selectTopic" id="topics" bsSize="sm" value={props.topic.id} onChange={props.handleTopicChange}>
                 <option key='0' value='invalid'></option>
                 {optionItems}
             </Input>

@@ -11,13 +11,12 @@ class DeviceForm extends Component {
   state = {
     id: '',
     desc: '',
-    emailAddress: '',
-    sendEmail: false,
     submitted: false
   };
 
   handleAddTopic = () => {
-    arrayTopics.push({title: '', name: ''});
+    const nr = arrayTopics.length + 1;
+    arrayTopics.push({id: nr, title: '', name: ''});
     this.setState({topicChanged: true});
   };
 
@@ -25,51 +24,20 @@ class DeviceForm extends Component {
     const device = {
       id: uuidv4(),
       desc: this.state.desc,
-      topics: arrayTopics,
-      sendEmail: this.state.sendEmail,
-      emailAddress: this.state.emailAddress
+      topics: arrayTopics
     };
     clientApi.createDevice(device).then(() => {this.setState({submitted: true})});
   };
-/*
-  handleEditFormSubmit = (attrs) => {
-    this.setState({
-      devices: this.state.devices.map((device) => {
-        if (device.id === attrs.id) {
-          return Object.assign({}, device, {
-            desc: attrs.desc,
-          });
-        } else {
-          return device;
-        }
-      }),
-    });
-    clientApi.updateDevice(attrs);
-  };
-*/
+
   handleCancelClick = () => {
     this.props.history.push( '/devices/');
   };
 
   render() {
     let redirect = null;
-    let email = null;
 
     if (this.state.submitted) {
       redirect = <Redirect to="/devices" />;
-    }
-
-    if(arrayTopics.length !== 0) {
-      email = (
-        <InputGroup>
-          <InputGroupAddon addonType="prepend">
-            <InputGroupText>
-              <Input addon type="checkbox" checked={this.state.sendEmail} onChange={(e) => this.setState({sendEmail: e.target.checked})}/>{' '}
-            </InputGroupText>
-          </InputGroupAddon>
-          <Input placeholder="Check para envio de e-mail" className="form-control-sm" type="text" value={this.state.emailAddress} onChange={( e ) => this.setState( { emailAddress: e.target.value } )}/>
-        </InputGroup>
-      );
     }
 
     return (
@@ -83,7 +51,6 @@ class DeviceForm extends Component {
             <Input className="form-control-sm" type="text" value={this.state.desc} onChange={( e ) => this.setState( { desc: e.target.value } )} id="desc"/>
             <h4>Topics <Button onClick={this.handleAddTopic} className="mr-sm-2" color='primary' size='sm'>Add</Button>{' '}</h4>
             <hr/>
-            {email}
             <TopicForm array={arrayTopics}/>
           </FormGroup>
           <Button onClick={this.handleCreateFormSubmit} className="mr-sm-2" color='primary' size='sm'>Save</Button>{' '}

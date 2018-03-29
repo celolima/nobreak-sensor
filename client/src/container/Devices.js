@@ -31,7 +31,6 @@ class Devices extends Component {
                     id={device.id} 
                     desc={device.desc}
                     topics={device.topics}
-                    emailAddress={device.emailAddress}
                     clicked={() => this.postSelectedHandler( device.id )}/>
             ));
         }

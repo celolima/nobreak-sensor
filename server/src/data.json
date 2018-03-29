@@ -4,91 +4,47 @@
         "id": "2c43306e-5b44-4ff8-8753-33c35adbd06f",
         "topics": [
             {
+                "id": "1",
                 "title": "Temperatura",
                 "name": "dev-01/sensor/temp"
             }
-        ],
-        "emailAddress": "celorsl@yahoo.com.br",
-        "sendEmail": true
-    },
-    {
-        "desc": "Dev-02",
-        "id": "a45d6002-2cc9-4e52-b79c-25df392fa1a4",
-        "topics": [
-            {
-                "title": "Tensão",
-                "name": "dev-03/sensor/tensão"
-            }
-        ],
-        "emailAddress": "celorsl@yahoo.com.br",
-        "sendEmail": true
-    },
-    {
-        "desc": "Dev-03",
-        "id": "9b6fcafa-8a9e-4909-8af2-ca2b01c538e2",
-        "topics": [
-            {
-                "title": "Corrente",
-                "name": "dev-03/sensor/corrente"
-            }
-        ],
-        "emailAddress": "celorsl@yahoo.com.br",
-        "sendEmail": true
-    },
-    {
-        "desc": "Dev-05",
-        "id": "3f58ed33-54df-46f7-9948-3d6a7c31dfd2",
-        "topics": [
-            {
-                "title": "TESTE TITLE",
-                "name": "TESTE NAME"
-            }
-        ],
-        "emailAddress": "celorsl@yahoo.com.br",
-        "sendEmail": true
-    },
-    {
-        "desc": "Dev-13",
-        "id": "6d6bd462-6e3c-4f05-a7d6-60a6228bb5cc",
-        "topics": [
-            {
-                "title": "Temperatura",
-                "name": "/dev-13/temperatura/"
-            }
-        ],
-        "emailAddress": "celorsl@yahoo.com.br",
-        "sendEmail": true
-    },
-    {
-        "desc": "Dev-14",
-        "id": "0c03bb48-410d-41da-97b9-4a75f4f0a059",
-        "topics": [
-            {
-                "title": "Temperatura",
-                "name": "/dev-14/temperatura/"
-            }
-        ],
-        "emailAddress": "celorsl@yahoo.com.br",
-        "sendEmail": true
+        ]
     },
     {
         "id": "0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
         "desc": "Dev-15",
         "topics": [
             {
+                "id": "1",
                 "title": "Temperatura",
                 "name": "/dev-15/temperatura/"
             },
             {
+                "id": "2",
                 "title": "Corrente",
                 "name": "/dev-15/corrente/"
             },
             {
+                "id": "3",
                 "title": "Tensão",
                 "name": "/dev-15/tensão/"
             }
-        ],
-        "emailAddress": "celorsl@yahoo.com.br",
-        "sendEmail": true
+        ]
+    },
+    {
+        "id": "44102e6c-b111-4ca6-82a1-dd2890478505",
+        "desc": "Dev-06",
+        "topics": [
+            {
+                "id": 1,
+                "title": "Temp",
+                "name": "/dev-06/temp"
+            },
+            {
+                "id": 2,
+                "title": "Current",
+                "name": "/dev-06/current"
+            }
+        ]
     }
 ]
