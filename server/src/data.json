@@ -4,7 +4,7 @@
         "id": "2c43306e-5b44-4ff8-8753-33c35adbd06f",
         "topics": [
             {
-                "id": "1",
+                "id": 1,
                 "param": "Temperatura",
                 "topic": "dev-01/sensor/temp/"
             }
@@ -15,17 +15,17 @@
         "desc": "Dev-15",
         "topics": [
             {
-                "id": "1",
+                "id": 1,
                 "param": "Temperatura",
                 "topic": "/dev-15/temperatura/"
             },
             {
-                "id": "2",
+                "id": 2,
                 "param": "Corrente",
                 "topic": "/dev-15/corrente/"
             },
             {
-                "id": "3",
+                "id": 3,
                 "param": "Tensão",
                 "topic": "/dev-15/tensão/"
             }
@@ -48,13 +48,13 @@
         ]
     },
     {
-        "id": "dbef34df-dc32-446c-830e-66161567afb7",
-        "desc": "Dev-06",
+        "id": "cc4251bb-9c59-4e42-bccc-5602b0f19f59",
+        "desc": "Dev-08",
         "topics": [
             {
                 "id": 1,
-                "param": "corrente",
-                "topic": "/dev-06/corrente/"
+                "param": "Corrente",
+                "topic": "/dev-08/corrente/"
             }
         ]
     }

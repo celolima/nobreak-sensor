@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import TopicForm from './TopicForm';
 import Field from '../components/Field'
 import * as clientApi from '../api/clientApi';
-import { Form, FormGroup, Button, Label, Input, InputGroup, InputGroupAddon, InputGroupText} from 'reactstrap';
+import { Form, FormGroup, Button } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
 
 const uuidv4 = require('uuid/v4');
@@ -17,7 +17,7 @@ class DeviceForm extends Component {
   };
 
   onInputChange = ({ name, value, error }) => {
-    const fieldErrors = this.state.fieldErrors;
+    const fieldErrors = [...this.state.fieldErrors];
     fieldErrors[name] = error;
     this.setState({ [name] : value, fieldErrors });
   };
@@ -47,13 +47,18 @@ class DeviceForm extends Component {
     const fieldErrors = this.state.fieldErrors;
     const errMessages = Object.keys(fieldErrors).filter((k) => fieldErrors[k]);
 
-    console.log(arrayTopics);
     if (!this.state.desc) return true;
     if (arrayTopics.length === 0) return true;
     if (errMessages.length) return true;
 
     return false;
   };
+
+  handleError = (name) => {
+    let erros = [...this.state.fieldErrors];
+    erros[name] = 'Empty';
+    this.setState({fieldErrors: erros});
+  }
 
   render() {
     let redirect = null;
@@ -76,11 +81,11 @@ class DeviceForm extends Component {
               onChange={this.onInputChange}
               validate={(val) => (val ? false : '*')}
             />
-            <h4>Parâmetros <Button onClick={this.handleAddTopic} className="mr-sm-2" color='primary' size='sm'>Add</Button>{' '}</h4>
+            <h4>Parâmetros <Button onClick={this.handleAddTopic} className="mr-sm-2" color='primary' size='sm' disabled={this.state.desc === ''}>Add</Button>{' '}</h4>
             <hr/>
-            <TopicForm array={arrayTopics} dev={this.state.desc}/>
+            <TopicForm array={arrayTopics} dev={this.state.desc} onError={this.handleError}/>
           </FormGroup>
-          <Button onClick={this.handleCreateFormSubmit} className="mr-sm-2" color='primary' size='sm'>Save</Button>{' '}
+          <Button onClick={this.handleCreateFormSubmit} className="mr-sm-2" color='primary' size='sm' disabled={this.validate()}>Save</Button>{' '}
           <Button className="mr-sm-2" size='sm' onClick={this.handleCancelClick}>Cancel</Button>
         </Form>
       </div>

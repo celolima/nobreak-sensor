@@ -11,7 +11,10 @@ class TopicForm extends Component {
   onInputChange = ({ name, value, error }) => {
     const field = name.split('_');
     this.props.array[field[0]][field[1]] = value;
-    this.props.array[field[0]]['topic'] = '/'.concat(this.props.dev.toLowerCase(),'/',value.toLowerCase() + '/');
+    this.props.array[field[0]]['topic'] = value ? '/'.concat(this.props.dev.toLowerCase(),'/',value.toLowerCase() + '/') : '';
+    if(error) {
+      this.props.onError(name);
+    }
     this.setState({topicChanged: true});
   };
 
@@ -32,7 +35,7 @@ class TopicForm extends Component {
               </div>
               <div className='col-6'>
                 <Label for={index+'_topic'} className="mr-sm-2">Tópico</Label>
-                <Input className="form-control-sm disabled" type='text' value={this.props.array[index].topic} id={index+'_topic'}/>
+                <Input className="form-control-sm" readOnly type='text' value={this.props.array[index].topic} id={index+'_topic'}/>
               </div>
             </div>
           ));
