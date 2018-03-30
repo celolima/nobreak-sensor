@@ -29,7 +29,7 @@ class DeviceForm extends Component {
   };
 
   handleCreateFormSubmit = () => {
-    if (this.validate()) return;
+    if (!this.isValid()) return;
 
     const device = {
       id: uuidv4(),
@@ -43,15 +43,15 @@ class DeviceForm extends Component {
     this.props.history.push( '/devices/');
   };
 
-  validate = () => {
+  isValid = () => {
     const fieldErrors = this.state.fieldErrors;
     const errMessages = Object.keys(fieldErrors).filter((k) => fieldErrors[k]);
 
-    if (!this.state.desc) return true;
-    if (arrayTopics.length === 0) return true;
-    if (errMessages.length) return true;
+    if (!this.state.desc) return false;
+    if (arrayTopics.length === 0) return false;
+    if (errMessages.length) return false;
 
-    return false;
+    return true;
   };
 
   handleError = (name) => {
@@ -85,7 +85,7 @@ class DeviceForm extends Component {
             <hr/>
             <TopicForm array={arrayTopics} dev={this.state.desc} onError={this.handleError}/>
           </FormGroup>
-          <Button onClick={this.handleCreateFormSubmit} className="mr-sm-2" color='primary' size='sm' disabled={this.validate()}>Save</Button>{' '}
+          <Button onClick={this.handleCreateFormSubmit} className="mr-sm-2" color='primary' size='sm' disabled={!this.isValid()}>Save</Button>{' '}
           <Button className="mr-sm-2" size='sm' onClick={this.handleCancelClick}>Cancel</Button>
         </Form>
       </div>

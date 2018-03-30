@@ -16,6 +16,7 @@ class ConditionForm extends Component {
         type: 'Inteiro',
         condition: 'maior que',
         value: '',
+        fieldErrors: {},
         submitted: false
     };
 
@@ -26,44 +27,60 @@ class ConditionForm extends Component {
     handleDeviceChange = (event) => {
         const id = event.target.value;
         let dev = [];
+        let erros = [...this.state.fieldErrors];
         topics = [];
-
+        
         if(id !== 'invalid') {
             dev = devicesServer.find((val) => {return val.id === id});
             topics = [...dev.topics];
+            console.log(topics);
+        } else  {
+            erros['device'] = 'favor selecionar um dispositivo';
         }
-        this.setState({device: dev});
-        this.setState({topic: []});
+
+        this.setState({device: dev, topic: [], fieldErrors: erros});
     }
 
     handleTopicChange = (event) => {
         const id = event.target.value;
         let t = [];
+        let erros = [...this.state.fieldErrors];
         if(id !== 'invalid') {
             t = topics.find((val) => {return val.id === id});
+        } else {            
+            erros['topic'] = 'favor selecionar um parametro';
         }
-        this.setState({topic: t});
+        this.setState({topic: t, fieldErrors: erros});
     }
 
     handleBasicChange = (event) => {
         const val = event.target.value;
+        let erros = [...this.state.fieldErrors];
         switch(event.target.name) {
             case 'inputValue':
-                this.setState({value: val}); break;
+                if (val === '') erros['value'] = 'favor preencher o valor';
+                this.setState({value: val, fieldErrors: erros}); break;
             case 'selectType':
                 this.setState({type: val}); break;
             case 'selectCond':
                 this.setState({condition: val}); break;
             default: console.log('invalid field');
         }
+        console.log(erros['value']);
     }
 
     handleCancelClick = () => {
         this.props.history.push( '/devices/');
     };  
 
-    handleCreateFormSubmit = (e) => {
-        console.log('WIP -> creating');
+    isValid = () => {    
+        return this.state.fieldErrors.length === 0 && 
+            this.state.device.length !== 0 && 
+            this.state.topic.length !== 0 && 
+            this.state.value !== '';
+    };
+
+    handleCreateFormSubmit = (e) => {     
         this.setState({submitted: true});
     }
 
@@ -91,12 +108,13 @@ class ConditionForm extends Component {
                         topic={this.state.topic}
                         handleBasicChange={this.handleBasicChange} 
                         type={this.state.type}
-                        cond={this.state.condition}/>
+                        cond={this.state.condition}
+                        fieldErros={this.state.fieldErrors}/>
                         <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                            <Label>Valor</Label>
+                            <Label>Valor <span style={{ color: 'red', fontSize: '10px' }}>{ this.state.fieldErrors['value'] }</span></Label>
                             <Input type="input" name="inputValue" bsSize="sm" value={this.state.value} onChange={this.handleBasicChange}/>
                         </FormGroup>
-                        <Button onClick={this.handleCreateFormSubmit} className="mr-sm-2" color='primary' size='sm'>Save</Button>{' '}
+                        <Button onClick={this.handleCreateFormSubmit} className="mr-sm-2" color='primary' size='sm' disabled={!this.isValid()}>Save</Button>{' '}
                         <Button className="mr-sm-2" size='sm' onClick={this.handleCancelClick}>Cancel</Button>
                 </Form>
             </div>

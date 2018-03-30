@@ -4,14 +4,15 @@ import { Alert, FormGroup, Label, Input } from 'reactstrap';
 const conditionDropdown = (props) => {
     let devicesInputs = <Alert className='center' color='dark'>Não existem dispositivos!</Alert>;
     let topicsInputs = null;
+    let optionItems = [];
 
     if(props.devicesServer.length !== 0) {
-        let optionItems = props.devicesServer.map((dev) =>
+        optionItems = props.devicesServer.map((dev) =>
             <option key={dev.id} value={dev.id}>{dev.desc}</option>
         );
         devicesInputs = (
             <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                <Label for='devs'>Dispositivo</Label>
+                <Label for='devs'>Dispositivo<span style={{ color: 'red', fontSize: '10px' }}>{ props.fieldErrors }</span></Label>
                 <Input type="select" name="selectDev" id="devs" bsSize="sm" value={props.device.id} onChange={props.handleDeviceChange}>
                     <option key='0' value='invalid'></option>
                     {optionItems}
@@ -20,13 +21,14 @@ const conditionDropdown = (props) => {
         );
     }
 
-    let optionItems = props.topics.map((t) =>
-        <option key={t.id} value={t.id}>{t.title}</option>
+    optionItems = props.topics.map((t) => {
+        return <option key={t.id} value={t.id}>{t.param}</option>        
+        }
     );
 
     topicsInputs = (
         <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-            <Label>Campo</Label>
+            <Label>Parâmetro <span style={{ color: 'red', fontSize: '10px' }}>{ props.fieldErrors }</span></Label>
             <Input type="select" name="selectTopic" id="topics" bsSize="sm" value={props.topic.id} onChange={props.handleTopicChange}>
                 <option key='0' value='invalid'></option>
                 {optionItems}
