@@ -11,8 +11,8 @@ const conditions = ['maior que','maior ou igual que','menor que','menor ou igual
 
 class ConditionForm extends Component {    
     state = {
-        device: [],
-        topic: [],
+        device: '',
+        topic: '',
         type: 'Inteiro',
         condition: 'maior que',
         value: '',
@@ -25,40 +25,45 @@ class ConditionForm extends Component {
     };
    
     handleDeviceChange = (event) => {
-        const id = event.target.value;
-        let dev = [];
-        let erros = [...this.state.fieldErrors];
+        let targetVal = event.target.value;
+        let erros = {...this.state.fieldErrors};
         topics = [];
         
-        if(id !== 'invalid') {
-            dev = devicesServer.find((val) => {return val.id === id});
+        if(targetVal !== 'invalid') {
+            let dev = devicesServer.find((val) => {return val.id === targetVal});
             topics = [...dev.topics];
-            console.log(topics);
+            delete erros.device;
         } else  {
             erros['device'] = 'favor selecionar um dispositivo';
+            targetVal = '';
+            delete erros.topic;
         }
 
-        this.setState({device: dev, topic: [], fieldErrors: erros});
+        this.setState({device: targetVal, topic: '', fieldErrors: erros});
     }
 
     handleTopicChange = (event) => {
-        const id = event.target.value;
-        let t = [];
-        let erros = [...this.state.fieldErrors];
-        if(id !== 'invalid') {
-            t = topics.find((val) => {return val.id === id});
-        } else {            
+        let targetVal = event.target.value;        
+        let erros = {...this.state.fieldErrors};
+
+        if(targetVal === 'invalid') {
             erros['topic'] = 'favor selecionar um parametro';
+            targetVal = '';
+        } else {
+            delete erros.topic;
         }
-        this.setState({topic: t, fieldErrors: erros});
+        this.setState({topic: targetVal, fieldErrors: erros});
     }
 
     handleBasicChange = (event) => {
         const val = event.target.value;
-        let erros = [...this.state.fieldErrors];
+        let erros = {...this.state.fieldErrors};
+
         switch(event.target.name) {
             case 'inputValue':
-                if (val === '') erros['value'] = 'favor preencher o valor';
+                if (val === '') { 
+                    erros['value'] = 'favor preencher o valor';
+                } else { delete erros.value; }
                 this.setState({value: val, fieldErrors: erros}); break;
             case 'selectType':
                 this.setState({type: val}); break;
@@ -66,22 +71,22 @@ class ConditionForm extends Component {
                 this.setState({condition: val}); break;
             default: console.log('invalid field');
         }
-        console.log(erros['value']);
     }
 
     handleCancelClick = () => {
         this.props.history.push( '/devices/');
     };  
 
-    isValid = () => {    
-        return this.state.fieldErrors.length === 0 && 
-            this.state.device.length !== 0 && 
-            this.state.topic.length !== 0 && 
+    isValid = () => {
+        return this.state.fieldErrors != null && 
+            this.state.device !== '' && 
+            this.state.topic !== '' && 
             this.state.value !== '';
     };
 
     handleCreateFormSubmit = (e) => {     
-        this.setState({submitted: true});
+        //this.setState({submitted: true});
+        console.log(this.state);
     }
 
     render() {
@@ -109,7 +114,7 @@ class ConditionForm extends Component {
                         handleBasicChange={this.handleBasicChange} 
                         type={this.state.type}
                         cond={this.state.condition}
-                        fieldErros={this.state.fieldErrors}/>
+                        fieldErrors={this.state.fieldErrors}/>
                         <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                             <Label>Valor <span style={{ color: 'red', fontSize: '10px' }}>{ this.state.fieldErrors['value'] }</span></Label>
                             <Input type="input" name="inputValue" bsSize="sm" value={this.state.value} onChange={this.handleBasicChange}/>

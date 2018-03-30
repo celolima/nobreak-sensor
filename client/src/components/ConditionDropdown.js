@@ -12,8 +12,8 @@ const conditionDropdown = (props) => {
         );
         devicesInputs = (
             <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                <Label for='devs'>Dispositivo<span style={{ color: 'red', fontSize: '10px' }}>{ props.fieldErrors }</span></Label>
-                <Input type="select" name="selectDev" id="devs" bsSize="sm" value={props.device.id} onChange={props.handleDeviceChange}>
+                <Label for='devs'>Dispositivo <span style={{ color: 'red', fontSize: '10px' }}>{ props.fieldErrors['device'] }</span></Label>
+                <Input type="select" name="selectDev" id="devs" bsSize="sm" value={props.device} onChange={props.handleDeviceChange}>
                     <option key='0' value='invalid'></option>
                     {optionItems}
                 </Input>
@@ -28,8 +28,8 @@ const conditionDropdown = (props) => {
 
     topicsInputs = (
         <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-            <Label>Parâmetro <span style={{ color: 'red', fontSize: '10px' }}>{ props.fieldErrors }</span></Label>
-            <Input type="select" name="selectTopic" id="topics" bsSize="sm" value={props.topic.id} onChange={props.handleTopicChange}>
+            <Label>Parâmetro <span style={{ color: 'red', fontSize: '10px' }}>{ props.fieldErrors['topic'] }</span></Label>
+            <Input type="select" name="selectTopic" id="topics" bsSize="sm" value={props.topic} onChange={props.handleTopicChange}>
                 <option key='0' value='invalid'></option>
                 {optionItems}
             </Input>
