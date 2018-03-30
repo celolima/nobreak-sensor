@@ -1,16 +1,5 @@
 [
     {
-        "desc": "Dev-01",
-        "id": "2c43306e-5b44-4ff8-8753-33c35adbd06f",
-        "topics": [
-            {
-                "id": 1,
-                "param": "Temperatura",
-                "topic": "dev-01/sensor/temp/"
-            }
-        ]
-    },
-    {
         "id": "0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
         "desc": "Dev-15",
         "topics": [

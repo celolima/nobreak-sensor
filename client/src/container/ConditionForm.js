@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import * as clientApi from '../api/clientApi';
 import ConditionDropdown from '../components/ConditionDropdown'
+import ReactForm from './ReactForm'
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
 
 let devicesServer = [];
 let topics = [];
-const types = ['Inteiro','String','Boleano'];
-const conditions = ['maior que','maior ou igual que','menor que','menor ou igual que', 'igual a', 'diferente de'];
 
 class ConditionForm extends Component {    
     state = {
@@ -16,6 +15,7 @@ class ConditionForm extends Component {
         type: 'Inteiro',
         condition: 'maior que',
         value: '',
+        react: {'actionType': 'e-mail'},
         fieldErrors: {},
         submitted: false
     };
@@ -58,27 +58,48 @@ class ConditionForm extends Component {
     handleBasicChange = (event) => {
         const val = event.target.value;
         let erros = {...this.state.fieldErrors};
+        let reactObj = {...this.state.react};
 
         switch(event.target.name) {
+            case 'selectValueType':
+                this.setState({type: val}); break;
+            case 'selectCond':
+                this.setState({condition: val}); break;
+            case 'selectActionType':                
+                reactObj['actionType'] = val;
+                console.log(reactObj);
+                this.setState({react: reactObj}); break;
             case 'inputValue':
                 if (val === '') { 
                     erros['value'] = 'favor preencher o valor';
                 } else { delete erros.value; }
-                this.setState({value: val, fieldErrors: erros}); break;
-            case 'selectType':
-                this.setState({type: val}); break;
-            case 'selectCond':
-                this.setState({condition: val}); break;
+                this.setState({value: val, fieldErrors: erros}); break;                
+            case 'email':
+                if (val === '') { 
+                    erros['email'] = 'favor preencher o email';
+                } else { delete erros.email; }                
+                reactObj['email'] = val;
+                this.setState({react: reactObj, fieldErrors: erros}); break;
+            case 'cel':
+                if (val === '') { 
+                    erros['cel'] = 'favor preencher o telefone';
+                } else { delete erros.cel; }                
+                reactObj['cel'] = val;
+                this.setState({react: reactObj, fieldErrors: erros}); break;
+            case 'message':                
+                reactObj['message'] = val;
+                this.setState({react: reactObj}); break;                
             default: console.log('invalid field');
         }
     }
 
     handleCancelClick = () => {
         this.props.history.push( '/devices/');
-    };  
+    };
 
     isValid = () => {
-        return this.state.fieldErrors != null && 
+        return Object.keys(this.state.fieldErrors).length === 0 &&
+            Object.keys(this.state.react).length === 3 &&
             this.state.device !== '' && 
             this.state.topic !== '' && 
             this.state.value !== '';
@@ -99,28 +120,29 @@ class ConditionForm extends Component {
         return (                
             <div>
                 {redirect}
-                <h3>Condition</h3>
+                <h3>if</h3>
                 <hr/>
                 <Form>
                     <ConditionDropdown 
                         devicesServer={devicesServer}
                         topics={topics}
-                        types={types}
-                        conditions={conditions}
                         handleDeviceChange={this.handleDeviceChange} 
                         device={this.state.device} 
                         handleTopicChange={this.handleTopicChange} 
                         topic={this.state.topic}
-                        handleBasicChange={this.handleBasicChange} 
+                        handleBasicChange={this.handleBasicChange}
                         type={this.state.type}
                         cond={this.state.condition}
                         fieldErrors={this.state.fieldErrors}/>
-                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                            <Label>Valor <span style={{ color: 'red', fontSize: '10px' }}>{ this.state.fieldErrors['value'] }</span></Label>
-                            <Input type="input" name="inputValue" bsSize="sm" value={this.state.value} onChange={this.handleBasicChange}/>
-                        </FormGroup>
-                        <Button onClick={this.handleCreateFormSubmit} className="mr-sm-2" color='primary' size='sm' disabled={!this.isValid()}>Save</Button>{' '}
-                        <Button className="mr-sm-2" size='sm' onClick={this.handleCancelClick}>Cancel</Button>
+                    <FormGroup className="mb-2 mr-sm-2 mb-sm-0 row col-6">
+                        <Label>Valor <span className='fieldError'>{ this.state.fieldErrors['value'] }</span></Label>
+                        <Input type="input" name="inputValue" bsSize="sm" value={this.state.value} onChange={this.handleBasicChange}/>
+                    </FormGroup>
+                    <h3>then</h3>
+                    <hr/>
+                    <ReactForm handleBasicChange={this.handleBasicChange} reactObj={this.state.react} fieldErrors={this.state.fieldErrors}/>           
+                    <Button onClick={this.handleCreateFormSubmit} className="mr-sm-2" color='primary' size='sm' disabled={!this.isValid()}>Save</Button>{' '}
+                    <Button className="mr-sm-2" size='sm' onClick={this.handleCancelClick}>Cancel</Button>
                 </Form>
             </div>
         );
