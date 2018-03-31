@@ -17,6 +17,13 @@ const createDevice = (data) => {
   });
 };
 
+const createReaction = (data) => {
+  return axios.post('/reacts/', data)
+  .then(response => {
+      console.log('Created' + response);
+  });
+};
+
 const updateDevice = (data) => {
   axios.put('/devices/', data)
   .then(response => {
@@ -37,4 +44,4 @@ const getDeviceId = (id) => {
     .then(response => {console.log(response.data); return response.data;});
 };
 
-export { getDevices, getDeviceId, createDevice, updateDevice, deleteDevice };
+export { getDevices, getDeviceId, createDevice, updateDevice, deleteDevice, createReaction };

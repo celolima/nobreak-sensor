@@ -6,7 +6,18 @@
             {
                 "id": 1,
                 "param": "Temperatura",
-                "topic": "/dev-15/temperatura/"
+                "topic": "/dev-15/temperatura/",
+                "reaction": {
+                    "type": "Inteiro",
+                    "condition": "maior que",
+                    "value": "45",
+                    "react": {
+                        "actionType": "e-mail",
+                        "email": "celorsl@yahoo.com.br",
+                        "cel": "",
+                        "message": "Teste"
+                    }
+                }
             },
             {
                 "id": 2,

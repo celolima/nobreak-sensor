@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as clientApi from '../api/clientApi';
+import validator from 'validator';
 import ConditionDropdown from '../components/ConditionDropdown'
 import ReactForm from './ReactForm'
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
@@ -79,7 +80,11 @@ class ConditionForm extends Component {
             case 'email':
                 if (val === '') { 
                     erros['email'] = 'favor preencher o email';
-                } else { delete erros.email; }
+                } else if (!validator.isEmail(val)) {
+                    erros['email'] = 'favor preencher um email válido';
+                } else {                    
+                    delete erros.email; 
+                }
                 reactObj['email'] = val;
                 this.setState({react: reactObj, fieldErrors: erros}); break;
             case 'cel':
@@ -108,8 +113,19 @@ class ConditionForm extends Component {
     };
 
     handleCreateFormSubmit = (e) => {     
-        //this.setState({submitted: true});
-        console.log(this.state.react);
+        if (!this.isValid()) return;
+
+        const data = {
+          device: this.state.device,
+          topic: this.state.topic,
+          type: this.state.type,
+          condition: this.state.condition,
+          value: this.state.value,
+          react: this.state.react
+        };
+
+        clientApi.createReaction(data).then(() => {this.setState({submitted: true})});
+        console.log(data);
     }
 
     render() {

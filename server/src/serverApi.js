@@ -39,7 +39,7 @@ function loadAPI(app) {
       });
     });
 
-    //CREATE NEW
+    //CREATE NEW DEVICE
     app.post('/api/devices', (req, res) => {
         fs.readFile(DATA_FILE, (err, data) => {
           const devices = JSON.parse(data);
@@ -91,7 +91,35 @@ function loadAPI(app) {
             res.json({});
           });
         });
-      });   
+      });
+
+    //CREATE NEW REACTION
+    app.post('/api/reacts', (req, res) => {
+      fs.readFile(DATA_FILE, (err, data) => {
+        const devices = JSON.parse(data);
+        devices.forEach((dev) => {
+          if (dev.id === req.body.device) {
+            dev.topics.forEach((topic) => {
+              console.log(topic.id);
+              if (topic.id === parseInt(req.body.topic)) {
+                let reaction = {
+                  type: req.body.type,
+                  condition: req.body.condition,
+                  value: req.body.value,
+                  react: req.body.react
+                }
+                topic.reaction = reaction;
+                console.log(topic.reaction);
+              }
+            });
+          }
+        });
+        fs.writeFile(DATA_FILE, JSON.stringify(devices, null, 4), () => {
+          res.json({});
+        });
+      });
+  });
+    
 }
 
 module.exports = api;
