@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Device from '../components/Device'
-import * as clientApi from '../api/clientApi';
+import Device from './Device'
+import * as clientApi from '../../api/clientApi';
 import { Alert, Row } from 'reactstrap';
 
 class Devices extends Component {

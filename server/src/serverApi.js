@@ -102,13 +102,17 @@ function loadAPI(app) {
             dev.topics.forEach((topic) => {
               console.log(topic.id);
               if (topic.id === parseInt(req.body.topic)) {
-                let reaction = {
+                let react = {
                   type: req.body.type,
                   condition: req.body.condition,
                   value: req.body.value,
-                  react: req.body.react
+                  action: req.body.action
                 }
-                topic.reaction = reaction;
+                if(!topic.reacts) {
+                  topis.reacts = [];
+                }
+                react['id'] = topic.reacts.length + 1;
+                topic.reacts.push(react);
               }
             });
           }

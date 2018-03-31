@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import * as clientApi from '../api/clientApi';
+import * as clientApi from '../../api/clientApi';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { Button, Alert } from 'reactstrap'
 
@@ -49,10 +49,10 @@ class FullDevice extends Component {
             if(this.state.loadedDevice.topics) {
                 topicsMsg = this.state.loadedDevice.topics.map((topic) => {
                     let t = [];
-                    t.push(<p>{topic.topic}</p>);
+                    t.push(<p key={topic.id}>{topic.topic}</p>);
                     if(topic.reacts) {
                         let r = topic.reacts.map((react) => {
-                            return <p>if ({topic.param} {react.condition} {react.value}) then ({react.action['actionType']} to {react.action['email']}{react.action['cel']})</p>
+                            return <p key={react.id}>if ({topic.param} {react.condition} {react.value}) then ({react.action['actionType']} to {react.action['email']}{react.action['cel']})</p>
                         });
                         t.push(r);
                     }

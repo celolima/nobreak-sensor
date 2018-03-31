@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import TopicForm from './TopicForm';
-import Field from '../components/Field'
-import * as clientApi from '../api/clientApi';
+import Field from './Field'
+import * as clientApi from '../../api/clientApi';
 import { Form, FormGroup, Button } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
 

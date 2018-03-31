@@ -9,6 +9,7 @@
                 "topic": "/dev-15/temperatura/",
                 "reacts": [
                     {
+                        "id": 1,
                         "type": "Inteiro",
                         "condition": "maior que",
                         "value": "45",
@@ -18,6 +19,18 @@
                             "cel": "",
                             "message": "Teste"
                         }
+                    },
+                    {
+                        "type": "Inteiro",
+                        "condition": "maior que",
+                        "value": "45",
+                        "action": {
+                            "actionType": "e-mail",
+                            "email": "celorsl@yahoo.com.br",
+                            "cel": "",
+                            "message": "Olá"
+                        },
+                        "id": 2
                     }
                 ]
             },

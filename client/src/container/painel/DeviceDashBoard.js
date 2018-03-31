@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import Devices from './Devices'
-import DeviceForm from './DeviceForm'
-import FullDevice from './FullDevice';
-import ConditionForm from './ConditionForm';
+import DeviceForm from '../deviceForm/DeviceForm'
+import FullDevice from '../fullDevice/FullDevice'
+import ConditionForm from '../conditionalReact/ConditionForm';
 import { Route, Switch } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 import { Nav, NavLink } from 'reactstrap';
-import './App.css';
+import '../App.css';
 
 class DevicesDashboard extends Component {
   render() {

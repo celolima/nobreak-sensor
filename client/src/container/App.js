@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import DeviceDashBoard from './DeviceDashBoard'
+import DeviceDashBoard from './painel/DeviceDashBoard'
 import { BrowserRouter } from 'react-router-dom';
 
 class App extends Component {
