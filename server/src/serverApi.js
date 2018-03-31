@@ -109,7 +109,6 @@ function loadAPI(app) {
                   react: req.body.react
                 }
                 topic.reaction = reaction;
-                console.log(topic.reaction);
               }
             });
           }

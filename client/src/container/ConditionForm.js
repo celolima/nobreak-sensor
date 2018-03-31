@@ -83,14 +83,15 @@ class ConditionForm extends Component {
                 } else if (!validator.isEmail(val)) {
                     erros['email'] = 'favor preencher um email válido';
                 } else {                    
-                    delete erros.email; 
+                    delete erros.email;
+                    reactObj['cel'] = '';
                 }
                 reactObj['email'] = val;
                 this.setState({react: reactObj, fieldErrors: erros}); break;
             case 'cel':
                 if (val === '') { 
                     erros['cel'] = 'favor preencher o telefone';
-                } else { delete erros.cel; }
+                } else { delete erros.cel; reactObj['email'] = '';}
                 reactObj['cel'] = val;
                 this.setState({react: reactObj, fieldErrors: erros}); break;
             case 'message':                

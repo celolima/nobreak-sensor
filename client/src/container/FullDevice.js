@@ -38,15 +38,34 @@ class FullDevice extends Component {
     }
 
     render() {
-        let device = <Alert className='center' color='danger'>Favor selecionar um dispositivo!</Alert>;
+        let deviceMsg = <Alert className='center' color='danger'>Favor selecionar um dispositivo!</Alert>;
+        let topicsMsg = '';
+        
         if ( this.props.match.params.id ) {
-            device =  <Alert className='center' color="warning">Loading...!</Alert>;
+            deviceMsg =  <Alert className='center' color="warning">Loading...!</Alert>;
         }
+
         if ( this.state.loadedDevice ) {
-            device = (
+            if(this.state.loadedDevice.topics) {
+                topicsMsg = this.state.loadedDevice.topics.map((topic) => {
+                    let t = [];
+                    t.push(<p>{topic.topic}</p>);
+                    if(topic.reacts) {
+                        let r = topic.reacts.map((react) => {
+                            return <p>if ({topic.param} {react.condition} {react.value}) then ({react.action['actionType']} to {react.action['email']}{react.action['cel']})</p>
+                        });
+                        t.push(r);
+                    }
+                    return t;
+                });
+            }
+            console.log(topicsMsg);
+            deviceMsg = (
                 <div>
-                    <h1>{this.state.loadedDevice.id}</h1>
-                    <p>{this.state.loadedDevice.desc}</p>
+                    <h3>{this.state.loadedDevice.desc}</h3>
+                    <hr/>
+                    <p>{this.state.loadedDevice.id}</p>                    
+                    {topicsMsg}
                     <LineChart
                         width={600}
                         height={300}
@@ -62,12 +81,12 @@ class FullDevice extends Component {
                         <YAxis/>
                         <XAxis dataKey='name'/>
                         <Legend />
-                    </LineChart>                    
+                    </LineChart>
                     <Button outline color="danger" size='sm' onClick={this.handleTrashClick}>delete</Button>{' '}
                 </div>
             );            
         }
-        return device;        
+        return deviceMsg;        
     }
 }
 
