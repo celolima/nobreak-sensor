@@ -31,8 +31,8 @@
 }
 
 .fieldError {
-  color: 'red'; 
-  font-size: '10px';
+  color: red; 
+  font-size: 10px;
 }
 
 @keyframes App-logo-spin {

@@ -15,7 +15,10 @@ class ConditionForm extends Component {
         type: 'Inteiro',
         condition: 'maior que',
         value: '',
-        react: {'actionType': 'e-mail'},
+        react: {'actionType': 'e-mail',
+                'email': '',
+                'cel': '',
+                'message': ''},
         fieldErrors: {},
         submitted: false
     };
@@ -67,7 +70,6 @@ class ConditionForm extends Component {
                 this.setState({condition: val}); break;
             case 'selectActionType':                
                 reactObj['actionType'] = val;
-                console.log(reactObj);
                 this.setState({react: reactObj}); break;
             case 'inputValue':
                 if (val === '') { 
@@ -77,13 +79,13 @@ class ConditionForm extends Component {
             case 'email':
                 if (val === '') { 
                     erros['email'] = 'favor preencher o email';
-                } else { delete erros.email; }                
+                } else { delete erros.email; }
                 reactObj['email'] = val;
                 this.setState({react: reactObj, fieldErrors: erros}); break;
             case 'cel':
                 if (val === '') { 
                     erros['cel'] = 'favor preencher o telefone';
-                } else { delete erros.cel; }                
+                } else { delete erros.cel; }
                 reactObj['cel'] = val;
                 this.setState({react: reactObj, fieldErrors: erros}); break;
             case 'message':                
@@ -99,7 +101,7 @@ class ConditionForm extends Component {
 
     isValid = () => {
         return Object.keys(this.state.fieldErrors).length === 0 &&
-            Object.keys(this.state.react).length === 3 &&
+            (this.state.react['email'] !== '' || this.state.react['cel'] !== '') &&
             this.state.device !== '' && 
             this.state.topic !== '' && 
             this.state.value !== '';
@@ -107,7 +109,7 @@ class ConditionForm extends Component {
 
     handleCreateFormSubmit = (e) => {     
         //this.setState({submitted: true});
-        console.log(this.state);
+        console.log(this.state.react);
     }
 
     render() {
@@ -135,12 +137,12 @@ class ConditionForm extends Component {
                         cond={this.state.condition}
                         fieldErrors={this.state.fieldErrors}/>
                     <FormGroup className="mb-2 mr-sm-2 mb-sm-0 row col-6">
-                        <Label>Valor <span className='fieldError'>{ this.state.fieldErrors['value'] }</span></Label>
+                        <Label>Valor <span className='fieldError'>* { this.state.fieldErrors['value'] }</span></Label>
                         <Input type="input" name="inputValue" bsSize="sm" value={this.state.value} onChange={this.handleBasicChange}/>
                     </FormGroup>
                     <h3>then</h3>
                     <hr/>
-                    <ReactForm handleBasicChange={this.handleBasicChange} reactObj={this.state.react} fieldErrors={this.state.fieldErrors}/>           
+                    <ReactForm handleBasicChange={this.handleBasicChange} reactObj={this.state.react} fieldErrors={this.state.fieldErrors}/>
                     <Button onClick={this.handleCreateFormSubmit} className="mr-sm-2" color='primary' size='sm' disabled={!this.isValid()}>Save</Button>{' '}
                     <Button className="mr-sm-2" size='sm' onClick={this.handleCancelClick}>Cancel</Button>
                 </Form>

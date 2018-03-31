@@ -15,7 +15,7 @@ const conditionDropdown = (props) => {
         );
         devicesInputs = (
             <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                <Label for='devs'>Dispositivo <span className='fieldError'>{ props.fieldErrors['device'] }</span></Label>
+                <Label for='devs'>Dispositivo <span className='fieldError'>* { props.fieldErrors['device'] }</span></Label>
                 <Input type="select" name="selectDev" id="devs" bsSize="sm" value={props.device} onChange={props.handleDeviceChange}>
                     <option key='0' value='invalid'></option>
                     {optionItems}
@@ -31,7 +31,7 @@ const conditionDropdown = (props) => {
 
     topicsInputs = (
         <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-            <Label>Parâmetro <span className='fieldError'>{ props.fieldErrors['topic'] }</span></Label>
+            <Label>Parâmetro <span className='fieldError'>* { props.fieldErrors['topic'] }</span></Label>
             <Input type="select" name="selectTopic" id="topics" bsSize="sm" value={props.topic} onChange={props.handleTopicChange}>
                 <option key='0' value='invalid'></option>
                 {optionItems}

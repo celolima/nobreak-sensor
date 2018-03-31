@@ -1,12 +1,12 @@
 import React from 'react';
-import * as clientApi from '../api/clientApi';
-import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { FormGroup, Label, Input } from 'reactstrap';
 
 const actionTypes = ['e-mail','sms'];
 
 const reactForm = (props) => {
     const actionTypesInput = (
-        <FormGroup className="mb-2 mr-sm-2 mb-sm-0 col-6">            
+        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+            <Label for="action" className="mr-sm-2">Ação</Label>
             <Input type="select" name="selectActionType" id="action" bsSize="sm" value={props.reactObj['actionType']} onChange={props.handleBasicChange}>
                 {
                     actionTypes.map((t,index) =>
@@ -19,16 +19,16 @@ const reactForm = (props) => {
     let inputField = '';
     if(props.reactObj['actionType'] === 'e-mail') {
         inputField =  (
-            <FormGroup className="mb-2 mr-sm-2 mb-sm-0 col-6">
-                <Label for="emailAddress" className="mr-sm-2"><span className='fieldError'>{ props.fieldErrors['email'] }</span></Label>
-                <Input type="text" name="email" id="emailAddress" value={props.reactObj['email']} placeholder="something@gmail.com" onChange={props.handleBasicChange}/>
+            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                <Label for="emailAddress" className="mr-sm-2">e-mail <span className='fieldError'>* { props.fieldErrors['email'] }</span></Label>
+                <Input type="text" name="email" id="emailAddress" bsSize='sm' value={props.reactObj['email']} placeholder="something@gmail.com" onChange={props.handleBasicChange}/>
             </FormGroup>
         );
     } else if(props.reactObj['actionType'] === 'sms') {
         inputField =  (
-            <FormGroup className="mb-2 mr-sm-2 mb-sm-0 col-6">
-                <Label for="celSms" className="mr-sm-2"><span className='fieldError'>{ props.fieldErrors['cel'] }</span></Label>
-                <Input type="text" name="cel" id="celSms" value={props.reactObj['cel']} placeholder="+55(31)99728046" onChange={props.handleBasicChange}/>
+            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                <Label for="celSms" className="mr-sm-2">cel <span className='fieldError'>* { props.fieldErrors['cel'] }</span></Label>
+                <Input type="text" name="cel" id="celSms" bsSize='sm' value={props.reactObj['cel']} placeholder="+55(31)99728046" onChange={props.handleBasicChange}/>
             </FormGroup>
         );
     }
@@ -40,8 +40,12 @@ const reactForm = (props) => {
     return (
         <div>
             <div className='row'>
-                {actionTypesInput}
-                {inputField}
+                <div className='col-6'>
+                    {actionTypesInput}
+                </div>
+                <div className='col-6'>
+                    {inputField}
+                </div>    
             </div>
                 {inputTextArea}
         </div>
