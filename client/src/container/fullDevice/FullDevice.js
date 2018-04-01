@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import DeviceTopicInfo from './DeviceTopicInfo'
 import * as clientApi from '../../api/clientApi';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { Button, Alert } from 'reactstrap'
@@ -47,44 +48,21 @@ class FullDevice extends Component {
 
         if ( this.state.loadedDevice ) {
             if(this.state.loadedDevice.topics) {
-                topicsMsg = this.state.loadedDevice.topics.map((topic) => {
-                    let t = [];
-                    t.push(<p key={topic.id}>{topic.topic}</p>);
-                    if(topic.reacts) {
-                        let r = topic.reacts.map((react) => {
-                            return <p key={react.id}>if ({topic.param} {react.condition} {react.value}) then ({react.action['actionType']} to {react.action['email']}{react.action['cel']})</p>
-                        });
-                        t.push(r);
-                    }
-                    return t;
-                });
+                topicsMsg = this.state.loadedDevice.topics.map((t, index) => {
+                    return (
+                        <div key={index}>
+                            <DeviceTopicInfo topic={t}/>
+                        </div>
+                    )});
             }
-            console.log(topicsMsg);
             deviceMsg = (
                 <div>
                     <h3>{this.state.loadedDevice.desc}</h3>
                     <hr/>
-                    <p>{this.state.loadedDevice.id}</p>                    
+                    <p>{this.state.loadedDevice.id}</p> 
                     {topicsMsg}
-                    <LineChart
-                        width={600}
-                        height={300}
-                        data={this.getData()}
-                        margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-                        <Line
-                            type='monotone'
-                            dataKey='temp'
-                            stroke='#8884d8'
-                            activeDot={{r: 8}}/>
-                        <CartesianGrid strokeDasharray='3 3'/>
-                        <Tooltip/>
-                        <YAxis/>
-                        <XAxis dataKey='name'/>
-                        <Legend />
-                    </LineChart>
-                    <Button outline color="danger" size='sm' onClick={this.handleTrashClick}>delete</Button>{' '}
                 </div>
-            );            
+            );
         }
         return deviceMsg;        
     }

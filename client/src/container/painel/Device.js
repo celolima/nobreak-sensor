@@ -20,5 +20,4 @@ const device = (props)  => {
   );
 }
 
-
 export default device;
