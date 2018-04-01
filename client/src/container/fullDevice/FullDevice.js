@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import DeviceTopicInfo from './DeviceTopicInfo'
+import DeviceTopicInfo from './DeviceTopicInfo';
 import * as clientApi from '../../api/clientApi';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { Button, Alert, Row } from 'reactstrap'
-import './FullDevice.css'
+//import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { Alert, Row } from 'reactstrap';
+import './FullDevice.css';
+import mqtt from 'mqtt';
+
 
 class FullDevice extends Component {
     state = {
-        loadedDevice: null
+        loadedDevice: null,
+        topicValue: {}
     }
 
     componentDidMount () {
@@ -16,8 +19,18 @@ class FullDevice extends Component {
 
     loadData () {
         if ( this.props.match.params.id ) {
-            if ( !this.state.loadedDevice || (this.state.loadedDevice && this.state.loadedDevice.id !== +this.props.match.params.id) ) {
-                clientApi.getDeviceId(this.props.match.params.id).then(data => {this.setState({loadedDevice: data})});
+            if ( !this.state.loadedDevice || (this.state.loadedDevice && this.state.loadedDevice.id !== this.props.match.params.id) ) {
+                clientApi.getDeviceId(this.props.match.params.id).then(data => {
+                    this.setState({loadedDevice: data});
+                    const topics = this.state.loadedDevice.topics;
+                    if(topics) {
+                        let topicValObj = {};
+                        topics.forEach((element) => {                           
+                            topicValObj[element.topic] = '';
+                            this.setState({topicValue: topicValObj});
+                        });
+                    }
+                });
             }
         }
     }
@@ -25,6 +38,22 @@ class FullDevice extends Component {
     handleTrashClick = () => {
         clientApi.deleteDevice({id:this.state.loadedDevice.id});
     };
+
+    handleTopicSubscribe = () => {
+        const client = mqtt.connect('mqtt://test.mosquitto.org');
+        client.on('connect', function() {
+            Object.entries(this.state.topicValue).forEach(([key, value]) => {
+                console.log(key);
+                client.subscribe(key);
+            });
+        }); 
+        client.on('message', function (topic, message) {
+            let topicValObj = {...this.state.topicValue};
+            console.log('Got %s - %s', topic, message.toString());
+            topicValObj[topic] = message;
+            this.setState({topicValue: topicValObj});
+        });
+    }
 
     getData = () => {
         let data = [
@@ -48,11 +77,12 @@ class FullDevice extends Component {
         }
 
         if ( this.state.loadedDevice ) {
+            this.handleTopicSubscribe();
             if(this.state.loadedDevice.topics) {
                 topicsMsg = this.state.loadedDevice.topics.map((t, index) => {
                     return (
                         <div key={index}>
-                            <DeviceTopicInfo topic={t}/>
+                            <DeviceTopicInfo topic={t} topicValue={this.state.topicValue}/>
                         </div>
                     )});
             }

@@ -17,7 +17,7 @@ class Broker {
      
     publish(topic, message) {
         client.publish(topic,message);
-        console.log('Publishes on %s', topic);
+        console.log('Publishes on %s: %s', topic, message);
     }
      
     checkConn() {
