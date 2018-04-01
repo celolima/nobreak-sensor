@@ -1,37 +1,32 @@
 import React from 'react';
-import { Card, CardImg, CardText, CardBody, CardLink, CardTitle, CardSubtitle } from 'reactstrap';
+import { Card, CardImg, CardText, CardBody, CardLink, CardTitle, CardSubtitle, Col } from 'reactstrap';
 
 const deviceTopicInfo = (props)  => {
-  let reactsCard = 'no reacts.';
+  let reactsCard = <span className='reacts'>no reacts</span>;
 
   if(props.topic.reacts) {
     reactsCard = props.topic.reacts.map((react) => {
       return (
-              <CardText key={react.id}>
-                <span className='conditional'>if (</span>
-                {props.topic.param} {react.condition} {react.value}
-                <span className='conditional'>) then (</span>
-                {react.action['actionType']} 
-                <span className='conditional'>to</span> 
-                {react.action['email']}{react.action['cel']}
-                <span className='conditional'>)</span>
-              </CardText>
+              <div className='reacts' key={react.id}>
+                {props.topic.param} {react.condition} {react.value} => 
+                {' '} envia {react.action['actionType']} para <span className='conditional'>{react.action['email']}{react.action['cel']}</span>
+              </div>
               );
     });
   }
   
   return (
-    <div>
+    <Col>
         <Card>
           <CardBody>
             <CardTitle>{props.topic.param}</CardTitle>
             <CardSubtitle>{props.topic.topic}</CardSubtitle>
         </CardBody>
         <CardBody>
-          {reactsCard}
+            {reactsCard}
         </CardBody>
         </Card>
-    </div>
+    </Col>
   );
 }
 

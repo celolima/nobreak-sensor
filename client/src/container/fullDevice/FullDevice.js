@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import DeviceTopicInfo from './DeviceTopicInfo'
 import * as clientApi from '../../api/clientApi';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { Button, Alert } from 'reactstrap'
+import { Button, Alert, Row } from 'reactstrap'
+import './FullDevice.css'
 
 class FullDevice extends Component {
     state = {
@@ -58,9 +59,11 @@ class FullDevice extends Component {
             deviceMsg = (
                 <div>
                     <h3>{this.state.loadedDevice.desc}</h3>
-                    <hr/>
-                    <p>{this.state.loadedDevice.id}</p> 
+                    <span className='reacts'>{this.state.loadedDevice.id}</span>
+                    <hr/>                    
+                    <Row>
                     {topicsMsg}
+                    </Row>
                 </div>
             );
         }
