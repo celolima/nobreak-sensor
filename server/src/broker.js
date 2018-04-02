@@ -4,7 +4,7 @@ let client = null;
 class Broker {
     constructor() {
         console.log('Criando conexão');
-        client = mqtt.connect('mqtt://test.mosquitto.org');
+        client = mqtt.connect('mqtt://iot.eclipse.org:1883');
         client.on('message', function (topic, message) {        
             console.log('Got %s - %s', topic, message.toString());
         });

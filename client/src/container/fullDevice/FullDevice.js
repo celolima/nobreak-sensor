@@ -20,16 +20,16 @@ class FullDevice extends Component {
     loadData () {
         if ( this.props.match.params.id ) {
             if ( !this.state.loadedDevice || (this.state.loadedDevice && this.state.loadedDevice.id !== this.props.match.params.id) ) {
-                clientApi.getDeviceId(this.props.match.params.id).then(data => {
-                    this.setState({loadedDevice: data});
-                    const topics = this.state.loadedDevice.topics;
+                clientApi.getDeviceId(this.props.match.params.id).then(data => {                    
+                    const topics = data.topics;
                     if(topics) {
                         let topicValObj = {};
                         topics.forEach((element) => {                           
-                            topicValObj[element.topic] = '';
+                            topicValObj[element.topic] = '---';
                             this.setState({topicValue: topicValObj});
                         });
                     }
+                    this.setState({loadedDevice: data},this.handleTopicSubscribe());
                 });
             }
         }
@@ -40,17 +40,15 @@ class FullDevice extends Component {
     };
 
     handleTopicSubscribe = () => {
-        const client = mqtt.connect('mqtt://test.mosquitto.org');
-        client.on('connect', function() {
+        const client  = mqtt.connect('ws://iot.eclipse.org:80/ws');
+        client.on('connect', () => {
             Object.entries(this.state.topicValue).forEach(([key, value]) => {
-                console.log(key);
                 client.subscribe(key);
             });
         }); 
-        client.on('message', function (topic, message) {
+        client.on('message', (topic, message) => {
             let topicValObj = {...this.state.topicValue};
-            console.log('Got %s - %s', topic, message.toString());
-            topicValObj[topic] = message;
+            topicValObj[topic] = message.toString();
             this.setState({topicValue: topicValObj});
         });
     }
@@ -76,8 +74,7 @@ class FullDevice extends Component {
             deviceMsg =  <Alert className='center' color="warning">Loading...!</Alert>;
         }
 
-        if ( this.state.loadedDevice ) {
-            this.handleTopicSubscribe();
+        if ( this.state.loadedDevice ) {            
             if(this.state.loadedDevice.topics) {
                 topicsMsg = this.state.loadedDevice.topics.map((t, index) => {
                     return (
