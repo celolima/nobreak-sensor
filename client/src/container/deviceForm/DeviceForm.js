@@ -24,7 +24,7 @@ class DeviceForm extends Component {
 
   handleAddTopic = () => {
     const nr = arrayTopics.length + 1;
-    arrayTopics.push({id: nr, param: '', topic: ''});
+    arrayTopics.push({id: nr, param: '', unMed: '', topic: ''});
     this.setState({topicChanged: true});
   };
 

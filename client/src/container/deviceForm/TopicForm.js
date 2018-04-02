@@ -10,8 +10,12 @@ class TopicForm extends Component {
 
   onInputChange = ({ name, value, error }) => {
     const field = name.split('_');
+    if (field[1] === 'param') {
+      this.props.array[field[0]]['topic'] = value ? '/'.concat(this.props.dev.toLowerCase(),'/',value.toLowerCase() + '/') : '';
+    }
+    
     this.props.array[field[0]][field[1]] = value;
-    this.props.array[field[0]]['topic'] = value ? '/'.concat(this.props.dev.toLowerCase(),'/',value.toLowerCase() + '/') : '';
+    
     if(error) {
       this.props.onError(name);
     }
@@ -30,10 +34,17 @@ class TopicForm extends Component {
                 name={index+'_param'}
                 value={this.props.array[index].param}
                 onChange={this.onInputChange}
-                validate={(val) => (val ? false : '*')}
-              />
+                validate={(val) => (val ? false : '*')}/>
               </div>
-              <div className='col-6'>
+              <div className='col-2'>
+                <Field
+                title='un. medida'
+                name={index+'_unMed'}
+                value={this.props.array[index].unMed}
+                onChange={this.onInputChange}
+                validate={(val) => (val ? false : '*')}/>
+              </div>
+              <div className='col-4'>
                 <Label for={index+'_topic'} className="mr-sm-2">Tópico</Label>
                 <Input className="form-control-sm" readOnly type='text' value={this.props.array[index].topic} id={index+'_topic'}/>
               </div>

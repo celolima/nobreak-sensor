@@ -6,6 +6,7 @@
             {
                 "id": 1,
                 "param": "Temperatura",
+                "unMed": "°C",
                 "topic": "/dev-15/temperatura/",
                 "reacts": [
                     {
@@ -23,7 +24,7 @@
                     {
                         "type": "Inteiro",
                         "condition": "maior que",
-                        "value": "45",
+                        "value": "26",
                         "action": {
                             "actionType": "e-mail",
                             "email": "celorsl@yahoo.com.br",
@@ -37,11 +38,13 @@
             {
                 "id": 2,
                 "param": "Corrente",
+                "unMed": "mA",
                 "topic": "/dev-15/corrente/"
             },
             {
                 "id": 3,
                 "param": "Tensão",
+                "unMed": "mV",
                 "topic": "/dev-15/tensão/"
             }
         ]
@@ -53,11 +56,13 @@
             {
                 "id": 1,
                 "param": "Temp",
+                "unMed": "°C",
                 "topic": "/dev-06/temp/"
             },
             {
                 "id": 2,
                 "param": "Current",
+                "unMed": "mA",
                 "topic": "/dev-06/current/"
             }
         ]
@@ -69,7 +74,20 @@
             {
                 "id": 1,
                 "param": "Corrente",
+                "unMed": "mA",
                 "topic": "/dev-08/corrente/"
+            }
+        ]
+    },
+    {
+        "id": "be556980-e2c6-4f99-807c-0511a043ad74",
+        "desc": "Dev-05",
+        "topics": [
+            {
+                "id": 1,
+                "param": "Corrente",
+                "unMed": "mA",
+                "topic": "/dev-05/corrente/"
             }
         ]
     }
