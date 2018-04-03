@@ -2,15 +2,17 @@ import React, { Component } from 'react';
 import DeviceTopicInfo from './DeviceTopicInfo';
 import * as clientApi from '../../api/clientApi';
 //import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { Alert, Row } from 'reactstrap';
+import { Row } from 'reactstrap';
 import './FullDevice.css';
 import mqtt from 'mqtt';
+import Alert from '../ui/AlertLoadingDanger';
 
 
 class FullDevice extends Component {
     state = {
         loadedDevice: null,
-        topicValue: {}
+        topicValue: {},
+        serverError: false
     }
 
     componentDidMount () {
@@ -20,17 +22,19 @@ class FullDevice extends Component {
     loadData () {
         if ( this.props.match.params.id ) {
             if ( !this.state.loadedDevice || (this.state.loadedDevice && this.state.loadedDevice.id !== this.props.match.params.id) ) {
-                clientApi.getDeviceId(this.props.match.params.id).then(data => {                    
-                    const topics = data.topics;
-                    if(topics) {
-                        let topicValObj = {};
-                        topics.forEach((element) => {                           
-                            topicValObj[element.topic] = '---';
-                            this.setState({topicValue: topicValObj});
-                        });
-                    }
-                    this.setState({loadedDevice: data},this.handleTopicSubscribe());
-                });
+                clientApi.getDeviceId(this.props.match.params.id)
+                    .then(data => {                    
+                        const topics = data.topics;
+                        if(topics) {
+                            let topicValObj = {};
+                            topics.forEach((element) => {                           
+                                topicValObj[element.topic] = '---';
+                                this.setState({topicValue: topicValObj});
+                            });
+                        }
+                        this.setState({loadedDevice: data},this.handleTopicSubscribe());
+                    })
+                    .catch(()=>{this.setState({serverError: true})});
             }
         }
     }
@@ -67,13 +71,18 @@ class FullDevice extends Component {
     }
 
     render() {
-        let deviceMsg = <Alert className='center' color='danger'>Favor selecionar um dispositivo!</Alert>;
+        let deviceMsg = (
+            <div>
+                <h3>Dispositivo - {this.props.match.params.id}</h3>
+                <hr/>
+                <Row>
+                    <Alert serverError={this.state.serverError}/>
+                </Row>
+            </div>
+            
+        );
         let topicsMsg = '';
         
-        if ( this.props.match.params.id ) {
-            deviceMsg =  <Alert className='center' color="warning">Loading...!</Alert>;
-        }
-
         if ( this.state.loadedDevice ) {            
             if(this.state.loadedDevice.topics) {
                 topicsMsg = this.state.loadedDevice.topics.map((t, index) => {
@@ -87,14 +96,14 @@ class FullDevice extends Component {
                 <div>
                     <h3>{this.state.loadedDevice.desc}</h3>
                     <span className='reacts'>{this.state.loadedDevice.id}</span>
-                    <hr/>                    
+                    <hr/>
                     <Row>
                     {topicsMsg}
                     </Row>
                 </div>
             );
         }
-        return deviceMsg;        
+        return deviceMsg;
     }
 }
 

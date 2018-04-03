@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import Device from './Device'
+import Device from './Device';
+import Alert from '../ui/AlertLoadingDanger';
 import * as clientApi from '../../api/clientApi';
-import { Alert, Row } from 'reactstrap';
+import { Row } from 'reactstrap';
 
 class Devices extends Component {
     state = {
-        devices: []
+        devices: [],
+        serverError: false
     };
 
     componentDidMount() {
@@ -14,7 +16,9 @@ class Devices extends Component {
     }
 
     loadDevicesFromServer = () => {
-        clientApi.getDevices().then(data => {this.setState({devices : data})});
+        clientApi.getDevices()
+            .then(data => {this.setState({devices : data})})
+            .catch(()=>{this.setState({serverError: true})});
     };
 
     postSelectedHandler = ( id ) => {
@@ -23,7 +27,7 @@ class Devices extends Component {
 
 
     render() {
-        let devices = <Alert className='center' color='danger'>Não foi possível obter os dispositivos com o servidor!</Alert>;
+        let devices = <Alert serverError={this.state.serverError}/>;
         if(this.state.devices && this.state.devices.length !== 0) {
             devices = this.state.devices.map((device) => (
                 <Device 
