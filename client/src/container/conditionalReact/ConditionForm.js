@@ -3,8 +3,9 @@ import * as clientApi from '../../api/clientApi';
 import validator from 'validator';
 import ConditionDropdown from './ConditionDropdown'
 import ReactForm from './ReactForm'
-import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Button, Row } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
+import AlertLoadingDanger from '../ui/AlertLoadingDanger';
 
 let devicesServer = [];
 let topics = [];
@@ -21,11 +22,14 @@ class ConditionForm extends Component {
                 'cel': '',
                 'message': ''},
         fieldErrors: {},
+        serverError: false,
         submitted: false
     };
 
     componentDidMount() {
-        clientApi.getDevices().then(data => {devicesServer = data; this.setState({submitted:false})});
+        clientApi.getDevices()
+            .then(data => {devicesServer = data; this.setState({submitted:false})})
+            .catch(()=>{this.setState({serverError: true})});
     };
    
     handleDeviceChange = (event) => {
@@ -135,13 +139,24 @@ class ConditionForm extends Component {
             redirect = <Redirect to="/devices" />;
         }
 
-        return (                
+        let reacts = (
             <div>
+                <h3>Reacts</h3>
+                <hr/>
+                <Row>
+                <AlertLoadingDanger serverError={this.state.serverError}/>
+                </Row>
+            </div>
+        );
+
+        if(!this.state.serverError) {
+            reacts = (
+                <div>
                 {redirect}
-                <h3>if</h3>
+                <h3>Condition</h3>
                 <hr/>
                 <Form>
-                    <ConditionDropdown 
+                    <ConditionDropdown
                         devicesServer={devicesServer}
                         topics={topics}
                         handleDeviceChange={this.handleDeviceChange} 
@@ -156,14 +171,16 @@ class ConditionForm extends Component {
                         <Label>Valor <span className='fieldError'>* { this.state.fieldErrors['value'] }</span></Label>
                         <Input type="input" name="inputValue" bsSize="sm" value={this.state.value} onChange={this.handleBasicChange}/>
                     </FormGroup>
-                    <h3>then</h3>
+                    <h3>Action</h3>
                     <hr/>
                     <ReactForm handleBasicChange={this.handleBasicChange} actionObj={this.state.action} fieldErrors={this.state.fieldErrors}/>
                     <Button onClick={this.handleCreateFormSubmit} className="mr-sm-2" color='primary' size='sm' disabled={!this.isValid()}>Save</Button>{' '}
                     <Button className="mr-sm-2" size='sm' onClick={this.handleCancelClick}>Cancel</Button>
                 </Form>
             </div>
-        );
+            )
+        }
+        return reacts;
     };
 }
 

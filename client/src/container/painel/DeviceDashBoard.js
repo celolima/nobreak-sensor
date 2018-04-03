@@ -17,7 +17,7 @@ class DevicesDashboard extends Component {
             <Nav tabs>
               <NavLink href="/devices/">Painel</NavLink>
               <NavLink href='/new-device'>Dispositivo</NavLink>
-              <NavLink href='/new-react'>React</NavLink>
+              <NavLink href='/new-react'>Reacts</NavLink>
             </Nav>
           </header>
             <Row>
