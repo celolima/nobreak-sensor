@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import TopicForm from './TopicForm';
 import Field from './Field'
 import * as clientApi from '../../api/clientApi';
-import { Form, FormGroup, Button } from 'reactstrap';
+import { Row, Form, FormGroup, Button } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
+import AlertLoadingDanger from '../ui/AlertLoadingDanger';
 
 const uuidv4 = require('uuid/v4');
 let arrayTopics = [];
@@ -12,8 +13,9 @@ class DeviceForm extends Component {
   state = {
     id: '',
     desc: '',
-    fieldErrors: {},
-    submitted: false
+    fieldErrors: {},    
+    submitted: false,
+    serverError: false
   };
 
   onInputChange = ({ name, value, error }) => {
@@ -30,13 +32,23 @@ class DeviceForm extends Component {
 
   handleCreateFormSubmit = () => {
     if (!this.isValid()) return;
+    /*
+    let isOk = true;
+    isOk = arrayTopics.forEach((element) => {
+      console.log(element.param);
+      if(element.param === '' || element.unMed === '' || element.topic === '') return false;
+    });
+    if(!isOk) {console.log('Favor preencher os campos obrigatórios!'); return;};
+    */
 
     const device = {
       id: uuidv4(),
       desc: this.state.desc,
       topics: arrayTopics
     };
-    clientApi.createDevice(device).then(() => {this.setState({submitted: true})});
+    clientApi.createDevice(device)
+      .then(() => {this.setState({submitted: true})})
+      .catch(()=>{this.setState({serverError: true, submitted: false})});
   };
 
   handleCancelClick = () => {
@@ -47,7 +59,7 @@ class DeviceForm extends Component {
     const fieldErrors = this.state.fieldErrors;
     const errMessages = Object.keys(fieldErrors).filter((k) => fieldErrors[k]);
 
-    if (!this.state.desc) return false;
+    if (!this.state.desc) return false;    
     if (arrayTopics.length === 0) return false;
     if (errMessages.length) return false;
 
@@ -72,6 +84,7 @@ class DeviceForm extends Component {
         {redirect}
         <h3>Novo Dispositivo</h3>
         <hr/>
+        {this.state.serverError ? <Row> <AlertLoadingDanger serverError={this.state.serverError}/> </Row> : ''}
         <Form>
           <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
             <Field

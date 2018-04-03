@@ -34,7 +34,7 @@ class TopicForm extends Component {
                 name={index+'_param'}
                 value={this.props.array[index].param}
                 onChange={this.onInputChange}
-                validate={(val) => (val ? false : '*')}/>
+                validate={(val) => (val ? false : 'campo obrigatório')}/>
               </div>
               <div className='col-2'>
                 <Field
@@ -42,7 +42,7 @@ class TopicForm extends Component {
                 name={index+'_unMed'}
                 value={this.props.array[index].unMed}
                 onChange={this.onInputChange}
-                validate={(val) => (val ? false : '*')}/>
+                validate={(val) => (val ? false : '')}/>
               </div>
               <div className='col-4'>
                 <Label for={index+'_topic'} className="mr-sm-2">Tópico</Label>

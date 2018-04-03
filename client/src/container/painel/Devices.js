@@ -25,7 +25,6 @@ class Devices extends Component {
         this.props.history.push( '/devices/' + id );
     }
 
-
     render() {
         let devices = <Alert serverError={this.state.serverError}/>;
         if(this.state.devices && this.state.devices.length !== 0) {

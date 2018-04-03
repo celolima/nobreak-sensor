@@ -29,11 +29,11 @@ class Field extends React.Component {
 
     this.props.onChange({ name, value, error });
   };
-
+  
   render() {
     return (
       <div>
-        <Label for={this.props.name} className="mr-sm-2">{this.props.title} <span className='fieldError'>{ this.state.error }</span></Label>
+        <Label for={this.props.name} className="mr-sm-2">{this.props.title} <span className='fieldError'>* { this.state.error }</span></Label>
         <Input className="form-control-sm" type="text" value={this.state.value} onChange={this.onChange} id={this.props.name}/>        
       </div>
     );
