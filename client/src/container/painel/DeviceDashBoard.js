@@ -5,20 +5,22 @@ import FullDevice from '../fullDevice/FullDevice'
 import ConditionForm from '../conditionalReact/ConditionForm';
 import { Route, Switch } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
-import { Nav, NavLink } from 'reactstrap';
+import { Navbar, Nav, NavLink } from 'reactstrap';
 import '../App.css';
 
 class DevicesDashboard extends Component {
   render() {
     return (
       <Container>
-        <div>
+        <div>        
           <header>
-            <Nav tabs>
-              <NavLink href="/devices/">Painel</NavLink>
-              <NavLink href='/new-device'>Dispositivo</NavLink>
-              <NavLink href='/new-react'>Reacts</NavLink>
-            </Nav>
+            <Navbar color="light" light expand="sm">
+              <Nav>
+                <NavLink href="/devices/">Painel</NavLink>
+                <NavLink href='/new-device'>Dispositivo</NavLink>
+                <NavLink href='/new-react'>Reacts</NavLink>
+              </Nav>
+            </Navbar>
           </header>
             <Row>
               <Col>
