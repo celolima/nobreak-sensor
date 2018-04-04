@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import Devices from './Devices'
 import DeviceForm from '../deviceForm/DeviceForm'
 import FullDevice from '../fullDevice/FullDevice'
+import Welcome from '../welcome/Welcome'
 import ConditionForm from '../conditionalReact/ConditionForm';
 import { Route, Switch } from 'react-router-dom';
-import { Container, Row, Col } from 'reactstrap';
-import { Navbar, Nav, NavLink } from 'reactstrap';
+import { Container, Row, Col, Jumbotron, Navbar, Nav, NavLink } from 'reactstrap';
 import '../App.css';
 
 class DevicesDashboard extends Component {
@@ -14,7 +14,7 @@ class DevicesDashboard extends Component {
       <Container>
         <div>        
           <header>
-            <Navbar color="light" light expand="sm">
+            <Navbar color="dark" light expand="sm">
               <Nav>
                 <NavLink href="/devices/">Painel</NavLink>
                 <NavLink href='/new-device'>Dispositivo</NavLink>
@@ -22,10 +22,11 @@ class DevicesDashboard extends Component {
               </Nav>
             </Navbar>
           </header>
+          <Jumbotron>
             <Row>
               <Col>
               <Switch>
-                <Route path="/" exact render={() => <h1>Welcome</h1>} />
+                <Route path="/" exact render={() => <Welcome/>} />
                 <Route path="/devices" exact component={Devices} />
                 <Route path="/new-react" exact component={ConditionForm} />                
                 <Route path="/devices/:id" exact component={FullDevice} />
@@ -34,6 +35,7 @@ class DevicesDashboard extends Component {
               </Switch>
               </Col>
             </Row>
+            </Jumbotron>
         </div>
       </Container>
     );
