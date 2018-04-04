@@ -45,11 +45,19 @@ class FullDevice extends Component {
 
     handleTopicSubscribe = () => {
         const client  = mqtt.connect('ws://iot.eclipse.org:80/ws');
+        client.on('error', (error) => {
+            console.log('Error!');
+        });
+        client.on('offline', () => {
+            console.log('Offline');
+        });
         client.on('connect', () => {
+            console.log('Conectado');
             Object.entries(this.state.topicValue).forEach(([key, value]) => {
                 client.subscribe(key);
+                console.log(key);
             });
-        }); 
+        });
         client.on('message', (topic, message) => {
             let topicValObj = {...this.state.topicValue};
             topicValObj[topic] = message.toString();
