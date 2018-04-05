@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardBody, CardTitle, CardSubtitle, Col, Badge } from 'reactstrap';
+import { Card, CardBody, CardTitle, Col, Badge } from 'reactstrap';
 
 const deviceTopicInfo = (props)  => {
   let reactsCard = <span className='reacts'>no reacts</span>;
@@ -20,7 +20,7 @@ const deviceTopicInfo = (props)  => {
         <Card>
           <CardBody>
             <CardTitle className='d-inline-flex'>{props.topic.param}</CardTitle> <Badge className='float-right' color={props.topicValue[props.topic.topic] === '---' ? 'warning' : 'info'}>{props.topicValue[props.topic.topic]}{' '}{props.topic.unMed}</Badge>
-            <CardSubtitle>{props.topic.topic}</CardSubtitle>
+            <p className='reacts'>{props.topic.topic}</p>
         </CardBody>
         <CardBody>
             {reactsCard}

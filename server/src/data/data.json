@@ -7,7 +7,7 @@
                 "id": 1,
                 "param": "Temperatura",
                 "unMed": "°C",
-                "topic": "/dev-15/temperatura/",
+                "topic": "/dev-15/temperatura/0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
                 "reacts": [
                     {
                         "id": 1,
@@ -39,13 +39,13 @@
                 "id": 2,
                 "param": "Corrente",
                 "unMed": "mA",
-                "topic": "/dev-15/corrente/"
+                "topic": "/dev-15/corrente/0c27556f-a1b0-4d54-bcc2-255dc8f1b185"
             },
             {
                 "id": 3,
                 "param": "Tensão",
                 "unMed": "mV",
-                "topic": "/dev-15/tensão/"
+                "topic": "/dev-15/tensão/0c27556f-a1b0-4d54-bcc2-255dc8f1b185"
             }
         ]
     },
@@ -57,13 +57,13 @@
                 "id": 1,
                 "param": "Temp",
                 "unMed": "°C",
-                "topic": "/dev-06/temp/"
+                "topic": "/dev-06/temp/44102e6c-b111-4ca6-82a1-dd2890478505"
             },
             {
                 "id": 2,
                 "param": "Current",
                 "unMed": "mA",
-                "topic": "/dev-06/current/"
+                "topic": "/dev-06/current/44102e6c-b111-4ca6-82a1-dd2890478505"
             }
         ]
     },
@@ -75,7 +75,7 @@
                 "id": 1,
                 "param": "Corrente",
                 "unMed": "mA",
-                "topic": "/dev-08/corrente/"
+                "topic": "/dev-08/corrente/cc4251bb-9c59-4e42-bccc-5602b0f19f59"
             }
         ]
     },
@@ -87,7 +87,19 @@
                 "id": 1,
                 "param": "Corrente",
                 "unMed": "mA",
-                "topic": "/dev-05/corrente/"
+                "topic": "/dev-05/corrente/be556980-e2c6-4f99-807c-0511a043ad74"
+            }
+        ]
+    },
+    {
+        "id": "0c27556f-a1b0-4d54-bcc2-255dc8f1b188",
+        "desc": "Dev-07",
+        "topics": [
+            {
+                "id": 1,
+                "param": "Corrente saida",
+                "unMed": "mA",
+                "topic": "/dev-07/corrente saida/0c27556f-a1b0-4d54-bcc2-255dc8f1b188"
             }
         ]
     }

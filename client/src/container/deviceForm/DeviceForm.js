@@ -11,7 +11,7 @@ let arrayTopics = [];
 
 class DeviceForm extends Component {
   state = {
-    id: '',
+    id: uuidv4(),
     desc: '',
     fieldErrors: {},    
     submitted: false,
@@ -42,7 +42,7 @@ class DeviceForm extends Component {
     */
 
     const device = {
-      id: uuidv4(),
+      id: this.state.id,
       desc: this.state.desc,
       topics: arrayTopics
     };
@@ -96,7 +96,7 @@ class DeviceForm extends Component {
             />
             <h4>Parâmetros <Button onClick={this.handleAddTopic} className="mr-sm-2" color='primary' size='sm' disabled={this.state.desc === ''}>Add</Button>{' '}</h4>
             <hr/>
-            <TopicForm array={arrayTopics} dev={this.state.desc} onError={this.handleError}/>
+            <TopicForm array={arrayTopics} dev={this.state.desc} devID={this.state.id} onError={this.handleError}/>
           </FormGroup>
           <Button onClick={this.handleCreateFormSubmit} className="mr-sm-2" color='primary' size='sm' disabled={!this.isValid()}>Save</Button>{' '}
           <Button className="mr-sm-2" size='sm' onClick={this.handleCancelClick}>Cancel</Button>

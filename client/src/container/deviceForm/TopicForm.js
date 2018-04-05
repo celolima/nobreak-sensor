@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Label, Input} from 'reactstrap';
+import { Alert, Label, Input, Row } from 'reactstrap';
 import Field from './Field'
 
 class TopicForm extends Component {
@@ -11,7 +11,8 @@ class TopicForm extends Component {
   onInputChange = ({ name, value, error }) => {
     const field = name.split('_');
     if (field[1] === 'param') {
-      this.props.array[field[0]]['topic'] = value ? '/'.concat(this.props.dev.toLowerCase(),'/',value.toLowerCase() + '/') : '';
+      let topic = value ? '/'.concat(this.props.dev.toLowerCase(),'/',value.toLowerCase(), '/', this.props.devID) : '';
+      this.props.array[field[0]]['topic'] = topic;
     }
     
     this.props.array[field[0]][field[1]] = value;
@@ -27,7 +28,8 @@ class TopicForm extends Component {
       if(this.props.array.length !== 0) {    
           topics = this.props.array.map((t, index) => (
     
-            <div key={index} className='form-group row'>
+            <div key={index} className='form-group'>
+              <Row>
               <div className='col-6'>
                 <Field
                 title='Parâmetro'
@@ -44,10 +46,13 @@ class TopicForm extends Component {
                 onChange={this.onInputChange}
                 validate={(val) => (val ? false : '')}/>
               </div>
-              <div className='col-4'>
+              </Row>
+              <Row>
+              <div className='col-12'>
                 <Label for={index+'_topic'} className="mr-sm-2">Tópico</Label>
                 <Input className="form-control-sm" readOnly type='text' value={this.props.array[index].topic} id={index+'_topic'}/>
               </div>
+              </Row>
             </div>
           ));
       }
