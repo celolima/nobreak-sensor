@@ -1,20 +1,38 @@
-/* eslint-disable no-console */
-const express = require('express');
-//const favicon = require('serve-favicon');
-//const path = require("path");
+import mosca, { Server } from 'mosca';
+import Client from './mqtt/client';
 
+const useLocalBroker = false;
+const express = require('express');
 const app = express();
-//const path_client = "../../client/public";
 const apiObject = require("./serverApi");
 const apiInstance = new apiObject(app);
 
 app.set('port', (process.env.API_PORT || 3001));
 
-//FAVICON
-//app.use(favicon(path.join(__dirname, path_client, 'favicon.ico')));
+if(useLocalBroker) {
+    /*  Configuração do Broker Server   */
+    const broker = new Server({port:1883});
+  
+    broker.on('clientConnected', function(client) {
+      console.log('client connected', client.id);		
+    });
+  
+    broker.on('ready', function(){
+        console.log("Mqtt broker is ON!");
+    });
+}
+  
+var p = new Promise((resolve, reject) => resolve(new Client(useLocalBroker)));
+p.then((mqtt) => {
+    /*  Subscribe   */
+    //mqtt.subscribe('/dev-15/temperatura/');
 
-//DIRETORIO ESTATICO
-//app.use('/static',express.static(path.join(__dirname, path_client)));
+    /*  Publisher   */
+    let temperatura = 0;
+    setInterval(() => { 
+    mqtt.publish('/dev-15/temperatura/',(temperatura++).toString(), {}, (err) => {console.log('error')});
+    }, 3000);
+    }, (err) => console.log('rejected: ', err));
 
 /* 
 dao.connect();
