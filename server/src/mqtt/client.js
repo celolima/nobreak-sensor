@@ -1,24 +1,28 @@
 const mqtt = require('mqtt');
-const connection = 'mqtt://10.3.144.44';
+let address = 'mqtt://localhost:1883';
 let mqttClient = null;
 
 class Client {
     
-    constructor(publish) {
-        mqttClient = mqtt.connect(connection, {rejectUnauthorized: false});
+    constructor(useLocalBroker) {
+        address = useLocalBroker ? address : 'mqtt://iot.eclipse.org:1883';
+        this.initializeMqttClient();
+    }
+
+    initializeMqttClient = () => {
+        mqttClient = mqtt.connect(address, {rejectUnauthorized: false});
 
         mqttClient.on('connect', function () {
-            console.log('Connected on %s', connection);
-            publish;
+            console.log('Connected on %s', address);
         });
-
+        
         mqttClient.on('error', function(err) {
             console.log('Ocorreu um erro na conexão');
             console.log(err);
         });
         
         mqttClient.on('message', function (topic, message) {        
-            console.log('GOT: %s -- FROM: %s', topic, message.toString());
+            console.log('GOT: %s -- FROM: %s', message.toString(), topic);
         });
 
         mqttClient.stream.on('error', (e) => {            
@@ -26,7 +30,7 @@ class Client {
             console.log(e);
             mqttClient.end();
         });
-    }
+    };
      
     subscribe(topic) {
         mqttClient.subscribe(topic);

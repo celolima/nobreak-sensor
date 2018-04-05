@@ -2,9 +2,10 @@ const path = require("path");
 const bodyParser = require('body-parser');
 const fs = require('fs');
 
-const DATA_FILE = path.join(__dirname, 'data.json');
+const DATA_FILE = path.join(__dirname + '/data/', 'data.json');
 
 function api(app) {
+    console.log('Creating server API');
     loadAPI(app);
 }
 
