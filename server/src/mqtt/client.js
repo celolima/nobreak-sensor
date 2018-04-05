@@ -22,7 +22,7 @@ class Client {
         });
         
         mqttClient.on('message', function (topic, message) {        
-            console.log('GOT: %s -- FROM: %s', message.toString(), topic);
+            //console.log('GOT: %s -- FROM: %s', message.toString(), topic);
         });
 
         mqttClient.stream.on('error', (e) => {            
@@ -39,7 +39,7 @@ class Client {
      
     publish(topic, message) {
         mqttClient.publish(topic,message);
-        console.log('Publishes on %s: %s', topic, message);
+        //console.log('Publishes on %s: %s', topic, message);
     }
 }
 

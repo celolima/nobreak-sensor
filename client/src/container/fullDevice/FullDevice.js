@@ -66,6 +66,7 @@ class FullDevice extends Component {
             });
         });
         client.on('message', (topic, message) => {
+            console.log(topic);
             let topicValObj = {...this.state.topicValue};
             topicValObj[topic] = message.toString();
             this.setState({topicValue: topicValObj});
