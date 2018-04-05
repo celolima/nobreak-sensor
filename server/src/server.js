@@ -1,7 +1,11 @@
 import mosca, { Server } from 'mosca';
-import Client from './mqtt/client';
+import * as pub from './mqtt/publisher';
+import * as sub from './mqtt/subscriber';
 
 const useLocalBroker = false;
+const useFakePublisher = true;
+const subscribeAllDevs = true;
+
 const express = require('express');
 const app = express();
 const apiObject = require("./serverApi");
@@ -21,18 +25,14 @@ if(useLocalBroker) {
         console.log("Mqtt broker is ON!");
     });
 }
-  
-var p = new Promise((resolve, reject) => resolve(new Client(useLocalBroker)));
-p.then((mqtt) => {
-    /*  Subscribe   */
-    //mqtt.subscribe('/dev-15/temperatura/');
 
-    /*  Publisher   */
-    let temperatura = 0;
-    setInterval(() => { 
-    mqtt.publish('/dev-15/temperatura/',(temperatura++).toString(), {}, (err) => {console.log('error')});
-    }, 3000);
-    }, (err) => console.log('rejected: ', err));
+if(useFakePublisher) {
+    pub.publishDevices(useLocalBroker);
+}
+
+if(subscribeAllDevs) {
+    sub.subscribeDevices(useLocalBroker);
+}
 
 /* 
 dao.connect();
