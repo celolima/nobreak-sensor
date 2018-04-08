@@ -1,4 +1,4 @@
-import mosca, { Server } from 'mosca';
+//import mosca, { Server } from 'mosca';
 import * as pub from './mqtt/publisher';
 import * as sub from './mqtt/subscriber';
 
@@ -15,6 +15,8 @@ app.set('port', (process.env.API_PORT || 3001));
 
 if(useLocalBroker) {
     /*  Configuração do Broker Server   */
+
+    /*
     const broker = new Server({port:1883});
   
     broker.on('clientConnected', function(client) {
@@ -24,6 +26,7 @@ if(useLocalBroker) {
     broker.on('ready', function(){
         console.log("Mqtt broker is ON!");
     });
+    */
 }
 
 if(useFakePublisher) {
