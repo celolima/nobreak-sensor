@@ -13,7 +13,7 @@
                         "id": 1,
                         "type": "Inteiro",
                         "condition": "maior que",
-                        "value": "45",
+                        "value": "99",
                         "action": {
                             "actionType": "e-mail",
                             "email": "celorsl@yahoo.com.br",
@@ -24,7 +24,7 @@
                     {
                         "type": "Inteiro",
                         "condition": "maior que",
-                        "value": "26",
+                        "value": "99",
                         "action": {
                             "actionType": "e-mail",
                             "email": "celorsl@yahoo.com.br",

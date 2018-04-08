@@ -1,5 +1,3 @@
-
-
 // data['param'] = incomeObj.param;
 // data['currVal'] = incomeObj.value;
 // data['condition'] = react.condition;
