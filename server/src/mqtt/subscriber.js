@@ -1,6 +1,7 @@
 import Client from './client';
 import * as file from '../data/deviceFileAccess';
 import events from 'events';
+import * as action from '../action/actionAnalyser';
 
 const subscribeDevices = (useLocalBroker) => {    
     const p = new Promise((resolve, reject) => resolve(new Client(useLocalBroker)));
@@ -17,10 +18,14 @@ const subscribeDevices = (useLocalBroker) => {
 };
 
 const checkValuesOnTopicMessage = (incomeObj) => {  
-  console.log('Emitted ', incomeObj.name, incomeObj.param);
   const reacts = file.getReactsFromTopic(incomeObj.id, incomeObj.param);  
-  reacts.forEach(react => {
-    console.log(incomeObj.param.concat(' = ', incomeObj.value, ' is ', react.condition, ' ', react.value, ' ?'));
+  reacts.forEach(react => {    
+    let data = {};
+    data['param'] = incomeObj.param;
+    data['currVal'] = incomeObj.value;
+    data['condition'] = react.condition;
+    data['conditionVal'] = react.value;    
+    action.checkAndAct(data);
   })
 };
 
