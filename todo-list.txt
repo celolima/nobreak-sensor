@@ -1,0 +1,5 @@
+
+* No cadastro do dispositivo não pode colocar '/' no nome do parametro. Se tiver o caractere '/' não é possível obter o id
+device via tópico!
+
+* Só é permitido inserir um parametro distinto no device!

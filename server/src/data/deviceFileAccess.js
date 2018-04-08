@@ -24,4 +24,29 @@ const getTopics = () => {
     return topics;
 };
 
-export { getJsonDevs, getTopics }
+const getDeviceTopic = (deviceId, param) => {
+    const devices = getJsonDevs();
+    let obj = {};
+    if(devices) {
+        const device = devices.find((dev) => {            
+            return dev.id === deviceId
+        });
+        if(device.topics) {
+            obj = device.topics.find((top) => {
+                return top.param.toLowerCase() === param; 
+            });
+        }
+    }
+    return obj;
+};
+
+const getReactsFromTopic = (deviceId, param) => {
+    let reacts = [];
+    const topic = getDeviceTopic(deviceId, param);
+    if(topic && topic.reacts) {
+        reacts = topic.reacts;
+    }
+    return reacts;
+}
+
+export { getJsonDevs, getTopics, getDeviceTopic, getReactsFromTopic }

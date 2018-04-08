@@ -52,10 +52,7 @@ function loadAPI(app) {
             sendEmail: req.body.sendEmail
           };
           devices.push(newDevice);
-          fs.writeFile(DATA_FILE, JSON.stringify(devices, null, 4), () => {
-            res.setHeader('Cache-Control', 'no-cache');
-            res.json(devices);
-          });
+          fs.writeFile(DATA_FILE, JSON.stringify(devices, null, 4));
         });
     });
 

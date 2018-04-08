@@ -21,16 +21,12 @@ class Client {
             console.log(err);
         });
         
-        mqttClient.on('message', function (topic, message) {        
-            //console.log('GOT: %s -- FROM: %s', message.toString(), topic);
-        });
-
         mqttClient.stream.on('error', (e) => {            
             console.log('Não foi possível conectar!');
             console.log(e);
             mqttClient.end();
         });
-    };
+    };  
      
     subscribe(topic) {
         mqttClient.subscribe(topic);
@@ -41,6 +37,19 @@ class Client {
         mqttClient.publish(topic,message);
         //console.log('Publishes on %s: %s', topic, message);
     }
+
+    onMessage(eventEmitter) {        
+        mqttClient.on('message', function (topic, message) {        
+            //console.log('GOT: %s -- FROM: %s', message.toString(), topic);
+            let incomeObj = {};
+            const arr = topic.split('/');                    
+            incomeObj['name'] = arr[1];
+            incomeObj['param'] = arr[2];
+            incomeObj['id'] = arr[3];
+            incomeObj['value'] = message.toString();
+            eventEmitter.emit('messageIn',incomeObj);
+        });     
+    }  
 }
 
 module.exports = Client;

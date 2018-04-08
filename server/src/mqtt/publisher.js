@@ -10,7 +10,7 @@ const publishDevices = (useLocalBroker) => {
       topics.forEach((topic) => {
         mqtt.publish(topic,(getRandomInt(0,100)).toString(), {}, (err) => {console.log('Error to publish on ', topic)});
       });
-    }, 3000);
+    }, 6000);
     }, (err) => console.log('rejected: ', err));
 };
 

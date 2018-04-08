@@ -18,7 +18,7 @@ if(useLocalBroker) {
     const broker = new Server({port:1883});
   
     broker.on('clientConnected', function(client) {
-      console.log('client connected', client.id);		
+      console.log('client connected', client.id);
     });
   
     broker.on('ready', function(){
@@ -38,8 +38,6 @@ if(subscribeAllDevs) {
 dao.connect();
 dao.getDevices();
 dao.disconnect();
-broker.subscribe('/device01/sensor04');
-broker.publish('/device01/sensor04','50');
 */
 
 export default app;
