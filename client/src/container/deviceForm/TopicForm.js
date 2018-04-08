@@ -10,17 +10,19 @@ class TopicForm extends Component {
 
   onInputChange = ({ name, value, error }) => {
     const field = name.split('_');
-    if (field[1] === 'param') {
-      let topic = value ? '/'.concat(this.props.dev.toLowerCase(),'/',value.toLowerCase(), '/', this.props.devID) : '';
-      this.props.array[field[0]]['topic'] = topic;
+    if(value !== '/' && value !== '\/') {
+      if (field[1] === 'param') {
+        let topic = value ? '/'.concat(this.props.dev.toLowerCase(),'/',value.toLowerCase(), '/', this.props.devID) : '';
+        this.props.array[field[0]]['topic'] = topic;
+      }
+      
+      this.props.array[field[0]][field[1]] = value;
+      
+      if(error) {
+        this.props.onError(name);
+      }
+      this.setState({topicChanged: true});
     }
-    
-    this.props.array[field[0]][field[1]] = value;
-    
-    if(error) {
-      this.props.onError(name);
-    }
-    this.setState({topicChanged: true});
   };
 
   render() {

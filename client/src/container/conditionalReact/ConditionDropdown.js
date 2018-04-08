@@ -42,7 +42,7 @@ const conditionDropdown = (props) => {
     const typesInput = (
         <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
         <Label>Tipo</Label>
-        <Input type="select" name="selectType" id="tipos" bsSize="sm" value={props.type} onChange={props.handleBasicChange}>
+        <Input type="select" readOnly name="selectType" id="tipos" bsSize="sm" value={props.type} onChange={props.handleBasicChange}>
             {
                 types.map((t,index) =>
                     <option key={index} value={t}>{t}</option>
