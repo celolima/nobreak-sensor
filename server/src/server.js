@@ -2,7 +2,7 @@
 import * as pub from './mqtt/publisher';
 import * as sub from './mqtt/subscriber';
 
-const useLocalBroker = false;
+const useLocalBroker = true;
 const useFakePublisher = true;
 const subscribeAllDevs = true;
 
