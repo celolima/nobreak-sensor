@@ -44,8 +44,22 @@
             {
                 "id": 3,
                 "param": "Tensão",
-                "unMed": "mV",
-                "topic": "/dev-15/tensão/0c27556f-a1b0-4d54-bcc2-255dc8f1b185"
+                "unMed": "V",
+                "topic": "/dev-15/tensão/0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
+                "reacts": [
+                    {
+                        "id": 1,
+                        "type": "Float",
+                        "condition": "maior que",
+                        "value": "4.7",
+                        "action": {
+                            "actionType": "e-mail",
+                            "email": "celorsl@yahoo.com.br",
+                            "cel": "",
+                            "message": "Teste"
+                        }
+                    }
+                ]
             }
         ]
     },

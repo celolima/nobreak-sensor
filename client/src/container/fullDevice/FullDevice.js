@@ -44,8 +44,8 @@ class FullDevice extends Component {
     };
 
     handleTopicSubscribe = () => {
-        //const client  = mqtt.connect('ws://iot.eclipse.org:80/ws');
-        const client  = mqtt.connect('ws://localhost:1884');
+        const client  = mqtt.connect('ws://iot.eclipse.org:80/ws');
+        //const client  = mqtt.connect('ws://localhost:1884');
 
         client.stream.on('error', (e) => {            
             console.log('Não foi possível conectar!');

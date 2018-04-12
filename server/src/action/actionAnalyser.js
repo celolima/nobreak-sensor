@@ -5,8 +5,8 @@
 // const conditions = ['maior que','maior ou igual que','menor que','menor ou igual que', 'igual a', 'diferente de'];
 
 const checkAndAct = (data) => {
-    const currVal = parseInt(data.currVal);
-    const conditionVal = parseInt(data.conditionVal);
+    const currVal = parseFloat(data.currVal);
+    const conditionVal = parseFloat(data.conditionVal);
     console.log(data.param.concat(' = ', data.currVal, ' is ', data.condition, ' ', data.conditionVal, ' ?'));
 
     switch(data.condition) {
