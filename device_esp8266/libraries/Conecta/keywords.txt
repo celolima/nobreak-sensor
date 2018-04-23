@@ -1,0 +1,4 @@
+Conecta KEYWORD1
+isConnected KEYWORD2
+getClient   KEYWORD2
+setupWifi   KEYWORD2
