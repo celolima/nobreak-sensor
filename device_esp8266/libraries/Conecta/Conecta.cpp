@@ -7,29 +7,32 @@
 #include "Arduino.h"
 #include "Conecta.h"
 
-Conecta::Conecta(const char* ssid, const char* passwd) {
+Conecta::Conecta() {
+}
+
+Conecta::Conecta(String ssid, String passwd) {
     _ssid = ssid;
     _passwd = passwd;
     setupWifi();
 }
 
 void Conecta::setupWifi() {
-  if(!isConnected()){
     // We start by connecting to a WiFi network  
     Serial.print("Connecting to: ");
     Serial.println(_ssid);
 
-    WiFi.begin(_ssid, _passwd);
+    WiFi.begin(_ssid.c_str(), _passwd.c_str());
 
     while (WiFi.status() != WL_CONNECTED) {
       delay(500);
       Serial.print(".");
     }
+    
     Serial.println("");
     Serial.print("WiFi connected -- ");
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
-  }
+
 }
 
 boolean Conecta::isConnected() {

@@ -39,8 +39,9 @@
 class MqttClientPublisher
 {
   public:
-    MqttClientPublisher(const char* server, const int port, WiFiClient espClient);
-    boolean publish(char* topic, int value);
+    MqttClientPublisher();
+    MqttClientPublisher(String server, int port, WiFiClient espClient);
+    boolean publish(String topic, int value);
     void connect();    
     boolean isConnected();
   private:    

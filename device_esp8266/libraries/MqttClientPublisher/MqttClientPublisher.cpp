@@ -8,9 +8,12 @@
 #include <PubSubClient.h>
 #include "MqttClientPublisher.h"
 
-MqttClientPublisher::MqttClientPublisher(const char* server, const int port, WiFiClient espClient) {
+MqttClientPublisher::MqttClientPublisher() {
+}
+
+MqttClientPublisher::MqttClientPublisher(String server, int port, WiFiClient espClient) {
     PubSubClient client(espClient);
-    client.setServer(server, port);
+    client.setServer(server.c_str(), port);
     _client = client;
     connect();
 }
@@ -22,9 +25,9 @@ void MqttClientPublisher::connect() {
     _client.loop();
 }
 
-void MqttClientPublisher::reconnect() {
+void MqttClientPublisher::reconnect() {    
     // Loop until we're reconnected
-    while (!_client.connected()) {
+    while (!isConnected()) {
         Serial.print("Attempting MQTT connection...");
 
         // Create a random client ID
@@ -33,13 +36,14 @@ void MqttClientPublisher::reconnect() {
 
         // Attempt to connect
         if (_client.connect(clientId.c_str())) {
-            Serial.println("connected");            
+            Serial.println("connected");
+            delay(3000);
         } else {
             Serial.print("failed, rc=");
             Serial.print(_client.state());
             Serial.println(" try again in 5 seconds");
             // Wait 5 seconds before retrying
-            delay(5000);
+            delay(1000);
         }
     }
 }
@@ -48,6 +52,7 @@ boolean MqttClientPublisher::isConnected() {
     return _client.connected();
 }
 
-boolean MqttClientPublisher::publish(char* topic, int value) {
-   _client.publish(topic, String(value).c_str());
+boolean MqttClientPublisher::publish(String topic, int value) {
+    char const* pchar = String(value).c_str();
+   _client.publish(topic.c_str(), pchar);
 }
