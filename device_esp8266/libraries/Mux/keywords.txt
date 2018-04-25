@@ -1,0 +1,3 @@
+Mux KEYWORD1
+getAnalogValue KEYWORD2
+getConvertedAnalogValue   KEYWORD2
