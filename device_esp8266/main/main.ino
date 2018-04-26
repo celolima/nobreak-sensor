@@ -3,17 +3,19 @@
 #include <Mux.h>
 
 //#define LED_BUILTIN 2
-#define NUMBER_OF_SENSORS 5
+#define NUMBER_OF_SENSORS 2
 
-String ssid = "NET_2GDB14C2";
-String password = "4BDB14C2";
+//String ssid = "NET_2GDB14C2";
+//String password = "4BDB14C2";
+String ssid = "SkyLock";
+String password = "12345678";
 
 String mqtt_server = "iot.eclipse.org";
 int mqtt_port = 1883;
 String topics[NUMBER_OF_SENSORS] = {"/dev-15/temperatura/0c27556f-a1b0-4d54-bcc2-255dc8f1b185","/dev-15/corrente/0c27556f-a1b0-4d54-bcc2-255dc8f1b185"};
 
 int counter = 0;
-byte porta = 0; // de 0 a 5
+byte porta = 4;
 long lastMsg = 0;
 
 Conecta conecta;
@@ -47,7 +49,12 @@ void loop() {
         if(topics[i]) {
           mqtt.publish(topics[i], ++counter);
         }
-        Serial.println(mux.getAnalogValue(porta));
+        if(i == 0) {
+          porta = 4;
+        } else {
+          porta = 6;
+        }
+        Serial.println(mux.getConvertedAnalogValue(porta, 3.3));
       }
 
     }
@@ -70,7 +77,7 @@ boolean isReady() {
     isOk = false;
     // Pisca led de conexão com o broker;
     Serial.println("Mqtt -- disconnected");
-    //mqtt.connect();
+    mqtt.connect();
   } else {
     // Acende led de conexão com o broker;
   }

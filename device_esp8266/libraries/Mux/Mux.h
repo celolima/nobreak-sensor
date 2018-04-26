@@ -7,8 +7,8 @@ class Mux
 {
   public:
     Mux();
-    int Mux::getAnalogValue(byte porta);
-    float Mux::getConvertedAnalogValue(byte porta, float ref);
+    int getAnalogValue(byte porta);
+    float getConvertedAnalogValue(byte porta, float ref);
 };
 
 #endif

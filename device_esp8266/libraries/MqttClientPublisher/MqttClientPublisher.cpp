@@ -8,7 +8,10 @@
 #include <PubSubClient.h>
 #include "MqttClientPublisher.h"
 
+boolean isOk = false;
+
 MqttClientPublisher::MqttClientPublisher() {
+    isOk = false;
 }
 
 MqttClientPublisher::MqttClientPublisher(String server, int port, WiFiClient espClient) {
@@ -27,7 +30,7 @@ void MqttClientPublisher::connect() {
 
 void MqttClientPublisher::reconnect() {    
     // Loop until we're reconnected
-    while (!isConnected()) {
+    while (!_client.connected()) {
         Serial.print("Attempting MQTT connection...");
 
         // Create a random client ID
@@ -37,11 +40,13 @@ void MqttClientPublisher::reconnect() {
         // Attempt to connect
         if (_client.connect(clientId.c_str())) {
             Serial.println("connected");
+            isOk = true;
             delay(3000);
         } else {
             Serial.print("failed, rc=");
             Serial.print(_client.state());
             Serial.println(" try again in 5 seconds");
+            isOk = false;
             // Wait 5 seconds before retrying
             delay(1000);
         }
@@ -49,10 +54,12 @@ void MqttClientPublisher::reconnect() {
 }
 
 boolean MqttClientPublisher::isConnected() {
-    return _client.connected();
+    return isOk;
 }
 
 boolean MqttClientPublisher::publish(String topic, int value) {
     char const* pchar = String(value).c_str();
-   _client.publish(topic.c_str(), pchar);
+    Serial.print("Trying to publish: ");
+    Serial.println(pchar);
+    _client.publish(topic.c_str(), pchar);
 }

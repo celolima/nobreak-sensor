@@ -2,6 +2,8 @@
   Mux.h - Library to configure and get analog value from mux 4051
   Created by Marcelo Lima, April 25, 2018.
 */
+#include "Arduino.h"
+#include "Mux.h"
 
 #define ANALOG_PORT A0
 #define A 12 // D6
@@ -16,9 +18,9 @@ Mux::Mux() {
 }
 
 int Mux::getAnalogValue(byte porta) {    
-    digitalWrite(A,bitReat(porta, 0));
-    digitalWrite(B,bitReat(porta, 1));
-    digitalWrite(C,bitReat(porta, 2));
+    digitalWrite(A,bitRead(porta, 0));
+    digitalWrite(B,bitRead(porta, 1));
+    digitalWrite(C,bitRead(porta, 2));
     int sensorValue = analogRead(ANALOG_PORT);
     return sensorValue;
 }
