@@ -1,14 +1,14 @@
-#include <MqttClientPublisher.h>
-#include <Conecta.h>
+#include <ESP8266WiFi.h>
+#include <PubSubClient.h>
 #include <Mux.h>
 
 //#define LED_BUILTIN 2
 #define NUMBER_OF_SENSORS 2
 
-//String ssid = "NET_2GDB14C2";
-//String password = "4BDB14C2";
-String ssid = "3Com";
-String password = "adminadmin";
+String ssid = "NET_2GDB14C2";
+String password = "4BDB14C2";
+//String ssid = "3Com";
+//String password = "adminadmin";
 
 String mqtt_server = "iot.eclipse.org";
 int mqtt_port = 1883;
@@ -18,75 +18,86 @@ int counter = 0;
 byte porta = 4;
 long lastMsg = 0;
 
-Conecta conecta;
-MqttClientPublisher mqtt;
+WiFiClient espClient;
+PubSubClient client(espClient);
 Mux mux;
 
 void setup() {
   Serial.begin(115200);
   Serial.println(" --- Inicializando a aplicação ESP8266 --- ");
-  conecta = Conecta(ssid, password);
+  setupWifi();
+  setupMqtt();
   //pinMode(LED_BUILTIN, OUTPUT);  
 }
 
-void loop() {
+void setupWifi() {
+  Serial.print("Connecting to: ");
+  Serial.println(ssid);
 
-  boolean flg = mqtt.isConnected();
-  
-  if(!flg) {
-    mqtt = MqttClientPublisher(mqtt_server, mqtt_port, conecta.getClient());
-  }
-  
-  if(!isReady()) {
+  WiFi.begin(ssid.c_str(), password.c_str());
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
     Serial.print(".");
-    delay(3000);
-  } else {
-    if(porta > 5) {
-      porta = 0;
-    }
+  }
+   
+  Serial.println("");
+  Serial.print("WiFi connected -- ");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+}
 
-    long now = millis();
+void setupMqtt() {
+  client.setServer(mqtt_server.c_str(), mqtt_port);
+}
 
-    if (now - lastMsg > 5000) {
-      lastMsg = now;
+void loop() {
+  chkConn();
+  long now = millis();
 
-      for(int i=0;i<NUMBER_OF_SENSORS;i++) {
-        if(topics[i]) {
-          if(i == 0) {
-            porta = 4;
-          } else {
-            porta = 6;
-          } 
-          mqtt.publish(topics[i], mux.getConvertedAnalogValue(porta, 3.3));
-        }
-
+  if (now - lastMsg > 5000) {
+    lastMsg = now;
+    for(int i=0;i<NUMBER_OF_SENSORS;i++) {
+      if(topics[i]) {
+        porta = i == 0 ? 4 : 6;
+        publick(topics[i],mux.getConvertedAnalogValue(porta, 3.3));
       }
     }
   }
 }
 
-boolean isReady() {
-  boolean isOk = true;
-  if (!conecta.isConnected()) {
-    isOk = false;
-    // Pisca led de conexão Wifi;  
-    conecta.setupWifi();    
-  } else {
-    // Acende led de conexão Wifi;
-  }
+void publick(String topic, float value) {
+  const char* t = topic.c_str(); 
+  client.publish(t, String(value).c_str());
+}
 
-  boolean flg = mqtt.isConnected();
-  
-  if (!flg) {
-    isOk = false;
-    // Pisca led de conexão com o broker;
-    Serial.println("Mqtt -- disconnected");
-    mqtt.connect();
-  } else {
-    // Acende led de conexão com o broker;
+void chkConn() {
+  if (!client.connected()) {
+    reconnect();
   }
- 
-  return isOk;
+  client.loop();
+}
+
+void reconnect() {
+  // Loop until we're reconnected
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    
+    // Create a random client ID
+    String clientId = "ESP8266Client-";
+    clientId += String(random(0xffff), HEX);
+    
+    // Attempt to connect
+    if (client.connect(clientId.c_str())) {
+      Serial.println("connected");
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" try again in 5 seconds");
+      // Wait 5 seconds before retrying
+      delay(5000);
+    }
+  }
 }
 
 /*
