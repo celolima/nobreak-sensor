@@ -41,12 +41,13 @@ class MqttClientPublisher
   public:
     MqttClientPublisher();
     MqttClientPublisher(String server, int port, WiFiClient espClient);
-    boolean publish(String topic, int value);
+    boolean publish(String topic, float value);
     void connect();    
     boolean isConnected();
   private:    
     void reconnect();
     PubSubClient _client;
+    boolean isOk = false;
 };
 
 #endif

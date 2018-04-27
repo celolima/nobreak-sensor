@@ -8,16 +8,14 @@
 #include <PubSubClient.h>
 #include "MqttClientPublisher.h"
 
-boolean isOk = false;
-
 MqttClientPublisher::MqttClientPublisher() {
     isOk = false;
 }
 
 MqttClientPublisher::MqttClientPublisher(String server, int port, WiFiClient espClient) {
-    PubSubClient client(espClient);
-    client.setServer(server.c_str(), port);
-    _client = client;
+    _client = PubSubClient(espClient);
+    _client.setServer(server.c_str(), port);
+    isOk = false;
     connect();
 }
 
@@ -57,9 +55,18 @@ boolean MqttClientPublisher::isConnected() {
     return isOk;
 }
 
-boolean MqttClientPublisher::publish(String topic, int value) {
+
+boolean MqttClientPublisher::publish(String topic, float value) {
+    /*
     char const* pchar = String(value).c_str();
-    Serial.print("Trying to publish: ");
-    Serial.println(pchar);
-    _client.publish(topic.c_str(), pchar);
+    Serial.print("Publishing: ");
+    Serial.print(value);
+    Serial.print(" on ");
+    Serial.println(topic);
+    */
+    const char* t = "/dev-15/temperatura/0c27556f-a1b0-4d54-bcc2-255dc8f1b185";
+    int v = 90;
+    char msg[50];
+    snprintf (msg, 75, "hello world #%ld", v);
+    _client.publish(t, msg);
 }

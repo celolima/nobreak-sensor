@@ -1,9 +1,10 @@
-/*
+﻿/*
   Mux.h - Library to configure and get analog value from mux 4051
   Created by Marcelo Lima, April 25, 2018.
 */
 #include "Arduino.h"
 #include "Mux.h"
+
 
 #define ANALOG_PORT A0
 #define A 12 // D6

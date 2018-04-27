@@ -32,7 +32,6 @@ void Conecta::setupWifi() {
     Serial.print("WiFi connected -- ");
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
-
 }
 
 boolean Conecta::isConnected() {
