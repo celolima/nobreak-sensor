@@ -7,8 +7,8 @@
 
 //String ssid = "NET_2GDB14C2";
 //String password = "4BDB14C2";
-String ssid = "SkyLock";
-String password = "12345678";
+String ssid = "3Com";
+String password = "adminadmin";
 
 String mqtt_server = "iot.eclipse.org";
 int mqtt_port = 1883;
@@ -26,12 +26,17 @@ void setup() {
   Serial.begin(115200);
   Serial.println(" --- Inicializando a aplicação ESP8266 --- ");
   conecta = Conecta(ssid, password);
-  //pinMode(LED_BUILTIN, OUTPUT);
-  mqtt = MqttClientPublisher(mqtt_server, mqtt_port, conecta.getClient());
+  //pinMode(LED_BUILTIN, OUTPUT);  
 }
 
 void loop() {
 
+  boolean flg = mqtt.isConnected();
+  
+  if(!flg) {
+    mqtt = MqttClientPublisher(mqtt_server, mqtt_port, conecta.getClient());
+  }
+  
   if(!isReady()) {
     Serial.print(".");
     delay(3000);
@@ -47,16 +52,15 @@ void loop() {
 
       for(int i=0;i<NUMBER_OF_SENSORS;i++) {
         if(topics[i]) {
-          mqtt.publish(topics[i], ++counter);
+          if(i == 0) {
+            porta = 4;
+          } else {
+            porta = 6;
+          } 
+          mqtt.publish(topics[i], mux.getConvertedAnalogValue(porta, 3.3));
         }
-        if(i == 0) {
-          porta = 4;
-        } else {
-          porta = 6;
-        }
-        Serial.println(mux.getConvertedAnalogValue(porta, 3.3));
-      }
 
+      }
     }
   }
 }
