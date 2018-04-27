@@ -58,7 +58,7 @@ void loop() {
   chkConn();
 
   unsigned long now = millis();  
-  if (now - previousMsgMills > 5000) {
+  if (now - previousMsgMills > 2000) {
     previousMsgMills = now;
     for(int i=0;i<NUMBER_OF_SENSORS;i++) {
       if(topics[i]) {
@@ -75,16 +75,18 @@ void publick(String topic, float value) {
 }
 
 void chkConn() {
-  if (!client.connected()) {    
-    reconnect();
+  if (!client.connected()) {
+    blinkLed(false);
+    reconnect();    
+  } else {
+    blinkLed(true);
   }
   client.loop();
 }
 
 void reconnect() {
   // Loop until we're reconnected
-  while (!client.connected()) {
-    blinkLed(true);
+  while (!client.connected()) {    
     Serial.print("Attempting MQTT connection...");
     
     // Create a random client ID
@@ -94,7 +96,6 @@ void reconnect() {
     // Attempt to connect
     if (client.connect(clientId.c_str())) {
       Serial.println("connected");
-      blinkLed(false);
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -113,14 +114,14 @@ void blinkLed(boolean flg) {
       digitalWrite(LED_BUILTIN, ledState);
     }
   } else {
-    digitalWrite(LED_BUILTIN, LOW);
+    digitalWrite(LED_BUILTIN, HIGH);
   }
 }
 
 void initConnectionsLED() {
   // Inicializa led do Wifi
   pinMode(LED_WIFI, OUTPUT);
-  digitalWrite(LED_WIFI, LOW);
+  digitalWrite(LED_WIFI, HIGH);
 
   // Inicializa led do MQTT
   pinMode(LED_BUILTIN, OUTPUT);
