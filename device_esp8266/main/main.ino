@@ -5,10 +5,10 @@
 //#define LED_BUILTIN 2
 #define NUMBER_OF_SENSORS 2
 
-String ssid = "NET_2GDB14C2";
-String password = "4BDB14C2";
-//String ssid = "3Com";
-//String password = "adminadmin";
+//String ssid = "NET_2GDB14C2";
+//String password = "4BDB14C2";
+String ssid = "3Com";
+String password = "adminadmin";
 
 String mqtt_server = "iot.eclipse.org";
 int mqtt_port = 1883;
