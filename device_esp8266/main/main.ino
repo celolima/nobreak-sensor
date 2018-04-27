@@ -2,7 +2,8 @@
 #include <PubSubClient.h>
 #include <Mux.h>
 
-//#define LED_BUILTIN 2
+#define LED_BUILTIN 2
+#define LED_WIFI 0
 #define NUMBER_OF_SENSORS 2
 
 String ssid = "NET_2GDB14C2";
@@ -14,9 +15,11 @@ String mqtt_server = "iot.eclipse.org";
 int mqtt_port = 1883;
 String topics[NUMBER_OF_SENSORS] = {"/dev-15/temperatura/0c27556f-a1b0-4d54-bcc2-255dc8f1b185","/dev-15/corrente/0c27556f-a1b0-4d54-bcc2-255dc8f1b185"};
 
-int counter = 0;
+long previousMsgMills = 0;
 byte porta = 4;
-long lastMsg = 0;
+
+long previousLEDMillis = 0;
+byte ledState;
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -27,7 +30,7 @@ void setup() {
   Serial.println(" --- Inicializando a aplicação ESP8266 --- ");
   setupWifi();
   setupMqtt();
-  //pinMode(LED_BUILTIN, OUTPUT);  
+  initConnectionsLED();  
 }
 
 void setupWifi() {
@@ -40,7 +43,7 @@ void setupWifi() {
     delay(500);
     Serial.print(".");
   }
-   
+
   Serial.println("");
   Serial.print("WiFi connected -- ");
   Serial.print("IP address: ");
@@ -53,10 +56,10 @@ void setupMqtt() {
 
 void loop() {
   chkConn();
-  long now = millis();
 
-  if (now - lastMsg > 5000) {
-    lastMsg = now;
+  unsigned long now = millis();  
+  if (now - previousMsgMills > 5000) {
+    previousMsgMills = now;
     for(int i=0;i<NUMBER_OF_SENSORS;i++) {
       if(topics[i]) {
         porta = i == 0 ? 4 : 6;
@@ -72,7 +75,7 @@ void publick(String topic, float value) {
 }
 
 void chkConn() {
-  if (!client.connected()) {
+  if (!client.connected()) {    
     reconnect();
   }
   client.loop();
@@ -81,6 +84,7 @@ void chkConn() {
 void reconnect() {
   // Loop until we're reconnected
   while (!client.connected()) {
+    blinkLed(true);
     Serial.print("Attempting MQTT connection...");
     
     // Create a random client ID
@@ -90,21 +94,36 @@ void reconnect() {
     // Attempt to connect
     if (client.connect(clientId.c_str())) {
       Serial.println("connected");
+      blinkLed(false);
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
-      Serial.println(" try again in 5 seconds");
-      // Wait 5 seconds before retrying
+      Serial.println(" try again in 5 seconds");          
       delay(5000);
     }
   }
 }
 
-/*
-void blinkLed() {
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(1000);
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(1000);
+void blinkLed(boolean flg) {
+  if(flg) {
+    unsigned long currentMillis = millis();
+    if (currentMillis - previousLEDMillis >= 700) {
+      previousLEDMillis = currentMillis;  
+      ledState = !ledState;
+      digitalWrite(LED_BUILTIN, ledState);
+    }
+  } else {
+    digitalWrite(LED_BUILTIN, LOW);
+  }
 }
-*/
+
+void initConnectionsLED() {
+  // Inicializa led do Wifi
+  pinMode(LED_WIFI, OUTPUT);
+  digitalWrite(LED_WIFI, LOW);
+
+  // Inicializa led do MQTT
+  pinMode(LED_BUILTIN, OUTPUT);
+  ledState = HIGH;
+  digitalWrite(LED_BUILTIN, ledState);
+}
