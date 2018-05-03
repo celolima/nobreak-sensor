@@ -23,8 +23,11 @@ const checkValuesOnTopicMessage = (incomeObj) => {
     let data = {};
     data['param'] = incomeObj.param;
     data['currVal'] = incomeObj.value;
+    data['name'] = incomeObj.name;
+    data['id'] = incomeObj.id;
     data['condition'] = react.condition;
-    data['conditionVal'] = react.value;    
+    data['conditionVal'] = react.value;
+    data['action'] = react.action;
     action.checkAndAct(data);
   })
 };

@@ -15,9 +15,17 @@ const mailOptions = {
     html: '<p>Hello There, test</p>'// plain text body
 };
 
-transporter.sendMail(mailOptions, function (err, info) {
-if(err)
-    console.log(err)
-else
-    console.log(info);
-});
+const sendEmail = (opts) => {
+    if(!opts) {
+        transporter.sendMail(mailOptions, function (err, info) {
+        if(err)
+            console.log(err)
+        else
+            console.log(info);
+        });
+    } else  {
+        console.log('Parametros de email inválido');
+    }
+};
+
+export { sendEmail };
