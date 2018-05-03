@@ -1,4 +1,4 @@
-import * as mail from 'mail';
+import * as mail from './mail'
 
 // data['param'] = incomeObj.param;
 // data['currVal'] = incomeObj.value;
@@ -54,19 +54,17 @@ const checkAndAct = (data) => {
 
 const checkAndSendEmail = (data) => {
     if(data.action && data.action.actionType === "e-mail") {
-        let msg = '<h3>Alerta!</h3>'        
+        let msg = '<font color="red"><h3>Alerta!</h3></font>'        
             .concat('<h4>' + data.name + '</h4>')
-            .concat('<p>')
-            .concat(data.param)
-            .concat(' é ' + data.condition)
-            .concat(data.conditionVal)
-            .concat('</p>')
-            .concat('<p>Valor atual é: ' + data.currVal)
-            .concat('</p>');        
+            .concat('<p> Foi detectado um valor não desejado no parâmetro ', data.param.toUpperCase())
+            .concat(' ', 'do dispositivo ', data.name,'</p>')
+            .concat('<p>', data.param.toUpperCase(), ' é ', data.condition, ' ', data.conditionVal, data.unMed, '</p>')
+            .concat('<p> Valor atual: ', data.currVal, data.unMed, '</p>')
+            .concat('<p> Favor entrar em contato com a equipe responsável pelo dispositivo ', data.name, ' id: ', data.id,' para sanar o problema','</p>')
         const mailOptions = {
             from: 'tel73n@gmail.com', // sender address
             to: data.action.email, // list of receivers
-            subject: '['.concat(data.name,']','Alerta!',data.param, data.condition, data.conditionVal), // Subject line
+            subject: '['.concat(data.name,']',' Alerta! ',data.param.toLowerCase(), ' ', data.condition, ' ', data.conditionVal), // Subject line
             html: msg// plain text body
         };
         sendEmail(mailOptions);

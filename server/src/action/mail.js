@@ -1,4 +1,4 @@
-var nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -16,8 +16,8 @@ const mailOptions = {
 };
 
 const sendEmail = (opts) => {
-    if(!opts) {
-        transporter.sendMail(mailOptions, function (err, info) {
+    if(opts) {
+        transporter.sendMail(opts, function (err, info) {
         if(err)
             console.log(err)
         else
@@ -25,6 +25,7 @@ const sendEmail = (opts) => {
         });
     } else  {
         console.log('Parametros de email inválido');
+        console.log(opts);
     }
 };
 

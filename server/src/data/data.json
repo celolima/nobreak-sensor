@@ -51,7 +51,7 @@
                         "id": 1,
                         "type": "Float",
                         "condition": "maior que",
-                        "value": "4.7",
+                        "value": "90",
                         "action": {
                             "actionType": "e-mail",
                             "email": "celorsl@yahoo.com.br",

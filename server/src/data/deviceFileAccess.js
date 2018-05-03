@@ -45,6 +45,7 @@ const getReactsFromTopic = (deviceId, param) => {
     const topic = getDeviceTopic(deviceId, param);
     if(topic && topic.reacts) {
         reacts = topic.reacts;
+        // add unidade de Medida
     }
     return reacts;
 }
