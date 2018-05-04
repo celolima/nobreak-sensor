@@ -1,36 +1,39 @@
 const sqlite3 = require('sqlite3');
 let db = null;
 
-let connect = function() {
+let getDb = function() {
     console.log('Conectando...');
     if(!db) {
         db = new sqlite3.Database('../misc/sql/database.db', (err) => {
             if (err) {
                 console.error(err.message);
+                return null;
             }
         });
     }
+    return db;
 };
 
 let createLogEmail = (data) => {
-    var stmt = db.prepare("INSERT INTO TB_LOGEMAIL (email,device_id,device_name,condition,param,valor_lido,valor_def) VALUES (?,?,?,?,?,?,?)");
+    var stmt = getDb().prepare('INSERT INTO TB_LOGEMAIL (email,device_id,device_name,condition,param,valor_lido,valor_def) VALUES (?,?,?,?,?,?,?)');
     stmt.run(data.action.email,data.id,data.name,data.condition,data.param,data.currVal,data.conditionVal);
     stmt.finalize();
 };
 
 let getLogsEmail = function() {
-    db.serialize(() => {
-        db.each('SELECT * FROM TB_LOGEMAIL', (err, row) => {
+    getDb().serialize(() => {
+        console.log('ID\tEMAIL\tPARAM\tVALOR');
+        getDb().each('SELECT * FROM TB_LOGEMAIL', (err, row) => {
         if (err) {
             console.error(err.message);
         }
-        console.log(row.id + "\t" + row.email+ "\t" + row.param + "\t" + row.valor_lido);
+        console.log(row.id + '\t' + row.email+ '\t' + row.param + '\t' + row.valor_lido);
         });
     });
 };
 
 let disconnect = function() {
-    db.close((err) => {
+    getDb().close((err) => {
         if (err) {
         console.error(err.message);
         }
@@ -38,7 +41,6 @@ let disconnect = function() {
     });
 };
 
-exports.connect = connect;
-exports.disconnect = disconnect;
-exports.getLogsEmail = getLogsEmail;
 exports.createLogEmail = createLogEmail;
+exports.getLogsEmail = getLogsEmail;
+exports.disconnect = disconnect;
