@@ -1,4 +1,5 @@
 import * as mail from './mail'
+import * as dao from '../dao/dao'
 
 // data['param'] = incomeObj.param;
 // data['currVal'] = incomeObj.value;
@@ -54,6 +55,7 @@ const checkAndAct = (data) => {
 
 const checkAndSendEmail = (data) => {
     if(data.action && data.action.actionType === "e-mail") {
+        dao.connect();
         let msg = '<font color="red"><h3>Alerta!</h3></font>'        
             .concat('<h4>' + data.name + '</h4>')
             .concat('<p> Foi detectado um valor não desejado no parâmetro ', data.param.toUpperCase())
@@ -67,6 +69,7 @@ const checkAndSendEmail = (data) => {
             subject: '['.concat(data.name,']',' Alerta! ',data.param.toLowerCase(), ' ', data.condition, ' ', data.conditionVal), // Subject line
             html: msg// plain text body
         };
+        dao.createLogEmail(data);
         sendEmail(mailOptions);
     }
 };
