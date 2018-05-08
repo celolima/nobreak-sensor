@@ -25,6 +25,8 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 Mux mux;
 
+double val = 0;
+
 void setup() {
   Serial.begin(115200);
   Serial.println(" --- Inicializando a aplicação ESP8266 --- ");
@@ -62,8 +64,11 @@ void loop() {
     previousMsgMills = now;
     for(int i=0;i<NUMBER_OF_SENSORS;i++) {
       if(topics[i]) {
-        porta = i == 0 ? 4 : 6;
-        publick(topics[i],mux.getConvertedAnalogValue(porta, 3.3));
+        //porta = i == 0 ? 4 : 6;
+        //val = mux.getConvertedAnalogValue(porta, 3.3);        
+        val = mux.getCurrent();
+        Serial.println(val);
+        publick(topics[i],val);
       }
     }
   }

@@ -9,6 +9,7 @@ class Mux
     Mux();
     int getAnalogValue(byte porta);
     float getConvertedAnalogValue(byte porta, float ref);
+    double getCurrent();
 };
 
 #endif
