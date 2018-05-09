@@ -1,5 +1,5 @@
 import * as mail from './mail'
-import * as dao from '../dao/dao'
+//import * as dao from '../dao/dao'
 
 // data['param'] = incomeObj.param;
 // data['currVal'] = incomeObj.value;
@@ -70,8 +70,8 @@ const checkAndSendEmail = (data) => {
             subject: '['.concat(data.name,']',' Alerta! ',data.param.toLowerCase(), ' ', data.condition, ' ', data.conditionVal, data.unMed), // Subject line
             html: msg
         };
-        dao.createLogEmail(data);
-        sendEmail(mailOptions);
+        //dao.createLogEmail(data);
+        //sendEmail(mailOptions);
     }
 };
 
