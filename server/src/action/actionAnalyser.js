@@ -55,19 +55,20 @@ const checkAndAct = (data) => {
 
 const checkAndSendEmail = (data) => {
     if(data.action && data.action.actionType === "e-mail") {
-        dao.connect();
         let msg = '<font color="red"><h3>Alerta!</h3></font>'        
             .concat('<h4>' + data.name + '</h4>')
             .concat('<p> Foi detectado um valor não desejado no parâmetro ', data.param.toUpperCase())
             .concat(' ', 'do dispositivo ', data.name,'</p>')
             .concat('<p>', data.param.toUpperCase(), ' é ', data.condition, ' ', data.conditionVal, data.unMed, '</p>')
             .concat('<p> Valor atual: ', data.currVal, data.unMed, '</p>')
-            .concat('<p> Favor entrar em contato com a equipe responsável pelo dispositivo ', data.name, ' id: ', data.id,' para sanar o problema','</p>')
+            .concat('<p> Para sanar o problema, favor entrar em contato com a equipe responsável pelo dispositivo: </p>')
+            .concat('<div>','<b>Dispositivo: </b>',data.name,'</div>')
+            .concat('<div>','<b>ID: </b>',data.id,'</div>');
         const mailOptions = {
             from: 'tel73n@gmail.com', // sender address
             to: data.action.email, // list of receivers
-            subject: '['.concat(data.name,']',' Alerta! ',data.param.toLowerCase(), ' ', data.condition, ' ', data.conditionVal), // Subject line
-            html: msg// plain text body
+            subject: '['.concat(data.name,']',' Alerta! ',data.param.toLowerCase(), ' ', data.condition, ' ', data.conditionVal, data.unMed), // Subject line
+            html: msg
         };
         dao.createLogEmail(data);
         sendEmail(mailOptions);

@@ -18,15 +18,17 @@ const subscribeDevices = (useLocalBroker) => {
 };
 
 const checkValuesOnTopicMessage = (incomeObj) => {  
-  const reacts = file.getReactsFromTopic(incomeObj.id, incomeObj.param);  
+  const reacts = file.getReactsFromTopic(incomeObj.id, incomeObj.param);
+  const unMedida = file.getTopicUnidadeMedida(incomeObj.id, incomeObj.param);
   reacts.forEach(react => {    
     let data = {};
-    data['param'] = incomeObj.param;
-    data['currVal'] = incomeObj.value;
-    data['name'] = incomeObj.name;
     data['id'] = incomeObj.id;
+    data['name'] = incomeObj.name;    
+    data['unMed'] = unMedida;
+    data['param'] = incomeObj.param;
     data['condition'] = react.condition;
     data['conditionVal'] = react.value;
+    data['currVal'] = incomeObj.value;
     data['action'] = react.action;
     action.checkAndAct(data);
   })

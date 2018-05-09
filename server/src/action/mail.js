@@ -25,7 +25,6 @@ const sendEmail = (opts) => {
         });
     } else  {
         console.log('Parametros de email inválido');
-        console.log(opts);
     }
 };
 
