@@ -37,8 +37,8 @@ double Mux::getCurrent() {
     digitalWrite(B,bitRead(4, 1));
     digitalWrite(C,bitRead(4, 2));
     EnergyMonitor emon1;
-    emon1.current(ANALOG_PORT, 111.1);
-    return emon1.calcIrms(1480);
+    emon1.current(ANALOG_PORT, 17.09);
+    return emon1.calcIrms(1996);
 }
 
 /*
