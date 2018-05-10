@@ -2,3 +2,4 @@ Mux KEYWORD1
 getAnalogValue KEYWORD2
 getConvertedAnalogValue   KEYWORD2
 getCurrent  KEYWORD2
+setMuxPort  KEYWORD2

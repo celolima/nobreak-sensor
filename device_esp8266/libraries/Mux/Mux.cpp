@@ -24,18 +24,14 @@ Mux::Mux() {
     pinMode(C,OUTPUT);    
 }
 
-int Mux::getAnalogValue(byte porta) {        
-    digitalWrite(A,bitRead(porta, 0));
-    digitalWrite(B,bitRead(porta, 1));
-    digitalWrite(C,bitRead(porta, 2));
+int Mux::getAnalogValue(byte porta) {
+    setMuxPort(porta);
     int sensorValue = analogRead(ANALOG_PORT);
     return sensorValue;
 }
 
-double Mux::getCurrent() {    
-    digitalWrite(A,bitRead(4, 0));
-    digitalWrite(B,bitRead(4, 1));
-    digitalWrite(C,bitRead(4, 2));
+double Mux::getCurrent(byte porta) {    
+    setMuxPort(porta);
     EnergyMonitor emon1;
     emon1.current(ANALOG_PORT, 17.09);
     return emon1.calcIrms(1996);
@@ -44,8 +40,14 @@ double Mux::getCurrent() {
 /*
     Recebe o byte da porta e a referência para conversão do valor lido do canal analógico
 */
-float Mux::getConvertedAnalogValue(byte porta, float ref) {
+double Mux::getConvertedAnalogValue(byte porta, float ref) {
     int sensorValue = getAnalogValue(porta);
-    float ret = sensorValue * (ref / 1024);
+    double ret = sensorValue * (ref / 1024);
     return ret;
+}
+
+void setMuxPort(byte porta) {
+    digitalWrite(A,bitRead(porta, 0));
+    digitalWrite(B,bitRead(porta, 1));
+    digitalWrite(C,bitRead(porta, 2));
 }
