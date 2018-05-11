@@ -30,11 +30,11 @@ if(useLocalBroker) {
 }
 
 if(useFakePublisher) {
-    pub.publishDevices(useLocalBroker);
+    //pub.publishDevices(useLocalBroker);
 }
 
 if(subscribeAllDevs) {
-    sub.subscribeDevices(useLocalBroker);
+    //sub.subscribeDevices(useLocalBroker);
 }
 
 /* 

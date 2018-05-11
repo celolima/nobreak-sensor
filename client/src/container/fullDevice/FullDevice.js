@@ -44,6 +44,7 @@ class FullDevice extends Component {
     };
 
     handleTopicSubscribe = () => {
+        /*
         const client  = mqtt.connect('ws://iot.eclipse.org:80/ws');
         //const client  = mqtt.connect('ws://localhost:1884');
 
@@ -70,6 +71,7 @@ class FullDevice extends Component {
             topicValObj[topic] = message.toString();
             this.setState({topicValue: topicValObj});
         });
+        */
     }
 
     getData = () => {
