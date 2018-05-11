@@ -16,7 +16,7 @@ int mqtt_port = 1883;
 String topics[NUMBER_OF_SENSORS] = {"/dev-15/temperatura/0c27556f-a1b0-4d54-bcc2-255dc8f1b185","/dev-15/corrente/0c27556f-a1b0-4d54-bcc2-255dc8f1b185"};
 
 long previousMsgMills = 0;
-byte porta = 4;
+byte porta[NUMBER_OF_SENSORS] = {4,6};
 
 long previousLEDMillis = 0;
 byte ledState;
@@ -24,6 +24,8 @@ byte ledState;
 WiFiClient espClient;
 PubSubClient client(espClient);
 Mux mux;
+
+double val = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -60,10 +62,18 @@ void loop() {
   unsigned long now = millis();  
   if (now - previousMsgMills > 2000) {
     previousMsgMills = now;
+
     for(int i=0;i<NUMBER_OF_SENSORS;i++) {
-      if(topics[i]) {
-        porta = i == 0 ? 4 : 6;
-        publick(topics[i],mux.getConvertedAnalogValue(porta, 3.3));
+      if(topics[i]) {        
+        // Corrente
+        if(porta[i] == 4) {
+          val = mux.getCurrent(porta[i]);
+        } else {
+          // Outros
+          val = mux.getConvertedAnalogValue(porta[i], 3.3);
+        }
+        Serial.println(val);
+        publick(topics[i],val);
       }
     }
   }

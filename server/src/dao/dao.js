@@ -15,7 +15,7 @@ let getDb = function() {
 };
 
 let createLogEmail = (data) => {
-    var stmt = getDb().prepare('INSERT INTO TB_LOGEMAIL (email,data_hora,device_id,device_name,condition,param,valor_lido,valor_def) VALUES (?,?,?,?,?,?,?)');
+    var stmt = getDb().prepare('INSERT INTO TB_LOGEMAIL (email,data_hora,device_id,device_name,condition,param,valor_lido,valor_def) VALUES (?,?,?,?,?,?,?,?)');
     stmt.run(data.action.email,new Date(),data.id,data.name,data.condition,data.param,data.currVal,data.conditionVal);
     stmt.finalize();
 };
