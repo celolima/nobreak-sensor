@@ -66,11 +66,16 @@ void loop() {
     for(int i=0;i<NUMBER_OF_SENSORS;i++) {
       if(topics[i]) {        
         // Corrente
-        if(porta[i] == 4) {
+        if(i == 0) {
+          val = mux.getTemperature(porta[i]);
+          Serial.print("Temperatura:  ");
+        } if (i == 1) {
           val = mux.getCurrent(porta[i]);
-        } else {
+          Serial.print("Corrente:  ");
+        }        
+        else {
           // Outros
-          val = mux.getConvertedAnalogValue(porta[i], 3.3);
+          // val = mux.getConvertedAnalogValue(porta[i], 3.3);
         }
         Serial.println(val);
         publick(topics[i],val);
