@@ -4,7 +4,7 @@ import * as clientApi from '../../api/clientApi';
 //import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { Row } from 'reactstrap';
 import './FullDevice.css';
-import mqtt from 'mqtt';
+//import mqtt from 'mqtt';
 import Alert from '../ui/AlertLoadingDanger';
 
 
