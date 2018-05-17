@@ -9,7 +9,8 @@ class Mux
     Mux();
     int getAnalogValue(byte porta);
     double getConvertedAnalogValue(byte porta, float ref);
-    double Mux::getCurrent(byte porta);
+    double getCurrent(byte porta);
+    double getTemperature(byte porta);
   private:
     void setMuxPort(byte porta);
 };
