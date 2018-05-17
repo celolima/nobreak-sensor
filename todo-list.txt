@@ -1,8 +1,0 @@
-
-* No cadastro do dispositivo não pode colocar '/' no nome do parametro. Se tiver o caractere '/' não é possível obter o id
-device via tópico! --- OK
-
-* Só é permitido inserir um parametro distinto no device!
-
-* Subscribe quando a API receber um novo tópico, de forma que analise os reacts e eventualmente envie email 
-[Atualmente o Subscribe é realizado quando o servidor é iniciado]
