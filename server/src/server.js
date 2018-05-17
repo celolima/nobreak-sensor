@@ -3,7 +3,7 @@ import * as pub from './mqtt/publisher';
 import * as sub from './mqtt/subscriber';
 
 const useLocalBroker = false;
-const useFakePublisher = true;
+const useFakePublisher = false;
 const subscribeAllDevs = true;
 
 const express = require('express');
