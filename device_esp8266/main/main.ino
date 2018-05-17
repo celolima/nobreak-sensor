@@ -72,8 +72,7 @@ void loop() {
         } if (i == 1) {
           val = mux.getCurrent(porta[i]);
           Serial.print("Corrente:  ");
-        }        
-        else {
+        } else {
           // Outros
           // val = mux.getConvertedAnalogValue(porta[i], 3.3);
         }
