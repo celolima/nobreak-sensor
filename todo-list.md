@@ -23,7 +23,7 @@
 
 * ~~Criar tabela de clientes~~
 
-* ~~Criar tabela entre clientes <--> devices~~
+* ~~Criar tabela entre clientes <--> devices Via data.json~~ 
 
 * Adicionar permissões de vizualização da telas
     usuário root vizualiza todos os dispositivos, de todos os clientes
