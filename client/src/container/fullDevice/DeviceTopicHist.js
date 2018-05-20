@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import DeviceTopicInfo from './DeviceTopicInfo';
 import * as clientApi from '../../api/clientApi';
-//import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { Row } from 'reactstrap';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { Row, Col } from 'reactstrap';
 import './FullDevice.css';
 import mqtt from 'mqtt';
 import Alert from '../ui/AlertLoadingDanger';
@@ -11,7 +11,8 @@ class DeviceTopicHist extends Component {
     state = {
         loadedTopic: null,
         topicValue: {},
-        serverError: false
+        serverError: false,
+        topicHist: []
     }
 
     componentDidMount () {
@@ -66,27 +67,27 @@ class DeviceTopicHist extends Component {
         client.on('message', (topic, message) => {
             let topicValObj = {...this.state.topicValue};
             topicValObj[topic] = message.toString();
-            this.setState({topicValue: topicValObj});
+            const list = this.getHistoricData(message);
+            this.setState({topicValue: topicValObj, topicHist: list});
         });
     }
 
-    getData = () => {
-        let data = [
-            {name: '13:00h', temp: 30},
-            {name: '14:00h', temp: 40},
-            {name: '15:00h', temp: 35},
-            {name: '16:00h', temp: 36},
-            {name: '17:00h', temp: 28},
-            {name: '18:00h', temp: 50},
-            {name: '19:00h', temp: 34}
-          ];
-        return data;
-    }
+    getHistoricData = (val) => {
+        let d = new Date();
+        let hora = ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2);
+        let h = {hora: hora, valor: parseFloat(val.toString())};
+        let historico = [...this.state.topicHist];
+        if(historico.length > 6) {
+            historico.shift();
+        }
+        historico.push(h);
+        return historico;
+    };
 
     render() {
         let deviceMsg = (
             <div>
-                <h3>{this.props.match.params.paramId}</h3>
+                <h3>{this.props.match.params.devId}</h3>
                 <hr/>
                 <Row>
                     <Alert serverError={this.state.serverError}/>
@@ -105,11 +106,18 @@ class DeviceTopicHist extends Component {
 
             deviceMsg = (
                 <div>
-                    <h3>{this.state.loadedTopic.param}</h3>
-                    <hr/>
-                    <Row>
-                    {topicsMsg}
-                    </Row>
+                    <div>
+                        <Row>
+                        {topicsMsg}
+                        <LineChart width={600} height={300} data={this.state.topicHist}>
+                        <Line type="monotone" dataKey="valor" stroke="red" />
+                        <CartesianGrid stroke="#ccc" />
+                        <Tooltip/>
+                        <XAxis dataKey="hora" />
+                        <YAxis/>
+                        </LineChart>                    
+                        </Row>
+                    </div>
                 </div>
             );
         }

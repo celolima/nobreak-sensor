@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DeviceTopicInfo from './DeviceTopicInfo';
 import * as clientApi from '../../api/clientApi';
-import { Row } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import './FullDevice.css';
 import mqtt from 'mqtt';
 import Alert from '../ui/AlertLoadingDanger';
@@ -92,9 +92,9 @@ class FullDevice extends Component {
             if(this.state.loadedDevice.topics) {
                 topicsMsg = this.state.loadedDevice.topics.map((t, index) => {
                     return (
-                        <div key={index}>
+                        <Col xs="6" key={index}>
                             <DeviceTopicInfo topic={t} topicValue={this.state.topicValue} clicked={() => this.postSelectedHandler( this.state.loadedDevice.id, t.id )}/>
-                        </div>
+                        </Col>
                     )});
             }
             deviceMsg = (

@@ -60,5 +60,23 @@
                 "topic": "/nobreak01/frequência-saída/c83036a4-124a-4fa4-b635-5f53ec1c8d04"
             }
         ]
+    },
+    {
+        "id": "5fa0dc95-b7f6-4082-bfcf-22528a7e227c",
+        "desc": "NoBreak02",
+        "topics": [
+            {
+                "id": 1,
+                "param": "Corrente",
+                "unMed": "mA",
+                "topic": "/nobreak02/corrente/5fa0dc95-b7f6-4082-bfcf-22528a7e227c"
+            },
+            {
+                "id": 2,
+                "param": "Tensão Saída",
+                "unMed": "V",
+                "topic": "/nobreak02/tensão-saída/5fa0dc95-b7f6-4082-bfcf-22528a7e227c"
+            }
+        ]
     }
 ]

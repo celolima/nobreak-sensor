@@ -43,6 +43,7 @@ function loadAPI(app) {
     //GET SPECIFIC PARAM OF DEVICE
     app.get('/api/devices/param/:devId/:paramId', (req, res) => {
       //console.log('Getting one: ' + req.params.devId + ' :: ' + req.params.paramId);
+      console.log('here =)');
       console.log(req.params);
       let device = null;
       let topic = 'not found';

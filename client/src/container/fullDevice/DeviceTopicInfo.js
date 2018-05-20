@@ -16,7 +16,6 @@ const deviceTopicInfo = (props)  => {
   }
   
   return (
-    <Col>
         <Card>
           <CardBody onClick={props.clicked}>
             <CardTitle className='d-inline-flex'>{props.topic.param}</CardTitle> 
@@ -31,7 +30,6 @@ const deviceTopicInfo = (props)  => {
             {reactsCard}
         </CardBody>
         </Card>
-    </Col>
   );
 }
 
