@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import DeviceTopicInfo from './DeviceTopicInfo';
 import * as clientApi from '../../api/clientApi';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
 import './FullDevice.css';
 import mqtt from 'mqtt';
 import Alert from '../ui/AlertLoadingDanger';
+
+let params = {};
 
 class DeviceTopicHist extends Component {
     state = {
@@ -22,7 +24,7 @@ class DeviceTopicHist extends Component {
     loadData () {
         if ( this.props.match.params.devId && this.props.match.params.paramId ) {
             if ( !this.state.loadedTopic || (this.state.loadedTopic && this.state.loadedTopic.id !== this.props.match.params.paramId) ) {
-                let params = {
+                params = {
                     devId: this.props.match.params.devId,
                     paramId : this.props.match.params.paramId
                 };
@@ -84,6 +86,10 @@ class DeviceTopicHist extends Component {
         return historico;
     };
 
+    goBack = () => {
+        this.props.history.push( '/devices/' + params.devId );
+    }
+
     render() {
         let deviceMsg = (
             <div>
@@ -118,6 +124,7 @@ class DeviceTopicHist extends Component {
                         </LineChart>                    
                         </Row>
                     </div>
+                    <Button onClick={this.goBack} className="mr-sm-2" color='primary' size='sm'>Voltar</Button>
                 </div>
             );
         }
