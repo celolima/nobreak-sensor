@@ -1,0 +1,5 @@
+ExtInterrupt KEYWORD1
+getF1 KEYWORD2
+getF2   KEYWORD2
+handleInterruptF1  KEYWORD2
+handleInterruptF2  KEYWORD2

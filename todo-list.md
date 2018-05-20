@@ -3,6 +3,8 @@
 * Implementar a leitura de frequencia de entrada e saida no MUX -- Leitura conforme frequencia de entrada e salva em uma variável. 
     Envio para MQTT de acordo com loop
 
+* Revisar portas do MUX
+
 * Implementar a leitura de tensão de entrada e saida (maior q X == 110V ou 220V)
 
 * Implementar a leitura da tensão da bateria

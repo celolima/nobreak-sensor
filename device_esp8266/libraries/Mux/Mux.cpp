@@ -11,6 +11,7 @@
 #define A 16 // D0
 #define B 5 // D1
 #define C 4 // D2 - Bit mais significativo
+
 /*
 #define A 12 // D6
 #define B 13 // D7
@@ -21,7 +22,7 @@ Mux::Mux() {
     // seta os pinos select como saída
     pinMode(A,OUTPUT);
     pinMode(B,OUTPUT);
-    pinMode(C,OUTPUT);    
+    pinMode(C,OUTPUT);
 }
 
 int Mux::getAnalogValue(byte porta) {
