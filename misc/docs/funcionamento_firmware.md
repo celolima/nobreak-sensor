@@ -73,3 +73,60 @@
 - Cadastro do dispositivo e seus respectivos parâmetros monitoráveis através do MQTT
 - Cadastro das ações a serem executadas quando um parâmetro atingir determinado valor, e envio de e-mail
 - Cadastro no banco de dados quando um valor ultrapassar o valor configurado de um parâmetro
+
+### Tabelas do Sistema WEB
+```sql
+TB_DEVICE
+	ID
+	DESC
+	FK_CLIENT
+
+TB_TOPIC
+	ID
+	PARAM
+	UNMED
+	TOPIC
+	
+TB_DEVICE_TOPIC
+	FK_DEVICE
+	FK_TOPIC
+
+TB_REACT
+	ID
+	TYPE
+	CONDITION
+	VALUE
+	FK_ACTION
+
+TB_TOPIC_REACT
+	FK_TOPIC
+	FK_REACT
+
+TB_ACTION
+	ID
+	ACTION_TYPE
+	DESC
+	MESSAGE
+
+TB_LOGEMAIL
+	ID
+	EMAIL
+	DATA_HORA
+	DEVICE_ID
+	DEVICE_NAME
+	CONDITION
+	PARAM
+	VALOR_LIDO
+	VALOR_DEF
+
+TB_CLIENT
+	ID
+	NOME
+	ENDERECO
+	NR
+	TEL
+
+TB_DEVICE_CLIENTE
+	FK_DEV
+    FK_CLIENT
+```    

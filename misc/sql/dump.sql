@@ -42,6 +42,20 @@ CREATE TABLE IF NOT EXISTS TB_LOGEMAIL (
     valor_def REAL
 );
 
+CREATE TABLE IF NOT EXISTS TB_CLIENT (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome text,
+    endereco text,
+    nr integer,
+    tel text
+);
+
+CREATE TABLE IF NOT EXISTS TB_DEVICE_CLIENTE (
+    dev_id text,
+    client_id text
+    FOREIGN KEY (client_id) REFERENCES TB_CLIENT (id) ON DELETE RESTRICT
+);
+
 PRAGMA foreign_keys = ON;
 
 /*
