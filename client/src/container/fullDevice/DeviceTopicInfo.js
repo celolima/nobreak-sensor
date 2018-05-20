@@ -18,7 +18,7 @@ const deviceTopicInfo = (props)  => {
   return (
     <Col>
         <Card>
-          <CardBody>
+          <CardBody onClick={props.clicked}>
             <CardTitle className='d-inline-flex'>{props.topic.param}</CardTitle> 
             <h2>
               <Badge className='float-right' color={props.topicValue[props.topic.topic] === '---' ? 'warning' : 'success'}>

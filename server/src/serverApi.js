@@ -23,20 +23,45 @@ function loadAPI(app) {
         });
     });
 
-    //GET SPECIFIC
+    //GET SPECIFIC DEVICE
     app.get('/api/devices/:id', (req, res) => {
       console.log('Getting one: ', req.params.id);
-      let device = null;
+      let device = 'not found';
       fs.readFile(DATA_FILE, (err, data) => {
         const devices = JSON.parse(data);
         devices.forEach((dev) => {
           if (dev.id === req.params.id) {
             device = dev;
             console.log('Founded: ', device.desc);
-            res.setHeader('Cache-Control', 'no-cache');
-            res.json(device);
           }
         });
+        res.setHeader('Cache-Control', 'no-cache');
+        res.json(device);
+      });
+    });
+
+    //GET SPECIFIC PARAM OF DEVICE
+    app.get('/api/devices/param/:devId/:paramId', (req, res) => {
+      //console.log('Getting one: ' + req.params.devId + ' :: ' + req.params.paramId);
+      console.log(req.params);
+      let device = null;
+      let topic = 'not found';
+      fs.readFile(DATA_FILE, (err, data) => {
+        const devices = JSON.parse(data);
+        devices.forEach((dev) => {
+          if (dev.id === req.params.devId) {
+            device = dev;
+            console.log('Founded: ', device.desc);
+            device.topics.forEach((top) => {
+              if(top.id === parseInt(req.params.paramId)) {
+                console.log('Founded: ', top.param);
+                topic = top;
+              }
+            });
+          }
+        });
+        res.setHeader('Cache-Control', 'no-cache');
+        res.json(topic);
       });
     });
 

@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import DeviceTopicInfo from './DeviceTopicInfo';
 import * as clientApi from '../../api/clientApi';
+//import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { Row } from 'reactstrap';
 import './FullDevice.css';
 import mqtt from 'mqtt';
 import Alert from '../ui/AlertLoadingDanger';
 
-
-class FullDevice extends Component {
+class DeviceTopicHist extends Component {
     state = {
-        loadedDevice: null,
+        loadedTopic: null,
         topicValue: {},
         serverError: false
     }
@@ -19,28 +19,27 @@ class FullDevice extends Component {
     }
 
     loadData () {
-        if ( this.props.match.params.id ) {
-            if ( !this.state.loadedDevice || (this.state.loadedDevice && this.state.loadedDevice.id !== this.props.match.params.id) ) {
-                clientApi.getDeviceId(this.props.match.params.id)
-                    .then(data => {                    
-                        const topics = data.topics;
-                        if(topics) {
+        if ( this.props.match.params.devId && this.props.match.params.paramId ) {
+            if ( !this.state.loadedTopic || (this.state.loadedTopic && this.state.loadedTopic.id !== this.props.match.params.paramId) ) {
+                let params = {
+                    devId: this.props.match.params.devId,
+                    paramId : this.props.match.params.paramId
+                };
+                console.log(params);
+                clientApi.getParamFromDevice(params)
+                    .then(data => { 
+                        const topic = data.topic;
+                        if(topic) {
                             let topicValObj = {};
-                            topics.forEach((element) => {                           
-                                topicValObj[element.topic] = '---';
-                                this.setState({topicValue: topicValObj});
-                            });
-                        }
-                        this.setState({loadedDevice: data},this.handleTopicSubscribe());
+                            topicValObj[topic] = '---';
+                            this.setState({topicValue: topicValObj});
+                            this.setState({loadedTopic: data},this.handleTopicSubscribe());
+                        }                        
                     })
                     .catch(()=>{this.setState({serverError: true})});
             }
         }
     }
-
-    handleTrashClick = () => {
-        clientApi.deleteDevice({id:this.state.loadedDevice.id});
-    };
 
     handleTopicSubscribe = () => {
         const client  = mqtt.connect('ws://iot.eclipse.org:80/ws');
@@ -71,14 +70,23 @@ class FullDevice extends Component {
         });
     }
 
-    postSelectedHandler = ( devId, paramId ) => {
-        this.props.history.push( '/devices/param/' + devId + '/' + paramId );
+    getData = () => {
+        let data = [
+            {name: '13:00h', temp: 30},
+            {name: '14:00h', temp: 40},
+            {name: '15:00h', temp: 35},
+            {name: '16:00h', temp: 36},
+            {name: '17:00h', temp: 28},
+            {name: '18:00h', temp: 50},
+            {name: '19:00h', temp: 34}
+          ];
+        return data;
     }
 
     render() {
         let deviceMsg = (
             <div>
-                <h3>Dispositivo - {this.props.match.params.id}</h3>
+                <h3>{this.props.match.params.paramId}</h3>
                 <hr/>
                 <Row>
                     <Alert serverError={this.state.serverError}/>
@@ -88,19 +96,16 @@ class FullDevice extends Component {
         );
         let topicsMsg = '';
         
-        if ( this.state.loadedDevice ) {            
-            if(this.state.loadedDevice.topics) {
-                topicsMsg = this.state.loadedDevice.topics.map((t, index) => {
-                    return (
-                        <div key={index}>
-                            <DeviceTopicInfo topic={t} topicValue={this.state.topicValue} clicked={() => this.postSelectedHandler( this.state.loadedDevice.id, t.id )}/>
-                        </div>
-                    )});
-            }
+        if ( this.state.loadedTopic ) {
+            topicsMsg = (
+                <div>
+                    <DeviceTopicInfo topic={this.state.loadedTopic} topicValue={this.state.topicValue}/>
+                </div>
+            );
+
             deviceMsg = (
                 <div>
-                    <h3>{this.state.loadedDevice.desc}</h3>
-                    <span className='reacts'>{this.state.loadedDevice.id}</span>
+                    <h3>{this.state.loadedTopic.param}</h3>
                     <hr/>
                     <Row>
                     {topicsMsg}
@@ -112,4 +117,4 @@ class FullDevice extends Component {
     }
 }
 
-export default FullDevice;
+export default DeviceTopicHist;

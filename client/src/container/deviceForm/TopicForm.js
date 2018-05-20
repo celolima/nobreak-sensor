@@ -10,7 +10,8 @@ class TopicForm extends Component {
 
   onInputChange = ({ name, value, error }) => {
     const field = name.split('_');
-    if(value !== '/' && value !== '\/') {
+    // eslint-disable-next-line
+    if(value !== '/' && value !== "\/") {
       if (field[1] === 'param') {
         let topic = value ? '/'.concat(this.props.dev.toLowerCase(),'/',value.toLowerCase(), '/', this.props.devID) : '';
         this.props.array[field[0]]['topic'] = topic.replace(/(\s)+/g, '-');

@@ -39,4 +39,9 @@ const getDeviceId = (id) => {
     .then(response => {return response.data;});
 };
 
-export { getDevices, getDeviceId, createDevice, updateDevice, deleteDevice, createReaction };
+const getParamFromDevice = (data) => {
+  return axios.get('/devices/param/', {data: data} )
+    .then(response => {return response.data;});
+};
+
+export { getDevices, getDeviceId, createDevice, updateDevice, deleteDevice, createReaction, getParamFromDevice };
