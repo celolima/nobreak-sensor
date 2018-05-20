@@ -21,7 +21,7 @@ class Client {
             console.log(err);
         });
         
-        mqttClient.stream.on('error', (e) => {            
+        mqttClient.stream.on('error', (e) => {
             console.log('Não foi possível conectar!');
             console.log(e);
             mqttClient.end();

@@ -2,7 +2,6 @@ const sqlite3 = require('sqlite3');
 let db = null;
 
 let getDb = function() {
-    console.log('Conectando...');
     if(!db) {
         db = new sqlite3.Database('../misc/sql/database.db', (err) => {
             if (err) {

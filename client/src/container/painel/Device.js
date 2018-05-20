@@ -11,6 +11,7 @@ const device = (props)  => {
   return (
     <Col sm="4">
       <Card>
+        <i className='trash icon' />
         <CardBody onClick={props.clicked}>
           <CardText>{props.desc}</CardText>
           <ul>

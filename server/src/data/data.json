@@ -1,53 +1,49 @@
 [
     {
-        "id": "0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
-        "desc": "Dev-15",
+        "id": "c83036a4-124a-4fa4-b635-5f53ec1c8d04",
+        "desc": "NoBreak01",
         "topics": [
             {
                 "id": 1,
-                "param": "Temperatura",
-                "unMed": "°C",
-                "topic": "/dev-15/temperatura/0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
-                "reacts": [
-                    {
-                        "id": 1,
-                        "type": "Inteiro",
-                        "condition": "maior que",
-                        "value": "30",
-                        "action": {
-                            "actionType": "e-mail",
-                            "email": "celorsl@yahoo.com.br",
-                            "cel": "",
-                            "message": "Teste"
-                        }
-                    }
-                ]
+                "param": "Tensão de entrada",
+                "unMed": "V",
+                "topic": "/nobreak01/tensão-de-entrada/c83036a4-124a-4fa4-b635-5f53ec1c8d04"
             },
             {
                 "id": 2,
-                "param": "Corrente",
-                "unMed": "mA",
-                "topic": "/dev-15/corrente/0c27556f-a1b0-4d54-bcc2-255dc8f1b185"
+                "param": "Tensão de saída",
+                "unMed": "V",
+                "topic": "/nobreak01/tensão-de-saída/c83036a4-124a-4fa4-b635-5f53ec1c8d04"
             },
             {
                 "id": 3,
-                "param": "Tensão",
+                "param": "Tensão da bateria",
                 "unMed": "V",
-                "topic": "/dev-15/tensão/0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
-                "reacts": [
-                    {
-                        "id": 1,
-                        "type": "Float",
-                        "condition": "maior que",
-                        "value": "90",
-                        "action": {
-                            "actionType": "e-mail",
-                            "email": "celorsl@yahoo.com.br",
-                            "cel": "",
-                            "message": "Teste"
-                        }
-                    }
-                ]
+                "topic": "/nobreak01/tensão-da-bateria/c83036a4-124a-4fa4-b635-5f53ec1c8d04"
+            },
+            {
+                "id": 4,
+                "param": "Corrente",
+                "unMed": "mV",
+                "topic": "/nobreak01/corrente/c83036a4-124a-4fa4-b635-5f53ec1c8d04"
+            },
+            {
+                "id": 5,
+                "param": "Temperatura",
+                "unMed": "°C",
+                "topic": "/nobreak01/temperatura/c83036a4-124a-4fa4-b635-5f53ec1c8d04"
+            },
+            {
+                "id": 6,
+                "param": "Frequência entrada",
+                "unMed": "Hz",
+                "topic": "/nobreak01/frequência-entrada/c83036a4-124a-4fa4-b635-5f53ec1c8d04"
+            },
+            {
+                "id": 7,
+                "param": "Frequência saída",
+                "unMed": "Hz",
+                "topic": "/nobreak01/frequência-saída/c83036a4-124a-4fa4-b635-5f53ec1c8d04"
             }
         ]
     }
