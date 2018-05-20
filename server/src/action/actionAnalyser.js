@@ -10,44 +10,44 @@ import * as dao from '../dao/dao'
 const checkAndAct = (data) => {
     const currVal = parseFloat(data.currVal);
     const conditionVal = parseFloat(data.conditionVal);
-    console.log(data.param.concat(' = ', data.currVal, ' is ', data.condition, ' ', data.conditionVal, ' ?'));
+    //console.log(data.param.concat(' = ', data.currVal, ' is ', data.condition, ' ', data.conditionVal, ' ?'));
 
     switch(data.condition) {
         case 'maior que':
             if(currVal > conditionVal) {
                 checkAndSendEmail(data);
             }
-            console.log(currVal > conditionVal); 
+            // console.log(currVal > conditionVal); 
             break;
         case 'maior ou igual que':
             if(currVal >= conditionVal) {
                 checkAndSendEmail(data);
             }
-            console.log(currVal >= conditionVal); 
+            // console.log(currVal >= conditionVal); 
             break;
         case 'menor que':
             if(currVal < conditionVal) {
                 checkAndSendEmail(data);
             }
-            console.log(currVal < conditionVal); 
+            // console.log(currVal < conditionVal); 
             break;
         case 'menor ou igual que':
             if(currVal <= conditionVal) {
                 checkAndSendEmail(data);
             }
-            console.log(currVal <= conditionVal); 
+            // console.log(currVal <= conditionVal); 
             break;
         case 'igual a':
             if(currVal === conditionVal) {
                 checkAndSendEmail(data);
             }
-            console.log(currVal === conditionVal); 
+            // console.log(currVal === conditionVal); 
             break;
         case 'diferente de':
             if(currVal !== conditionVal) {
                 checkAndSendEmail(data);
             }
-            console.log(currVal !== conditionVal); 
+            // console.log(currVal !== conditionVal); 
             break;
         default: console.log('invalid condition action');
     }
@@ -71,7 +71,7 @@ const checkAndSendEmail = (data) => {
             html: msg
         };
         dao.createLogEmail(data);
-        sendEmail(mailOptions);
+        //sendEmail(mailOptions);
     }
 };
 

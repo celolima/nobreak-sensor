@@ -19,7 +19,12 @@ const deviceTopicInfo = (props)  => {
     <Col>
         <Card>
           <CardBody>
-            <CardTitle className='d-inline-flex'>{props.topic.param}</CardTitle> <Badge className='float-right' color={props.topicValue[props.topic.topic] === '---' ? 'warning' : 'info'}>{props.topicValue[props.topic.topic]}{' '}{props.topic.unMed}</Badge>
+            <CardTitle className='d-inline-flex'>{props.topic.param}</CardTitle> 
+            <h2>
+              <Badge className='float-right' color={props.topicValue[props.topic.topic] === '---' ? 'warning' : 'success'}>
+                {props.topicValue[props.topic.topic]}{' '}{props.topic.unMed}
+              </Badge>
+            </h2>
             <p className='reacts'>{props.topic.topic}</p>
         </CardBody>
         <CardBody>
