@@ -38,14 +38,10 @@ class DeviceForm extends Component {
       desc: this.state.desc,
       topics: arrayTopics
     };
-    /*
+    
     clientApi.createDevice(device)
-      .then(() => { console.log('Finished'); this.setState({submitted: true})})
-      .catch(() => {this.setState({serverError: true, submitted: false})});
-    */
-   clientApi.createDevice(device)
-    .then(data => this.setState({submitted: true}))
-    .catch(()=>{this.setState({serverError: true})});
+      .then(() => { this.setState({submitted: true}) } )
+      .catch(() => { this.setState({serverError: true, submitted: false}) } );
   };
 
   handleCancelClick = () => {
