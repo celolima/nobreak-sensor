@@ -52,7 +52,9 @@ function loadAPI(app) {
             sendEmail: req.body.sendEmail
           };
           devices.push(newDevice);
-          fs.writeFile(DATA_FILE, JSON.stringify(devices, null, 4));
+          fs.writeFile(DATA_FILE, JSON.stringify(devices, null, 4), () => {
+            res.json({});
+          });
         });
     });
 
@@ -107,7 +109,7 @@ function loadAPI(app) {
                   action: req.body.action
                 }
                 if(!topic.reacts) {
-                  topis.reacts = [];
+                  topic.reacts = [];
                 }
                 react['id'] = topic.reacts.length + 1;
                 topic.reacts.push(react);

@@ -32,23 +32,20 @@ class DeviceForm extends Component {
 
   handleCreateFormSubmit = () => {
     if (!this.isValid()) return;
-    /*
-    let isOk = true;
-    isOk = arrayTopics.forEach((element) => {
-      console.log(element.param);
-      if(element.param === '' || element.unMed === '' || element.topic === '') return false;
-    });
-    if(!isOk) {console.log('Favor preencher os campos obrigatórios!'); return;};
-    */
 
     const device = {
       id: this.state.id,
       desc: this.state.desc,
       topics: arrayTopics
     };
+    /*
     clientApi.createDevice(device)
-      .then(() => {this.setState({submitted: true})})
-      .catch(()=>{this.setState({serverError: true, submitted: false})});
+      .then(() => { console.log('Finished'); this.setState({submitted: true})})
+      .catch(() => {this.setState({serverError: true, submitted: false})});
+    */
+   clientApi.createDevice(device)
+    .then(data => this.setState({submitted: true}))
+    .catch(()=>{this.setState({serverError: true})});
   };
 
   handleCancelClick = () => {
@@ -74,8 +71,9 @@ class DeviceForm extends Component {
 
   render() {
     let redirect = null;
-
+    console.log('SUB?' + this.state.submitted);
     if (this.state.submitted) {
+      
       redirect = <Redirect to="/devices" />;
     }
 

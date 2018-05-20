@@ -14,7 +14,7 @@
 
 ## Software WEB
 
-* Aumentar visualização do valor dos parâmetros, na tela FullDevice
+* ~~Aumentar visualização do valor dos parâmetros, na tela FullDevice~~
 
 * Adicionar gráficos das ultimas leituras, contendo data e hora
 

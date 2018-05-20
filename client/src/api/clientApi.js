@@ -7,9 +7,9 @@ const getDevices = () => {
 
 const createDevice = (data) => {
   return axios.post('/devices/', data)
-  .then(response => {
+    .then(response => {
       console.log('Created' + response);
-  });
+    });
 };
 
 const createReaction = (data) => {

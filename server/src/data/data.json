@@ -7,7 +7,21 @@
                 "id": 1,
                 "param": "Tensão de entrada",
                 "unMed": "V",
-                "topic": "/nobreak01/tensão-de-entrada/c83036a4-124a-4fa4-b635-5f53ec1c8d04"
+                "topic": "/nobreak01/tensão-de-entrada/c83036a4-124a-4fa4-b635-5f53ec1c8d04",
+                "reacts": [
+                    {
+                        "type": "Inteiro",
+                        "condition": "maior que",
+                        "value": "127",
+                        "action": {
+                            "actionType": "e-mail",
+                            "email": "celorsl@yahoo.com.br",
+                            "cel": "",
+                            "message": ""
+                        },
+                        "id": 1
+                    }
+                ]
             },
             {
                 "id": 2,
