@@ -52,10 +52,8 @@ function loadAPI(app) {
         devices.forEach((dev) => {
           if (dev.id === req.params.devId) {
             device = dev;
-            console.log('Founded: ', device.desc);
             device.topics.forEach((top) => {
               if(top.id === parseInt(req.params.paramId)) {
-                console.log('Founded: ', top.param);
                 topic = top;
               }
             });

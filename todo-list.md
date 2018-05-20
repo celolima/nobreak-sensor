@@ -16,7 +16,7 @@
 
 * ~~Aumentar visualização do valor dos parâmetros, na tela FullDevice~~
 
-* Adicionar gráficos das ultimas leituras, contendo data e hora
+* ~~Adicionar gráficos das ultimas leituras, contendo data e hora~~ 
 
 * Criar tabela (html) contendo os dados do banco
 
