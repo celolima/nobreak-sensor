@@ -21,8 +21,8 @@
 
 ##### Entradas digitais:
 
-    D0  -   Frequência da tensão da rede
-    D1  -   Frequência da tensão de saída
+    D1  -   Frequência da tensão da rede
+    D8  -   Frequência da tensão de saída
     D2  -   Seletor multiplexador
     D3  -   Seletor multiplexador
     D4  -   Seletor multiplexador
@@ -60,7 +60,7 @@
     Led2 - Tensão de entrada
     Led3 - Tensão da bateria interna
 
-    Ao conectar na rede Wifi local do cliente, o Led1 pisca.
+    Ao conectar na rede Wifi local do cliente e servidor Mqtt, o Led1 pisca.
     Caso exista tensão na entrada o Led2 acende.
     Caso não exista tensão na entrada e o a tensão da bateria seja menor do que a referência de 10V, o Led3 acende, indicando consumo da bateria interna do nobreak.
 

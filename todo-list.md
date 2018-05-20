@@ -1,17 +1,16 @@
 ## ESP8266
 
-* Implementar a leitura de frequencia de entrada e saida no MUX -- Leitura conforme frequencia de entrada e salva em uma variável. 
-    Envio para MQTT de acordo com loop
+* ~~Implementar a leitura de frequencia de entrada e saida no MUX -- Leitura conforme frequencia de entrada e salva em uma variável. Envio para MQTT de acordo com loop~~
 
-* Revisar portas do MUX
+* ~~Revisar portas do MUX~~
 
 * Implementar a leitura de tensão de entrada e saida (maior q X == 110V ou 220V)
 
-* Implementar a leitura da tensão da bateria
+* ~~Implementar a leitura da tensão da bateria~~
 
 * Implementar condição minima para leitura da Corrente, atualmente sem carga está medindo em torno de 800mA
 
-* Implementar o controle dos LEDs de acordo com status
+* ~~Implementar o controle dos LEDs de acordo com status~~
 
 ## Software WEB
 

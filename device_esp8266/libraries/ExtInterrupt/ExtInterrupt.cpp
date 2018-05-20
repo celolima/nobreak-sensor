@@ -1,12 +1,17 @@
 ﻿/*
   ExternalInterrupt.h - Library to configure externel interrupt
+
+  Pin interrupts are supported through attachInterrupt, detachInterrupt functions. 
+  Interrupts may be attached to any GPIO pin, except GPIO16. 
+  Standard Arduino interrupt types are supported: CHANGE, RISING, FALLING
+
   Created by Marcelo Lima, May 20, 2018.
 */
 #include "Arduino.h"
 #include "ExternalInterrupt.h"
 
-#define F1 13
-#define F2 13
+#define F1 5 // D1
+#define F2 15 // D8
 
 unsigned long timeFirst1 = 0;
 unsigned long timeSecond1 = 0;

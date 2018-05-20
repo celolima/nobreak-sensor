@@ -1,10 +1,14 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include <Mux.h>
+#include <ExtInterrupt.h>
 
 #define LED_BUILTIN 2
-#define LED_WIFI 0
-#define NUMBER_OF_SENSORS 2
+#define LED_WIFI 13
+#define LED_TENSAOIN 12
+#define LED_TENSAOBATT 14
+
+#define NUMBER_OF_SENSORS 7
 
 //String ssid = "NET_2GDB14C2";
 //String password = "4BDB14C2";
@@ -13,10 +17,25 @@ String password = "adminadmin";
 
 String mqtt_server = "iot.eclipse.org";
 int mqtt_port = 1883;
-String topics[NUMBER_OF_SENSORS] = {"/dev-15/temperatura/0c27556f-a1b0-4d54-bcc2-255dc8f1b185","/dev-15/corrente/0c27556f-a1b0-4d54-bcc2-255dc8f1b185"};
+
+/*
+    M13 -   Tensão de entrada
+    M14 -   Tensão de saída
+    M15 -   Tensão da bateria
+    M05 -   Corrente de saída
+    M01 -   Temperatura
+*/
+
+String topics[NUMBER_OF_SENSORS] = {"/dev-15/tensaoIN/0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
+                                    "/dev-15/tensaoOUT/0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
+                                    "/dev-15/tensaoBATT/0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
+                                    "/dev-15/corrente/0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
+                                    "/dev-15/temperatura/0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
+                                    "/dev-15/frenquenciaIN/0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
+                                    "/dev-15/frenquenciaOUT/0c27556f-a1b0-4d54-bcc2-255dc8f1b185"};
 
 long previousMsgMills = 0;
-byte porta[NUMBER_OF_SENSORS] = {4,6};
+byte porta[NUMBER_OF_SENSORS] = {0,1,2,5,4};
 
 long previousLEDMillis = 0;
 byte ledState;
@@ -24,6 +43,7 @@ byte ledState;
 WiFiClient espClient;
 PubSubClient client(espClient);
 Mux mux;
+ExtInterrupt extInt;
 
 double val = 0;
 
@@ -59,26 +79,25 @@ void setupMqtt() {
 void loop() {
   chkConn();
 
-  unsigned long now = millis();  
+  unsigned long now = millis();
+
   if (now - previousMsgMills > 2000) {
     previousMsgMills = now;
 
     for(int i=0;i<NUMBER_OF_SENSORS;i++) {
-      if(topics[i]) {        
-        // Corrente
-        if(i == 0) {
-          val = mux.getTemperature(porta[i]);
-          Serial.print("Temperatura:  ");
-        } if (i == 1) {
-          val = mux.getCurrent(porta[i]);
-          Serial.print("Corrente:  ");
-        } else {
-          // Outros
-          // val = mux.getConvertedAnalogValue(porta[i], 3.3);
-        }
-        Serial.println(val);
-        publick(topics[i],val);
+      // TEN-IN || TEN-OUT || TEN-BATT
+      if(i<=2) {
+        val = mux.getConvertedAnalogValue(porta[i], 3.3);
+      } else if (i==3) { // CORRENTE
+        val = mux.getCurrent(porta[i]);
+      } else if (i==4) { // TEMPERATURA
+        val = mux.getTemperature(porta[i]);
+      } else if(i==5) { // FREQIN
+        val = extInt.getF1();
+      } else { // FREQOUT
+        val = extInt.getF2();
       }
+      publick(topics[i],val);
     }
   }
 }
@@ -125,20 +144,21 @@ void blinkLed(boolean flg) {
     if (currentMillis - previousLEDMillis >= 700) {
       previousLEDMillis = currentMillis;  
       ledState = !ledState;
-      digitalWrite(LED_BUILTIN, ledState);
+      digitalWrite(LED_WIFI, ledState);
     }
   } else {
-    digitalWrite(LED_BUILTIN, HIGH);
+    digitalWrite(LED_WIFI, LOW);
   }
 }
 
 void initConnectionsLED() {
-  // Inicializa led do Wifi
-  pinMode(LED_WIFI, OUTPUT);
-  digitalWrite(LED_WIFI, HIGH);
+  ledState = LOW;
 
-  // Inicializa led do MQTT
-  pinMode(LED_BUILTIN, OUTPUT);
-  ledState = HIGH;
-  digitalWrite(LED_BUILTIN, ledState);
+  pinMode(LED_TENSAOIN, OUTPUT);
+  pinMode(LED_TENSAOBATT, OUTPUT);
+  pinMode(LED_WIFI, OUTPUT);   
+
+  digitalWrite(LED_TENSAOIN, ledState);
+  digitalWrite(LED_TENSAOBATT, ledState);
+  digitalWrite(LED_WIFI, ledState);
 }
