@@ -3,15 +3,15 @@
 
 #include "Arduino.h"
 
-class Mux
+class ExtInterrupt
 {
   public:
     ExtInterrupt();
     double getF1();
     double getF2();
   private:
-    void handleInterruptF1();
-    void handleInterruptF2();
+    static void handleInterruptF1();
+    static void handleInterruptF2();
 };
 
 #endif

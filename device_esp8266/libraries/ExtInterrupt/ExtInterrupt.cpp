@@ -1,5 +1,5 @@
 ﻿/*
-  ExternalInterrupt.h - Library to configure externel interrupt
+  ExtInterrupt.h - Library to configure externel interrupt
 
   Pin interrupts are supported through attachInterrupt, detachInterrupt functions. 
   Interrupts may be attached to any GPIO pin, except GPIO16. 
@@ -8,30 +8,31 @@
   Created by Marcelo Lima, May 20, 2018.
 */
 #include "Arduino.h"
-#include "ExternalInterrupt.h"
+#include "ExtInterrupt.h"
 
 #define F1 5 // D1
 #define F2 15 // D8
 
-unsigned long timeFirst1 = 0;
-unsigned long timeSecond1 = 0;
+volatile unsigned long timeFirst1 = 0;
+volatile unsigned long timeSecond1 = 0;
 
-double f1 = 0;
-byte clk1 = 1;
+volatile double f1 = 0;
+volatile byte clk1 = 1;
 
-unsigned long timeFirst1 = 0;
-unsigned long timeSecond1 = 0;
+volatile unsigned long timeFirst2 = 0;
+volatile unsigned long timeSecond2 = 0;
 
-double f2 = 0;
-byte clk2 = 1;
+volatile double f2 = 0;
+volatile byte clk2 = 1;
 
-ExternalInterrupt::ExternalInterrupt() {
-    pinMode(interruptPin, INPUT_PULLUP);
+ExtInterrupt::ExtInterrupt() {
+    pinMode(F1, INPUT_PULLUP);
+    pinMode(F2, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt(F1), handleInterruptF1, FALLING);
     attachInterrupt(digitalPinToInterrupt(F2), handleInterruptF2, FALLING);
 }
 
-void ExternalInterrupt::handleInterruptF1() {
+void ExtInterrupt::handleInterruptF1() {
     if(clk1 == 1) {
         timeFirst1 = millis();    
         clk1++;
@@ -44,7 +45,7 @@ void ExternalInterrupt::handleInterruptF1() {
     }
 }
 
-void ExternalInterrupt::handleInterruptF2() {
+void ExtInterrupt::handleInterruptF2() {
     if(clk2 == 1) {
         timeFirst2 = millis();    
         clk2++;
@@ -57,10 +58,10 @@ void ExternalInterrupt::handleInterruptF2() {
     }
 }
 
-double ExternalInterrupt::getF1() {
+double ExtInterrupt::getF1() {
     return f1;
 }
 
-double ExternalInterrupt::getF2() {
+double ExtInterrupt::getF2() {
     return f2;
 }
