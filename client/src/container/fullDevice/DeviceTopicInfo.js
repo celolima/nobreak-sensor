@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardBody, CardTitle, Col, Badge } from 'reactstrap';
+import { Card, CardBody, CardTitle, Badge } from 'reactstrap';
 
 const deviceTopicInfo = (props)  => {
   let reactsCard = <span className='reacts'>no reacts</span>;

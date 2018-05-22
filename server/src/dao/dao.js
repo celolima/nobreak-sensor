@@ -20,15 +20,10 @@ let createLogEmail = (data) => {
 };
 
 let getLogsEmail = function() {
-    getDb().serialize(() => {
-        console.log('ID\tEMAIL\tPARAM\tVALOR');
-        getDb().each('SELECT * FROM TB_LOGEMAIL', (err, row) => {
-        if (err) {
-            console.error(err.message);
-        }
-        console.log(row.id + '\t' + row.email+ '\t' + row.param + '\t' + row.valor_lido);
-        });
-    });
+    let rows = [];
+    return new Promise((resolve, reject) => resolve(
+        getDb().all('SELECT * FROM TB_LOGEMAIL', (err, rows) => {return rows})
+    ));
 };
 
 let disconnect = function() {
@@ -40,6 +35,7 @@ let disconnect = function() {
     });
 };
 
+exports.getDb = getDb;
 exports.createLogEmail = createLogEmail;
 exports.getLogsEmail = getLogsEmail;
 exports.disconnect = disconnect;

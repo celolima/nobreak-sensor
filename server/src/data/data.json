@@ -78,5 +78,17 @@
                 "topic": "/nobreak02/tensão-saída/5fa0dc95-b7f6-4082-bfcf-22528a7e227c"
             }
         ]
+    },
+    {
+        "id": "3d57ff6a-b400-4ce9-a0d7-d060f6a2aafe",
+        "desc": "Dev-09",
+        "topics": [
+            {
+                "id": 1,
+                "param": "Corrente",
+                "unMed": "mA",
+                "topic": "/dev-09/corrente/3d57ff6a-b400-4ce9-a0d7-d060f6a2aafe"
+            }
+        ]
     }
 ]

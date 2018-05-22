@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import DeviceTopicInfo from './DeviceTopicInfo';
 import * as clientApi from '../../api/clientApi';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { Row, Col, Button } from 'reactstrap';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import { Row, Button, Table } from 'reactstrap';
 import './FullDevice.css';
 import mqtt from 'mqtt';
 import Alert from '../ui/AlertLoadingDanger';
@@ -28,7 +28,6 @@ class DeviceTopicHist extends Component {
                     devId: this.props.match.params.devId,
                     paramId : this.props.match.params.paramId
                 };
-                console.log(params);
                 clientApi.getParamFromDevice(params)
                     .then(data => { 
                         const topic = data.topic;
@@ -39,6 +38,9 @@ class DeviceTopicHist extends Component {
                             this.setState({loadedTopic: data},this.handleTopicSubscribe());
                         }                        
                     })
+                    .catch(()=>{this.setState({serverError: true})});
+                clientApi.getParamFromDevice(params)
+                    .then(data => {this.setState({topicHist: data})})
                     .catch(()=>{this.setState({serverError: true})});
             }
         }
@@ -102,11 +104,48 @@ class DeviceTopicHist extends Component {
             
         );
         let topicsMsg = '';
-        
+        let tableHistoric = '';
         if ( this.state.loadedTopic ) {
             topicsMsg = (
                 <div>
                     <DeviceTopicInfo topic={this.state.loadedTopic} topicValue={this.state.topicValue}/>
+                </div>
+            );
+            let historicoElement = '';
+            /*
+            if(this.state.topicHist) {
+                historicoElement = 
+                    this.state.topicHist.forEach((index,e) => {
+                        return (
+                            <tr>
+                                <th scope="row">{index}</th>
+                                <td>{e.data_hora}</td>
+                                <td>{e.valor_lido}</td>
+                                <td>{e.valor_def}</td>
+                                <td>email</td>
+                                <td>{e.email}</td>
+                            </tr>
+                        );
+                    });
+            }
+            */
+            tableHistoric = (
+                <div>
+                    <Table>
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Hora</th>
+                        <th>Valor lido</th>
+                        <th>Valor ref.</th>
+                        <th>Action</th>
+                        <th>To</th>
+                    </tr>
+                    </thead>
+                    <tbody>                   
+                        {historicoElement}
+                    </tbody>
+                    </Table>
                 </div>
             );
 
@@ -116,12 +155,15 @@ class DeviceTopicHist extends Component {
                         <Row>
                         {topicsMsg}
                         <LineChart width={600} height={300} data={this.state.topicHist}>
-                        <Line type="monotone" dataKey="valor" stroke="red" />
-                        <CartesianGrid stroke="#ccc" />
-                        <Tooltip/>
-                        <XAxis dataKey="hora" />
-                        <YAxis/>
-                        </LineChart>                    
+                            <Line type="monotone" dataKey="valor" stroke="red" />
+                            <CartesianGrid stroke="#ccc" />
+                            <Tooltip/>
+                            <XAxis dataKey="hora" />
+                            <YAxis/>
+                        </LineChart>              
+                        </Row>
+                        <Row>
+                            {tableHistoric}
                         </Row>
                     </div>
                     <Button onClick={this.goBack} className="mr-sm-2" color='primary' size='sm'>Voltar</Button>

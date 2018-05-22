@@ -1,3 +1,4 @@
+import * as dao from './dao/dao'
 const path = require("path");
 const bodyParser = require('body-parser');
 const fs = require('fs');
@@ -43,8 +44,6 @@ function loadAPI(app) {
     //GET SPECIFIC PARAM OF DEVICE
     app.get('/api/devices/param/:devId/:paramId', (req, res) => {
       //console.log('Getting one: ' + req.params.devId + ' :: ' + req.params.paramId);
-      console.log('here =)');
-      console.log(req.params);
       let device = null;
       let topic = 'not found';
       fs.readFile(DATA_FILE, (err, data) => {
@@ -146,7 +145,15 @@ function loadAPI(app) {
         });
       });
   });
-    
+  
+  //GET EMAILS SPECIFIC PARAM OF DEVICE
+  app.get('/api/devices/param/emails/:devId/:paramId', (req, res) => {
+    console.log('Getting email: ' + req.params.devId + ' :: ' + req.params.paramId);   
+    dao.getDb().get('SELECT * FROM TB_LOGEMAIL WHERE device_id = ?', req.params.devId,  (err, row) => {
+      res.setHeader('Cache-Control', 'no-cache');
+      res.json(row);
+    });    
+  });
 }
 
 module.exports = api;
