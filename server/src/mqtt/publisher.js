@@ -1,14 +1,13 @@
 import Client from './client';
-import * as file from '../data/deviceFileAccess';
+import * as dao from './dao/dao'
 
 const publishDevices = (useLocalBroker) => {
   const p = new Promise((resolve, reject) => resolve(new Client(useLocalBroker)));
   p.then((mqtt) => {
     /*  Publisher   */
     setInterval(() => {
-      const topics = file.getTopics();
-      topics.forEach((topic) => {
-        mqtt.publish(topic,(getRandomInt(0,100)).toString(), {}, (err) => {console.log('Error to publish on ', topic)});
+      dao.getDb().each('SELECT topic FROM TB_PARAM',  (err, row) => {
+        mqtt.publish(row,(getRandomInt(0,100)).toString(), {}, (err) => {console.log('Error to publish on ', row)});
       });
     }, 6000);
     }, (err) => console.log('rejected: ', err));

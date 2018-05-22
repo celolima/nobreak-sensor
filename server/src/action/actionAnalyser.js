@@ -1,10 +1,16 @@
 import * as mail from './mail'
 import * as dao from '../dao/dao'
 
-// data['param'] = incomeObj.param;
-// data['currVal'] = incomeObj.value;
-// data['condition'] = react.condition;
-// data['conditionVal'] = react.value;    
+/*
+data['devName'] = incomeObj.devName;    
+data['currVal'] = incomeObj.valor_lido;
+data['devKey'] = key;    
+data['paramName'] = paramName;            
+data['unMed'] = row.unidade;
+data['condition'] = row.condition;
+data['conditionVal'] = row.valor_ref;
+data['action'] = row.action_type;
+*/
 // const conditions = ['maior que','maior ou igual que','menor que','menor ou igual que', 'igual a', 'diferente de'];
 
 const checkAndAct = (data) => {
@@ -56,18 +62,18 @@ const checkAndAct = (data) => {
 const checkAndSendEmail = (data) => {
     if(data.action && data.action.actionType === "e-mail") {
         let msg = '<font color="red"><h3>Alerta!</h3></font>'        
-            .concat('<h4>' + data.name + '</h4>')
-            .concat('<p> Foi detectado um valor não desejado no parâmetro ', data.param.toUpperCase())
-            .concat(' ', 'do dispositivo ', data.name,'</p>')
-            .concat('<p>', data.param.toUpperCase(), ' é ', data.condition, ' ', data.conditionVal, data.unMed, '</p>')
+            .concat('<h4>' + data.devName + '</h4>')
+            .concat('<p> Foi detectado um valor não desejado no parâmetro ', data.paramName.toUpperCase())
+            .concat(' ', 'do dispositivo ', data.devName,'</p>')
+            .concat('<p>', data.paramName.toUpperCase(), ' é ', data.condition, ' ', data.conditionVal, data.unMed, '</p>')
             .concat('<p> Valor atual: ', data.currVal, data.unMed, '</p>')
             .concat('<p> Para sanar o problema, favor entrar em contato com a equipe responsável pelo dispositivo: </p>')
-            .concat('<div>','<b>Dispositivo: </b>',data.name,'</div>')
+            .concat('<div>','<b>Dispositivo: </b>',data.devName,'</div>')
             .concat('<div>','<b>ID: </b>',data.id,'</div>');
         const mailOptions = {
             from: 'tel73n@gmail.com', // sender address
             to: data.action.email, // list of receivers
-            subject: '['.concat(data.name,']',' Alerta! ',data.param.toLowerCase(), ' ', data.condition, ' ', data.conditionVal, data.unMed), // Subject line
+            subject: '['.concat(data.devName,']',' Alerta! ',data.paramName.toLowerCase(), ' ', data.condition, ' ', data.conditionVal, data.unMed), // Subject line
             html: msg
         };
         dao.createLogEmail(data);

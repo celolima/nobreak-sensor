@@ -43,10 +43,10 @@ class Client {
             //console.log('GOT: %s -- FROM: %s', message.toString(), topic);
             let incomeObj = {};
             const arr = topic.split('/');                    
-            incomeObj['name'] = arr[1];
-            incomeObj['param'] = arr[2];
-            incomeObj['id'] = arr[3];
-            incomeObj['value'] = message.toString();
+            incomeObj['devName'] = arr[1];
+            incomeObj['paramName'] = arr[2];
+            incomeObj['devKey'] = arr[3];
+            incomeObj['valor_lido'] = message.toString();
             eventEmitter.emit('messageIn',incomeObj);
         });     
     }  

@@ -17,49 +17,25 @@ function loadAPI(app) {
 
     //GET ALL
     app.get('/api/devices', (req, res) => {
-        console.log('Getting all');
-        fs.readFile(DATA_FILE, (err, data) => {
-            res.setHeader('Cache-Control', 'no-cache');
-            res.json(JSON.parse(data));
+        dao.getDb().all('SELECT * FROM TB_DEVICE',  (err, rows) => {
+          res.setHeader('Cache-Control', 'no-cache');
+          res.json(rows);
         });
     });
 
     //GET SPECIFIC DEVICE
     app.get('/api/devices/:id', (req, res) => {
-      console.log('Getting one: ', req.params.id);
-      let device = 'not found';
-      fs.readFile(DATA_FILE, (err, data) => {
-        const devices = JSON.parse(data);
-        devices.forEach((dev) => {
-          if (dev.id === req.params.id) {
-            device = dev;
-            console.log('Founded: ', device.desc);
-          }
-        });
+      dao.getDb().get('SELECT * FROM TB_DEVICE where id = ?', [req.params.id],  (err, row) => {
         res.setHeader('Cache-Control', 'no-cache');
-        res.json(device);
+        res.json(row);
       });
     });
 
-    //GET SPECIFIC PARAM OF DEVICE
-    app.get('/api/devices/param/:devId/:paramId', (req, res) => {
-      //console.log('Getting one: ' + req.params.devId + ' :: ' + req.params.paramId);
-      let device = null;
-      let topic = 'not found';
-      fs.readFile(DATA_FILE, (err, data) => {
-        const devices = JSON.parse(data);
-        devices.forEach((dev) => {
-          if (dev.id === req.params.devId) {
-            device = dev;
-            device.topics.forEach((top) => {
-              if(top.id === parseInt(req.params.paramId)) {
-                topic = top;
-              }
-            });
-          }
-        });
+    //GET SPECIFIC PARAM
+    app.get('/api/devices/param/:paramId', (req, res) => {
+      dao.getDb().get('SELECT * FROM TB_PARAM where id = ?', [req.params.id],  (err, row) => {
         res.setHeader('Cache-Control', 'no-cache');
-        res.json(topic);
+        res.json(row);
       });
     });
 
@@ -151,7 +127,7 @@ function loadAPI(app) {
     dao.getDb().get('SELECT * FROM TB_LOGEMAIL WHERE device_id like ? and param like ?', [req.params.devId,req.params.paramId],  (err, row) => {
       res.setHeader('Cache-Control', 'no-cache');
       res.json(row);
-    });    
+    });
   });
 }
 

@@ -13,17 +13,30 @@ let getDb = function() {
     return db;
 };
 
-let createLogEmail = (data) => {
-    var stmt = getDb().prepare('INSERT INTO TB_LOGEMAIL (email,data_hora,device_id,device_name,condition,param,valor_lido,valor_def) VALUES (?,?,?,?,?,?,?,?)');
-    stmt.run(data.action.email,new Date(),data.id,data.name,data.condition,data.param,data.currVal,data.conditionVal);
+let createDeviceParam = (data) => {
+    getDb().serialize(function() {
+        var stmt1 = getDb().prepare('INSERT INTO TB_DEVICE (name,key,fk_client) VALUES (?,?,?)');
+        stmt1.run(data.devName,data.key,data.client);
+        stmt1.finalize();
+
+        getDb().get('SELECT ID FROM TB_DEVICE WHERE key like ?', [data.key],  (err, row) => {
+            var stmt2 = getDb().prepare('INSERT INTO TB_PARAM (name,unMed,topic,fk_device) VALUES (?,?,?,?)');
+            stmt2.run(data.paramName,data.unMed,data.topic,row);
+            stmt2.finalize();
+        });
+    });
+};
+
+let createReact = (data) => {
+    var stmt = getDb().prepare('INSERT INTO TB_REACT (tipo,condition,valor_ref,fk_param,action_type,endereco,message) VALUES (?,?,?,?,?,?,?)');
+    stmt.run(data.tipo,data.condition,data.valorRef,data.param,data.action,data.endereco,data.message);
     stmt.finalize();
 };
 
-let getLogsEmail = function() {
-    let rows = [];
-    return new Promise((resolve, reject) => resolve(
-        getDb().all('SELECT * FROM TB_LOGEMAIL', (err, rows) => {return rows})
-    ));
+let createLogEmail = (data) => {
+    var stmt = getDb().prepare('INSERT INTO TB_LOGEMAIL (data_hora,valor_lido,fk_react) VALUES (?,?,?)');
+    stmt.run(new Date(),data.currVal,data.reactId);
+    stmt.finalize();
 };
 
 let disconnect = function() {
@@ -37,5 +50,4 @@ let disconnect = function() {
 
 exports.getDb = getDb;
 exports.createLogEmail = createLogEmail;
-exports.getLogsEmail = getLogsEmail;
 exports.disconnect = disconnect;

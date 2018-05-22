@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS TB_CLIENT (
 
 CREATE TABLE IF NOT EXISTS TB_DEVICE (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    desc text NOT NULL,
+    name text NOT NULL,
     key text NOT NULL,
     fk_client NOT NULL,
     FOREIGN KEY (fk_client) REFERENCES TB_CLIENT (id) ON DELETE RESTRICT
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS TB_DEVICE (
 
 CREATE TABLE IF NOT EXISTS TB_PARAM (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    desc text NOT NULL,
+    name text NOT NULL,
     unMed text NOT NULL,
     topic text NOT NULL,
     fk_device INTEGER NOT NULL,
@@ -44,8 +44,8 @@ CREATE TABLE IF NOT EXISTS TB_LOGEMAIL (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     data_hora datetime default current_timestamp,
     valor_lido REAL,
-    fk_param_react,
-    FOREIGN KEY (fk_param_react) REFERENCES TB_PARAM_REACT (id) ON DELETE CASCADE
+    fk_react,
+    FOREIGN KEY (fk_react) REFERENCES TB_REACT (id) ON DELETE CASCADE
 );
 
 /*
