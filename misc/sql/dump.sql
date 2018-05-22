@@ -1,47 +1,7 @@
 -- ATIVAR A FOREIGN_KEY: PRAGMA foreign_keys = ON; CHECK IF IS ENABLE => PRAGMA foreign_keys;
 -- sqlite3 database.db -init dump.sql
 
-/*
-CREATE TABLE IF NOT EXISTS TB_DEVICE (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    desc text NOT NULL,
-    key text NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS TB_PARAM (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    desc text NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS TB_DEVICE_PARAM (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    fk_device INTEGER NOT NULL,
-    fk_param INTEGER NOT NULL,
-    FOREIGN KEY (fk_device) REFERENCES TB_DEVICE (id) ON DELETE RESTRICT,
-    FOREIGN KEY (fk_param) REFERENCES TB_PARAM (id) ON DELETE RESTRICT
-);
-
-CREATE TABLE IF NOT EXISTS TB_LOG (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    fk_device_param INTEGER NOT NULL,
-    value text,
-    data_hora text,
-    FOREIGN KEY (fk_device_param) REFERENCES TB_DEVICE_PARAM (id) ON DELETE RESTRICT
-);
-*/
-
-CREATE TABLE IF NOT EXISTS TB_LOGEMAIL (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    email text,
-    data_hora datetime default current_timestamp,
-    device_id text,
-    topic_id integer,
-    device_name text,    
-    condition text,
-    param text,
-    valor_lido REAL,
-    valor_def REAL
-);
+PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS TB_CLIENT (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -51,13 +11,42 @@ CREATE TABLE IF NOT EXISTS TB_CLIENT (
     tel text
 );
 
-CREATE TABLE IF NOT EXISTS TB_DEVICE_CLIENTE (
-    dev_id text,
-    client_id text
-    FOREIGN KEY (client_id) REFERENCES TB_CLIENT (id) ON DELETE RESTRICT
+CREATE TABLE IF NOT EXISTS TB_DEVICE (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    desc text NOT NULL,
+    key text NOT NULL,
+    fk_client NOT NULL,
+    FOREIGN KEY (fk_client) REFERENCES TB_CLIENT (id) ON DELETE RESTRICT
 );
 
-PRAGMA foreign_keys = ON;
+CREATE TABLE IF NOT EXISTS TB_PARAM (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    desc text NOT NULL,
+    unMed text NOT NULL,
+    topic text NOT NULL,
+    fk_device INTEGER NOT NULL,
+    FOREIGN KEY (fk_device) REFERENCES TB_DEVICE (id) ON DELETE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS TB_REACT (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    tipo text NOT NULL,
+    condition text NOT NULL,
+    valor_ref real NOT NULL,
+    fk_param INTEGER NOT NULL,
+    action_type text NOT NULL,
+    endereco text NOT NULL,
+    message text NOT NULL,
+    FOREIGN KEY (fk_param) REFERENCES TB_PARAM (id) ON DELETE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS TB_LOGEMAIL (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    data_hora datetime default current_timestamp,
+    valor_lido REAL,
+    fk_param_react,
+    FOREIGN KEY (fk_param_react) REFERENCES TB_PARAM_REACT (id) ON DELETE CASCADE
+);
 
 /*
 INSERT INTO TB_DEVICE (id,desc, key) VALUES (1,'Sensor AB01', '443DAS#!@#FF');
