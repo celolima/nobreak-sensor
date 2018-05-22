@@ -45,7 +45,7 @@ const getParamFromDevice = (data) => {
 };
 
 const getSendMails = (data) => {
-  return axios.get('/devices/param/emails' + data.devId + '/' + data.paramId)
+  return axios.get('/devices/param/emails/' + data.devId + '/' + data.paramId)
     .then(response => {return response.data;});
 };
 

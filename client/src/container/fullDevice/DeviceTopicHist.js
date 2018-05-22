@@ -14,7 +14,8 @@ class DeviceTopicHist extends Component {
         loadedTopic: null,
         topicValue: {},
         serverError: false,
-        topicHist: []
+        topicHist: [],
+        topicEmail: []
     }
 
     componentDidMount () {
@@ -39,8 +40,8 @@ class DeviceTopicHist extends Component {
                         }                        
                     })
                     .catch(()=>{this.setState({serverError: true})});
-                clientApi.getParamFromDevice(params)
-                    .then(data => {this.setState({topicHist: data})})
+                clientApi.getSendMails(params)
+                    .then(data => {this.setState({topicEmail: data});console.log(data)})
                     .catch(()=>{this.setState({serverError: true})});
             }
         }
@@ -55,7 +56,6 @@ class DeviceTopicHist extends Component {
             console.log(e);
             client.end();
         });
-
         client.on('error', (error) => {
             console.log('Error!');
         });
@@ -111,7 +111,7 @@ class DeviceTopicHist extends Component {
                     <DeviceTopicInfo topic={this.state.loadedTopic} topicValue={this.state.topicValue}/>
                 </div>
             );
-            let historicoElement = '';
+            let historicoElement = null;
             /*
             if(this.state.topicHist) {
                 historicoElement = 

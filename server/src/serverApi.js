@@ -148,8 +148,7 @@ function loadAPI(app) {
   
   //GET EMAILS SPECIFIC PARAM OF DEVICE
   app.get('/api/devices/param/emails/:devId/:paramId', (req, res) => {
-    console.log('Getting email: ' + req.params.devId + ' :: ' + req.params.paramId);   
-    dao.getDb().get('SELECT * FROM TB_LOGEMAIL WHERE device_id = ?', req.params.devId,  (err, row) => {
+    dao.getDb().get('SELECT * FROM TB_LOGEMAIL WHERE device_id like ? and param like ?', [req.params.devId,req.params.paramId],  (err, row) => {
       res.setHeader('Cache-Control', 'no-cache');
       res.json(row);
     });    

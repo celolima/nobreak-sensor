@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS TB_LOGEMAIL (
     email text,
     data_hora datetime default current_timestamp,
     device_id text,
+    topic_id integer,
     device_name text,    
     condition text,
     param text,
