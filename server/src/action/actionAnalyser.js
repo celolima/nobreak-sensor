@@ -1,16 +1,6 @@
 import * as mail from './mail'
 import * as dao from '../dao/dao'
 
-/*
-data['devName'] = incomeObj.devName;    
-data['currVal'] = incomeObj.valor_lido;
-data['devKey'] = key;    
-data['paramName'] = paramName;            
-data['unMed'] = row.unidade;
-data['condition'] = row.condition;
-data['conditionVal'] = row.valor_ref;
-data['action'] = row.action_type;
-*/
 // const conditions = ['maior que','maior ou igual que','menor que','menor ou igual que', 'igual a', 'diferente de'];
 
 const checkAndAct = (data) => {

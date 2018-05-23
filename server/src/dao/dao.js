@@ -20,9 +20,11 @@ let createDeviceParam = (data) => {
         console.log('ID DEVICE :: ' + id_device);
         stmt1.finalize();
 
-        var stmt2 = getDb().prepare('INSERT INTO TB_PARAM (name,unMed,topic,fk_device) VALUES (?,?,?,?)');
-        stmt2.run(data.paramName,data.unMed,data.topic,id_device);
-        stmt2.finalize();
+        data.params.forEach((param) => {
+            var stmt2 = getDb().prepare('INSERT INTO TB_PARAM (name,unMed,topic,fk_device) VALUES (?,?,?,?)');
+            stmt2.run(param.paramName,param.unMed,param.topic,id_device);
+            stmt2.finalize();            
+        });
 
         getDb().each('SELECT ID FROM TB_USUARIO WHERE fk_empresa = ?', [data.empresa],  (err, row) => {
             const fk_usuario = row;
@@ -35,7 +37,8 @@ let createDeviceParam = (data) => {
 
 let createReact = (data) => {    
     var stmt = getDb().prepare('INSERT INTO TB_REACT (tipo,condition,valor_ref,fk_param,action_type,endereco,message) VALUES (?,?,?,?,?,?,?)');
-    stmt.run(data.tipo,data.condition,data.valorRef,data.param,data.action,data.endereco,data.message);
+    const msg = data.message ? message : '';
+    stmt.run(data.tipo,data.condition,data.valorRef,data.param,data.action,data.endereco,msg);
     stmt.finalize();
 };
 
@@ -55,5 +58,6 @@ let disconnect = function() {
 };
 
 exports.getDb = getDb;
+exports.createDeviceParam = createDeviceParam;
+exports.createReact = createReact;
 exports.createLogEmail = createLogEmail;
-exports.disconnect = disconnect;

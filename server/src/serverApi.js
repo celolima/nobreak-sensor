@@ -41,72 +41,36 @@ function loadAPI(app) {
 
     //CREATE NEW DEVICE
     app.post('/api/devices', (req, res) => {
-        fs.readFile(DATA_FILE, (err, data) => {
-          const devices = JSON.parse(data);
-          const newDevice = {
-            id: req.body.id,
-            desc: req.body.desc,
-            topics: req.body.topics,
-            emailAddress: req.body.emailAddress,
-            sendEmail: req.body.sendEmail
-          };
-          devices.push(newDevice);
-          fs.writeFile(DATA_FILE, JSON.stringify(devices, null, 4), () => {
-            res.json({});
-          });
-        });
+      const newDevice = {
+        key: req.body.key,
+        devName: req.body.devName,
+        empresa: req.body.empresa,
+        params:  req.body.params,
+      };
+      dao.createDeviceParam(newDevice);
+      res.setHeader('Cache-Control', 'no-cache');
+      res.json({});
     });
-
-    //UPDATE
-    app.put('/api/devices', (req, res) => {
-        fs.readFile(DATA_FILE, (err, data) => {
-          const devices = JSON.parse(data);
-          devices.forEach((dev) => {
-            if (dev.id === req.body.id) {
-              dev.desc = req.body.desc;
-              dev.topics = req.body.topics;             
-              dev.emailAddress = req.body.emailAddress;
-              dev.sendEmail = req.body.sendEmail;
-            }
-          });
-          fs.writeFile(DATA_FILE, JSON.stringify(devices, null, 4), () => {
-            res.json({});
-          });
-        });
-      });
 
     //CREATE NEW REACTION
     app.post('/api/reacts', (req, res) => {
-      fs.readFile(DATA_FILE, (err, data) => {
-        const devices = JSON.parse(data);
-        devices.forEach((dev) => {
-          if (dev.id === req.body.device) {
-            dev.topics.forEach((topic) => {
-              console.log(topic.id);
-              if (topic.id === parseInt(req.body.topic)) {
-                let react = {
-                  type: req.body.type,
-                  condition: req.body.condition,
-                  value: req.body.value,
-                  action: req.body.action
-                }
-                if(!topic.reacts) {
-                  topic.reacts = [];
-                }
-                react['id'] = topic.reacts.length + 1;
-                topic.reacts.push(react);
-              }
-            });
-          }
-        });
-        fs.writeFile(DATA_FILE, JSON.stringify(devices, null, 4), () => {
-          res.json({});
-        });
-      });
+      const newReact = {
+        tipo: req.body.tipo,
+        condition: req.body.condition,
+        valorRef: req.body.valorRef,
+        action: req.body.action,
+        param: req.body.param,
+        endereco: req.body.endereco,
+        message: req.body.message
+      };
+
+      dao.createDeviceParam(newReact);
+      res.setHeader('Cache-Control', 'no-cache');
+      res.json({});      
   });
   
   //GET EMAILS SPECIFIC PARAM OF DEVICE
-  app.get('/api/devices/param/emails/:devId/:paramId', (req, res) => {
+  app.get('/api/devices/param/emails/:reactId', (req, res) => {
     dao.getDb().get('SELECT * FROM TB_LOGEMAIL WHERE fk_react = ?', [req.params.reactId],  (err, row) => {
       res.setHeader('Cache-Control', 'no-cache');
       res.json(row);
