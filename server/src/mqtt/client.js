@@ -30,7 +30,7 @@ class Client {
      
     subscribe(topic) {
         mqttClient.subscribe(topic);
-        console.log('Subscribed on %s', topic);
+        //console.log('Subscribed on %s', topic);
     }
      
     publish(topic, message) {
@@ -40,13 +40,9 @@ class Client {
 
     onMessage(eventEmitter) {        
         mqttClient.on('message', function (topic, message) {        
-            //console.log('GOT: %s -- FROM: %s', message.toString(), topic);
             let incomeObj = {};
-            const arr = topic.split('/');                    
-            incomeObj['devName'] = arr[1];
-            incomeObj['paramName'] = arr[2];
-            incomeObj['devKey'] = arr[3];
-            incomeObj['valor_lido'] = message.toString();
+            incomeObj['topic'] = topic;
+            incomeObj['valor_lido'] = message.toString();            
             eventEmitter.emit('messageIn',incomeObj);
         });     
     }  

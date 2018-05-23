@@ -44,7 +44,7 @@ let createReact = (data) => {
 
 let createLogEmail = (data) => {
     var stmt = getDb().prepare('INSERT INTO TB_LOGEMAIL (data_hora,valor_lido,fk_react) VALUES (?,?,?)');
-    stmt.run(new Date(),data.currVal,data.reactId);
+    stmt.run(new Date(),data.valor_lido,data.id);
     stmt.finalize();
 };
 

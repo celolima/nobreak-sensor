@@ -1,5 +1,5 @@
 import Client from './client';
-import * as dao from './dao/dao'
+import * as dao from '../dao/dao'
 
 const publishDevices = (useLocalBroker) => {
   const p = new Promise((resolve, reject) => resolve(new Client(useLocalBroker)));
@@ -7,7 +7,8 @@ const publishDevices = (useLocalBroker) => {
     /*  Publisher   */
     setInterval(() => {
       dao.getDb().each('SELECT topic FROM TB_PARAM',  (err, row) => {
-        mqtt.publish(row,(getRandomInt(0,100)).toString(), {}, (err) => {console.log('Error to publish on ', row)});
+        //console.log('Publishing on '+ row.topic);
+        mqtt.publish(row.topic,(getRandomInt(0,100)).toString(), {}, (err) => {console.log('Error to publish on ', row.topic)});
       });
     }, 6000);
     }, (err) => console.log('rejected: ', err));
