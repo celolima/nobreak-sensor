@@ -5,14 +5,14 @@ import './Device.css';
 const device = (props)  => {
   let topics = props.topics.map((t, index) => (
     <div key={index}>
-      <li>{t.param}</li>
+      <li>{t.name}</li>
     </div>
   ));
   return (
     <Col sm="4">
       <Card>
         <CardBody onClick={props.clicked}>
-          <CardText>{props.desc}</CardText>
+          <CardText>{props.name}</CardText>
           <ul>
           {topics}
           </ul>

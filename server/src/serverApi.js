@@ -10,13 +10,25 @@ function loadAPI(app) {
     //JSON
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
-
-    //GET ALL
+  
     app.get('/api/devices', (req, res) => {
-        dao.getDb().all('SELECT * FROM TB_DEVICE',  (err, rows) => {
-          res.setHeader('Cache-Control', 'no-cache');
-          res.json(rows);
+      let arr = [];
+      dao.getDb().serialize(function() {
+        dao.getDb().each('SELECT * FROM TB_DEVICE',  (err, row) => {
+          let fk_device = row.id;
+          let dev = {...row};
+          dao.getDb().all('SELECT * FROM TB_PARAM WHERE FK_DEVICE = ?', [fk_device], (err, rows) => {
+            dev['topics'] = rows;            
+            arr.push(dev);
+          });
         });
+
+        // RETORNO ASSYNCRONO
+        dao.getDb().get('SELECT * FROM TB_LOGEMAIL',  (err, rows) => {
+          res.setHeader('Cache-Control', 'no-cache');
+          res.json(arr);
+        });
+      });
     });
 
     //GET SPECIFIC DEVICE
@@ -34,6 +46,14 @@ function loadAPI(app) {
         res.json(row);
       });
     });
+
+    //GET PARAMS OF DEVICE
+    app.get('/api/devices/params/:fk_device', (req, res) => {
+      dao.getDb().all('SELECT * FROM TB_PARAM WHERE fk_device = ?', [parseInt(req.params.fk_device)],  (err, rows) => {
+        res.setHeader('Cache-Control', 'no-cache');
+        res.json(rows);
+      });
+    });     
 
     //GET EMAILS SPECIFIC PARAM OF DEVICE
     app.get('/api/devices/param/emails/:fk_react', (req, res) => {

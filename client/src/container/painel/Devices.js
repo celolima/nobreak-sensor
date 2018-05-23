@@ -17,7 +17,7 @@ class Devices extends Component {
 
     loadDevicesFromServer = () => {
         clientApi.getDevices()
-            .then(data => {this.setState({devices : data})})
+            .then(data => {this.setState({devices : data})})            
             .catch(()=>{this.setState({serverError: true})});
     };
 
@@ -30,9 +30,9 @@ class Devices extends Component {
         if(this.state.devices && this.state.devices.length !== 0) {
             devices = this.state.devices.map((device) => (
                 <Device 
-                    key={device.id}
+                    key={device.key}
                     id={device.id} 
-                    desc={device.desc}
+                    name={device.name}
                     topics={device.topics}
                     clicked={() => this.postSelectedHandler( device.id )}/>
             ));
