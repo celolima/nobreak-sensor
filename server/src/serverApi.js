@@ -1,9 +1,5 @@
 import * as dao from './dao/dao'
-const path = require("path");
 const bodyParser = require('body-parser');
-const fs = require('fs');
-
-const DATA_FILE = path.join(__dirname + '/data/', 'data.json');
 
 function api(app) {
     console.log('Creating server API');
@@ -32,12 +28,20 @@ function loadAPI(app) {
     });
 
     //GET SPECIFIC PARAM
-    app.get('/api/devices/param/:paramId', (req, res) => {
+    app.get('/api/devices/param/:id', (req, res) => {
       dao.getDb().get('SELECT * FROM TB_PARAM where id = ?', [req.params.id],  (err, row) => {
         res.setHeader('Cache-Control', 'no-cache');
         res.json(row);
       });
     });
+
+    //GET EMAILS SPECIFIC PARAM OF DEVICE
+    app.get('/api/devices/param/emails/:fk_react', (req, res) => {
+      dao.getDb().all('SELECT * FROM TB_LOGEMAIL WHERE fk_react = ?', [parseInt(req.params.fk_react)],  (err, rows) => {
+        res.setHeader('Cache-Control', 'no-cache');
+        res.json(rows);
+      });
+    });    
 
     //CREATE NEW DEVICE
     app.post('/api/devices', (req, res) => {
@@ -69,13 +73,6 @@ function loadAPI(app) {
       res.json({});      
   });
   
-  //GET EMAILS SPECIFIC PARAM OF DEVICE
-  app.get('/api/devices/param/emails/:reactId', (req, res) => {
-    dao.getDb().get('SELECT * FROM TB_LOGEMAIL WHERE fk_react = ?', [req.params.reactId],  (err, row) => {
-      res.setHeader('Cache-Control', 'no-cache');
-      res.json(row);
-    });
-  });
 }
 
 module.exports = api;
