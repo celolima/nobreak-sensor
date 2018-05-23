@@ -25,7 +25,6 @@ int mqtt_port = 1883;
     M05 -   Corrente de saída
     M01 -   Temperatura
 */
-/nobreak01/tensao-de-entrada/c83036a4-124a-4fa4-b635-5f53ec1c8d04
 
 String topics[NUMBER_OF_SENSORS] = {"/dev-15/tensaoIN/0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
                                     "/dev-15/tensaoOUT/0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
