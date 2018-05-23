@@ -15,19 +15,25 @@ let getDb = function() {
 
 let createDeviceParam = (data) => {
     getDb().serialize(function() {
-        var stmt1 = getDb().prepare('INSERT INTO TB_DEVICE (name,key,fk_client) VALUES (?,?,?)');
-        stmt1.run(data.devName,data.key,data.client);
+        var stmt1 = getDb().prepare('INSERT INTO TB_DEVICE (name,key) VALUES (?,?)');
+        const id_device = stmt1.run(data.devName,data.key);
+        console.log('ID DEVICE :: ' + id_device);
         stmt1.finalize();
 
-        getDb().get('SELECT ID FROM TB_DEVICE WHERE key like ?', [data.key],  (err, row) => {
-            var stmt2 = getDb().prepare('INSERT INTO TB_PARAM (name,unMed,topic,fk_device) VALUES (?,?,?,?)');
-            stmt2.run(data.paramName,data.unMed,data.topic,row);
+        var stmt2 = getDb().prepare('INSERT INTO TB_PARAM (name,unMed,topic,fk_device) VALUES (?,?,?,?)');
+        stmt2.run(data.paramName,data.unMed,data.topic,id_device);
+        stmt2.finalize();
+
+        getDb().each('SELECT ID FROM TB_USUARIO WHERE fk_empresa = ?', [data.empresa],  (err, row) => {
+            const fk_usuario = row;
+            var stmt2 = getDb().prepare('INSERT INTO TB_PERMISSAO (fk_usuario,fk_device) VALUES (?,?)');
+            stmt2.run(fk_usuario,fk_device);
             stmt2.finalize();
         });
     });
 };
 
-let createReact = (data) => {
+let createReact = (data) => {    
     var stmt = getDb().prepare('INSERT INTO TB_REACT (tipo,condition,valor_ref,fk_param,action_type,endereco,message) VALUES (?,?,?,?,?,?,?)');
     stmt.run(data.tipo,data.condition,data.valorRef,data.param,data.action,data.endereco,data.message);
     stmt.finalize();

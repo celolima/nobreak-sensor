@@ -75,23 +75,6 @@ function loadAPI(app) {
         });
       });
 
-    //DELETE
-    app.delete('/api/devices', (req, res) => {
-        fs.readFile(DATA_FILE, (err, data) => {
-          let devices = JSON.parse(data);
-          devices = devices.reduce((memo, dev) => {
-            if (dev.id === req.body.id) {
-              return memo;
-            } else {
-              return memo.concat(dev);
-            }
-          }, []);
-          fs.writeFile(DATA_FILE, JSON.stringify(devices, null, 4), () => {
-            res.json({});
-          });
-        });
-      });
-
     //CREATE NEW REACTION
     app.post('/api/reacts', (req, res) => {
       fs.readFile(DATA_FILE, (err, data) => {
@@ -124,7 +107,7 @@ function loadAPI(app) {
   
   //GET EMAILS SPECIFIC PARAM OF DEVICE
   app.get('/api/devices/param/emails/:devId/:paramId', (req, res) => {
-    dao.getDb().get('SELECT * FROM TB_LOGEMAIL WHERE device_id like ? and param like ?', [req.params.devId,req.params.paramId],  (err, row) => {
+    dao.getDb().get('SELECT * FROM TB_LOGEMAIL WHERE fk_react = ?', [req.params.reactId],  (err, row) => {
       res.setHeader('Cache-Control', 'no-cache');
       res.json(row);
     });

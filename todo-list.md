@@ -42,13 +42,19 @@ device via tópico!~~
 
 ## Documentação
 
+* Gravar CD com os fontes
+
+* Revisar documentação gerada pelo Leo
+
+* Revisar documentação gerada pelo Gabriel
+
+* Revisar explicação do funcionamento da ESP e Software WEB
+
 * Fazer apresentação WINK (funcionamento do Software - export EXE) - Após implementação acima
 
 * Adicionar WINK gerado acima na apresentação
 
-* Revisar explicação do funcionamento da ESP e Software WEB
-
-* Adicionar printscreen do sistema WEB no plano de projeto
+* ~~Adicionar printscreen do sistema WEB no plano de projeto~~
 
 * Adicionar explicação no plano de projeto - Explicar onde o software roda, e onde pode ser implantado (Firebase)
 

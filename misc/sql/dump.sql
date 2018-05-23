@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS TB_REACT (
     fk_param INTEGER NOT NULL,
     action_type text NOT NULL,
     endereco text NOT NULL,
-    message text NOT NULL,
+    message text,
     FOREIGN KEY (fk_param) REFERENCES TB_PARAM (id) ON DELETE RESTRICT
 );
 
@@ -108,6 +108,6 @@ INSERT INTO TB_PARAM (id,name,unMed,topic,fk_device) VALUES (7,'Temperatura','°
 INSERT INTO TB_PARAM (id,name,unMed,topic,fk_device) VALUES (8,'Temperatura','°C','/nobreak02/temperatura/d54564b5-124a-4fa4-b635-5f53ec1c8d04',2);
 INSERT INTO TB_PARAM (id,name,unMed,topic,fk_device) VALUES (9,'Tensão entrada','V','/nobreak02/tensao-entrada/d54564b5-124a-4fa4-b635-5f53ec1c8d04',2);
 
--- INSERT INTO TB_REACT (id,tipo,condition,valor_ref,fk_param,action_type,endereco,message) VALUES (1,)
+INSERT INTO TB_REACT (id,tipo,condition,valor_ref,fk_param,action_type,endereco,message) VALUES (1,'Inteiro','maior que',127,1,'e-mail','celorsl@yahoo.com.br','');
 
 -- INSERT INTO TB_LOGEMAIL (id,data_hora,valor_lido,fk_react) VALUES (1,)
