@@ -38,7 +38,7 @@ let createDeviceParam = (data) => {
 let createReact = (data) => {    
     var stmt = getDb().prepare('INSERT INTO TB_REACT (tipo,condition,valor_ref,fk_param,action_type,endereco,message) VALUES (?,?,?,?,?,?,?)');
     const msg = data.message ? message : '';
-    stmt.run(data.tipo,data.condition,data.valorRef,data.param,data.action,data.endereco,msg);
+    stmt.run(data.tipo,data.condition,data.valorRef,data.fk_param,data.action_type,data.endereco,msg);
     stmt.finalize();
 };
 

@@ -11,7 +11,7 @@ const conditionDropdown = (props) => {
 
     if(props.devicesServer.length !== 0) {
         optionItems = props.devicesServer.map((dev) =>
-            <option key={dev.id} value={dev.id}>{dev.desc}</option>
+            <option key={dev.id} value={dev.id}>{dev.name}</option>
         );
         devicesInputs = (
             <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
@@ -25,7 +25,7 @@ const conditionDropdown = (props) => {
     }
 
     optionItems = props.topics.map((t) => {
-        return <option key={t.id} value={t.id}>{t.param}</option>        
+        return <option key={t.id} value={t.id}>{t.name}</option>        
         }
     );
 
