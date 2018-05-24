@@ -12,7 +12,7 @@ class TopicForm extends Component {
     const field = name.split('_');
     // eslint-disable-next-line
     if(value !== '/' && value !== "\/") {
-      if (field[1] === 'param') {
+      if (field[1] === 'name') {
         let topic = value ? '/'.concat(this.props.dev.toLowerCase(),'/',value.toLowerCase(), '/', this.props.devKey) : '';
         this.props.array[field[0]]['topic'] = topic.replace(/(\s)+/g, '-');
       }
@@ -36,8 +36,8 @@ class TopicForm extends Component {
               <div className='col-6'>
                 <Field
                 title='Parâmetro'
-                name={index+'_param'}
-                value={this.props.array[index].param}
+                name={index+'_name'}
+                value={this.props.array[index].name}
                 onChange={this.onInputChange}
                 validate={(val) => (val ? false : 'campo obrigatório')}/>
               </div>
