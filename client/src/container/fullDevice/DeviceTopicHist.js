@@ -7,8 +7,6 @@ import './FullDevice.css';
 import mqtt from 'mqtt';
 import Alert from '../ui/AlertLoadingDanger';
 
-let params = {};
-
 class DeviceTopicHist extends Component {
     state = {
         loadedTopic: null,
@@ -23,14 +21,10 @@ class DeviceTopicHist extends Component {
     }
 
     loadData () {
-        if ( this.props.match.params.devId && this.props.match.params.paramId ) {
-            if ( !this.state.loadedTopic || (this.state.loadedTopic && this.state.loadedTopic.id !== this.props.match.params.paramId) ) {
-                params = {
-                    devId: this.props.match.params.devId,
-                    paramId : this.props.match.params.paramId
-                };
-                clientApi.getParamFromDevice(params)
-                    .then(data => { 
+        if ( this.props.match.params.id ) {
+            if ( !this.state.loadedTopic || (this.state.loadedTopic && this.state.loadedTopic.id !== this.props.match.params.id) ) {
+                clientApi.getParam(this.props.match.params.id)
+                    .then(data => {
                         const topic = data.topic;
                         if(topic) {
                             let topicValObj = {};
@@ -40,8 +34,8 @@ class DeviceTopicHist extends Component {
                         }                        
                     })
                     .catch(()=>{this.setState({serverError: true})});
-                clientApi.getSendMails(params)
-                    .then(data => {this.setState({topicEmail: data});console.log(data)})
+                clientApi.getSendMails(this.props.match.params.id)
+                    .then(data => {this.setState({topicEmail: data});})
                     .catch(()=>{this.setState({serverError: true})});
             }
         }
@@ -89,13 +83,13 @@ class DeviceTopicHist extends Component {
     };
 
     goBack = () => {
-        this.props.history.push( '/devices/' + params.devId );
+        this.props.history.push( '/devices/' + this.state.loadedTopic.dev_id );
     }
 
     render() {
         let deviceMsg = (
             <div>
-                <h3>{this.props.match.params.devId}</h3>
+                <h3>{this.props.match.params.id}</h3>
                 <hr/>
                 <Row>
                     <Alert serverError={this.state.serverError}/>
@@ -111,24 +105,23 @@ class DeviceTopicHist extends Component {
                     <DeviceTopicInfo topic={this.state.loadedTopic} topicValue={this.state.topicValue}/>
                 </div>
             );
-            let historicoElement = null;
-            /*
-            if(this.state.topicHist) {
+            let historicoElement = '';
+            if(this.state.topicEmail) {
                 historicoElement = 
-                    this.state.topicHist.forEach((index,e) => {
+                    this.state.topicEmail.map((e,index) => {
                         return (
-                            <tr>
+                            <tr key={e.id}>
                                 <th scope="row">{index}</th>
                                 <td>{e.data_hora}</td>
                                 <td>{e.valor_lido}</td>
-                                <td>{e.valor_def}</td>
-                                <td>email</td>
-                                <td>{e.email}</td>
+                                <td>{e.condition}</td>
+                                <td>{e.valor_ref}</td>
+                                <td>{e.action_type}</td>
+                                <td>{e.endereco}</td>
                             </tr>
                         );
                     });
             }
-            */
             tableHistoric = (
                 <div>
                     <Table>
@@ -137,6 +130,7 @@ class DeviceTopicHist extends Component {
                         <th>#</th>
                         <th>Hora</th>
                         <th>Valor lido</th>
+                        <th>Condition</th>
                         <th>Valor ref.</th>
                         <th>Action</th>
                         <th>To</th>
@@ -151,6 +145,8 @@ class DeviceTopicHist extends Component {
 
             deviceMsg = (
                 <div>
+                    <h3>{this.state.loadedTopic.dev_name}</h3>
+                    <hr/>
                     <div>
                         <Row>
                         {topicsMsg}

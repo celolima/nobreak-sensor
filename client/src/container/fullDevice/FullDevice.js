@@ -71,8 +71,8 @@ class FullDevice extends Component {
         });
     }
 
-    postSelectedHandler = ( devId, paramId ) => {
-        this.props.history.push( '/devices/param/' + devId + '/' + paramId );
+    postSelectedHandler = ( id ) => {
+        this.props.history.push( '/devices/param/' + id );
     }
 
     render() {
@@ -93,7 +93,7 @@ class FullDevice extends Component {
                 topicsMsg = this.state.loadedDevice.topics.map((t, index) => {
                     return (
                         <Col xs="6" key={index}>
-                            <DeviceTopicInfo topic={t} topicValue={this.state.topicValue} clicked={() => this.postSelectedHandler( this.state.loadedDevice.id, t.id )}/>
+                            <DeviceTopicInfo topic={t} topicValue={this.state.topicValue} clicked={() => this.postSelectedHandler(t.id )}/>
                         </Col>
                     )});
             }

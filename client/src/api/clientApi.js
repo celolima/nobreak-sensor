@@ -39,14 +39,14 @@ const getDeviceId = (id) => {
     .then(response => {return response.data;});
 };
 
-const getParamFromDevice = (data) => {
-  return axios.get('/devices/param/' + data.devId + '/' + data.paramId)
+const getParam = (id) => {
+  return axios.get('/devices/param/' + id)
     .then(response => {return response.data;});
 };
 
-const getSendMails = (data) => {
-  return axios.get('/devices/param/emails/' + data.devId + '/' + data.paramId)
+const getSendMails = (id) => {
+  return axios.get('/devices/param/emails/' + id)
     .then(response => {return response.data;});
 };
 
-export { getDevices, getDeviceId, createDevice, updateDevice, deleteDevice, createReaction, getParamFromDevice, getSendMails};
+export { getDevices, getDeviceId, createDevice, updateDevice, deleteDevice, createReaction, getParam, getSendMails};

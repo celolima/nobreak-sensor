@@ -32,7 +32,7 @@ class DevicesDashboard extends Component {
                 <Route path="/new-react" exact component={ConditionForm} />                
                 <Route path="/devices/:id" exact component={FullDevice} />
                 <Route path="/new-device" component={DeviceForm} />
-                <Route path="/devices/param/:devId/:paramId" component={DeviceTopicHist} />
+                <Route path="/devices/param/:id" component={DeviceTopicHist} />
                 <Route render={() => <h1>Not found</h1>}/>
               </Switch>
               </Col>

@@ -1,6 +1,6 @@
 import * as dao from './dao/dao'
 const bodyParser = require('body-parser');
-
+const qryAssync = 'SELECT * FROM TB_LOGEMAIL WHERE id = 999';
 function api(app) {
     console.log('Creating server API');
     loadAPI(app);
@@ -23,7 +23,7 @@ function loadAPI(app) {
           });
         });
         // RETORNO ASSYNCRONO
-        dao.getDb().get('SELECT * FROM TB_LOGEMAIL',  (err, rows) => {
+        dao.getDb().get(qryAssync,  (err, rows) => {
           res.setHeader('Cache-Control', 'no-cache');
           res.json(arr);
         });
@@ -48,7 +48,7 @@ function loadAPI(app) {
           });
         });
         // RETORNO ASSYNCRONO
-        dao.getDb().get('SELECT * FROM TB_LOGEMAIL',  (err, rows) => {
+        dao.getDb().get(qryAssync,  (err, rows) => {
           res.setHeader('Cache-Control', 'no-cache');
           res.json(dev);
         });
@@ -57,11 +57,25 @@ function loadAPI(app) {
 
     //GET SPECIFIC PARAM
     app.get('/api/devices/param/:id', (req, res) => {
-      dao.getDb().get('SELECT * FROM TB_PARAM where id = ?', [req.params.id],  (err, row) => {
-        res.setHeader('Cache-Control', 'no-cache');
-        res.json(row);
+      let param = {};
+      const query = 'SELECT TB_DEVICE.ID dev_id, TB_DEVICE.NAME dev_name, TB_DEVICE.KEY, TB_PARAM.NAME name, TB_PARAM.ID param_id, TB_PARAM.TOPIC, TB_PARAM.UNMED ' +
+                    'FROM TB_PARAM JOIN TB_DEVICE ON TB_PARAM.FK_DEVICE = TB_DEVICE.ID ' +
+                    'WHERE TB_PARAM.ID = ?';
+      dao.getDb().serialize(function() {          
+        dao.getDb().get(query, [req.params.id],  (err, row) => {
+          let fk_param = row.param_id;
+          param = {...row};
+          dao.getDb().all('SELECT * FROM TB_REACT WHERE FK_PARAM = ?', [fk_param], (err, rows) => {
+            param['reacts'] = rows;
+          });
+        });
+        // RETORNO ASSYNCRONO
+        dao.getDb().get(qryAssync,  (err, rows) => {
+          res.setHeader('Cache-Control', 'no-cache');
+          res.json(param);
+        });
       });
-    });
+    });    
 
     //GET PARAMS OF DEVICE
     app.get('/api/devices/params/:fk_device', (req, res) => {
@@ -72,8 +86,12 @@ function loadAPI(app) {
     });     
 
     //GET EMAILS SPECIFIC PARAM OF DEVICE
-    app.get('/api/devices/param/emails/:fk_react', (req, res) => {
-      dao.getDb().all('SELECT * FROM TB_LOGEMAIL WHERE fk_react = ?', [parseInt(req.params.fk_react)],  (err, rows) => {
+    app.get('/api/devices/param/emails/:id', (req, res) => {
+      const qry = 'SELECT TB_LOGEMAIL.*, TB_REACT.condition, TB_REACT.valor_ref, TB_REACT.action_type, TB_REACT.endereco FROM TB_LOGEMAIL join TB_REACT on TB_LOGEMAIL.fk_react = TB_REACT.id ' +
+                  'join TB_PARAM on TB_REACT.fk_param = TB_PARAM.id ' +
+                  'where TB_PARAM.id = ?';
+      console.log(req.params.id);
+      dao.getDb().all(qry, [req.params.id],  (err, rows) => {
         res.setHeader('Cache-Control', 'no-cache');
         res.json(rows);
       });
