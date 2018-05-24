@@ -13,7 +13,7 @@ class TopicForm extends Component {
     // eslint-disable-next-line
     if(value !== '/' && value !== "\/") {
       if (field[1] === 'param') {
-        let topic = value ? '/'.concat(this.props.dev.toLowerCase(),'/',value.toLowerCase(), '/', this.props.devID) : '';
+        let topic = value ? '/'.concat(this.props.dev.toLowerCase(),'/',value.toLowerCase(), '/', this.props.devKey) : '';
         this.props.array[field[0]]['topic'] = topic.replace(/(\s)+/g, '-');
       }
       

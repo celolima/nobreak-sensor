@@ -100,7 +100,7 @@ function loadAPI(app) {
     app.post('/api/devices', (req, res) => {
       const newDevice = {
         key: req.body.key,
-        devName: req.body.devName,
+        devName: req.body.name,
         empresa: req.body.empresa,
         params:  req.body.params,
       };
