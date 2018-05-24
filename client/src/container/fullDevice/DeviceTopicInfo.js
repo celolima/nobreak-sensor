@@ -8,8 +8,8 @@ const deviceTopicInfo = (props)  => {
     reactsCard = props.topic.reacts.map((react) => {
       return (
               <div className='reacts' key={react.id}>
-                {props.topic.param} {react.condition} {react.value} => 
-                {' '} envia {react.action['actionType']} para <span className='conditional'>{react.action['email']}{react.action['cel']}</span>
+                {props.topic.name} {react.condition} {react.value} => 
+                {' '} envia {react['action_type']} para <span className='conditional'>{react['endereco']}</span>
               </div>
               );
     });
@@ -18,7 +18,7 @@ const deviceTopicInfo = (props)  => {
   return (
         <Card>
           <CardBody onClick={props.clicked}>
-            <CardTitle className='d-inline-flex'>{props.topic.param}</CardTitle> 
+            <CardTitle className='d-inline-flex'>{props.topic.name}</CardTitle> 
             <h2>
               <Badge className='float-right' color={props.topicValue[props.topic.topic] === '---' ? 'warning' : 'success'}>
                 {props.topicValue[props.topic.topic]}{' '}{props.topic.unMed}

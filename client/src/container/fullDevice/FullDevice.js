@@ -99,8 +99,8 @@ class FullDevice extends Component {
             }
             deviceMsg = (
                 <div>
-                    <h3>{this.state.loadedDevice.desc}</h3>
-                    <span className='reacts'>{this.state.loadedDevice.id}</span>
+                    <h3>{this.state.loadedDevice.name}</h3>
+                    <span className='reacts'>{this.state.loadedDevice.key}</span>
                     <hr/>
                     <Row>
                     {topicsMsg}
