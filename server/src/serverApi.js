@@ -90,7 +90,6 @@ function loadAPI(app) {
       const qry = 'SELECT TB_LOGEMAIL.*, TB_REACT.condition, TB_REACT.valor_ref, TB_REACT.action_type, TB_REACT.endereco FROM TB_LOGEMAIL join TB_REACT on TB_LOGEMAIL.fk_react = TB_REACT.id ' +
                   'join TB_PARAM on TB_REACT.fk_param = TB_PARAM.id ' +
                   'where TB_PARAM.id = ?';
-      console.log(req.params.id);
       dao.getDb().all(qry, [req.params.id],  (err, rows) => {
         res.setHeader('Cache-Control', 'no-cache');
         res.json(rows);
