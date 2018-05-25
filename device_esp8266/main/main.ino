@@ -26,13 +26,13 @@ int mqtt_port = 1883;
     M01 -   Temperatura
 */
 
-String topics[NUMBER_OF_SENSORS] = {"/dev-15/tensaoIN/0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
-                                    "/dev-15/tensaoOUT/0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
-                                    "/dev-15/tensaoBATT/0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
-                                    "/dev-15/corrente/0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
-                                    "/dev-15/temperatura/0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
-                                    "/dev-15/frenquenciaIN/0c27556f-a1b0-4d54-bcc2-255dc8f1b185",
-                                    "/dev-15/frenquenciaOUT/0c27556f-a1b0-4d54-bcc2-255dc8f1b185"};
+String topics[NUMBER_OF_SENSORS] = {"/nobreak01/tensao-entrada/c83036a4-124a-4fa4-b635-5f53ec1c8d04",
+                                    "/nobreak01/tensao-saida/c83036a4-124a-4fa4-b635-5f53ec1c8d04",
+                                    "/nobreak01/tensao-bateria/c83036a4-124a-4fa4-b635-5f53ec1c8d04",
+                                    "/nobreak01/corrente-saida/c83036a4-124a-4fa4-b635-5f53ec1c8d04",
+                                    "/nobreak01/temperatura/c83036a4-124a-4fa4-b635-5f53ec1c8d04",
+                                    "/nobreak01/frequencia-entrada/c83036a4-124a-4fa4-b635-5f53ec1c8d04",
+                                    "/nobreak01/frequencia-saida/c83036a4-124a-4fa4-b635-5f53ec1c8d04"};
 
 long previousMsgMills = 0;
 byte porta[NUMBER_OF_SENSORS] = {0,1,2,5,4};

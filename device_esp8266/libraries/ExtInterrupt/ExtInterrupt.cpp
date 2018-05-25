@@ -10,8 +10,8 @@
 #include "Arduino.h"
 #include "ExtInterrupt.h"
 
-#define F1 5 // D1
-#define F2 15 // D8
+#define F1 15 // D8
+#define F2 5 // D1
 
 volatile unsigned long timeFirst1 = 0;
 volatile unsigned long timeSecond1 = 0;

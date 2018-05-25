@@ -8,9 +8,9 @@
 #include "Thermistor.h"
 
 #define ANALOG_PORT A0
-#define A 4 // D2
-#define B 1 // D3
-#define C 2 // D4 - Bit mais significativo
+#define A 2 // D2 
+#define B 0 // D3
+#define C 4 // D4 - Bit mais significativo
 
 Mux::Mux() {
     // seta os pinos select como saída
