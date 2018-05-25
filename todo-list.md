@@ -37,8 +37,7 @@
     [Ao gravar, realizar o subscribe no topico]
     [Atualmente o Subscribe é realizado quando o servidor é iniciado]    
 
-*   ~~No cadastro do dispositivo não pode colocar '/' no nome do parametro. Se tiver o caractere '/' não é possível obter o id
-device via tópico!~~    
+*   ~~No cadastro do dispositivo não pode colocar '/' no nome do parametro. Se tiver o caractere '/' não é possível obter o id device via tópico!~~    
 
 ## Documentação
 
@@ -59,3 +58,9 @@ device via tópico!~~
 * Adicionar explicação no plano de projeto - Explicar onde o software roda, e onde pode ser implantado (Firebase)
 
 * Verificar viabilidade de um servidor MQTT remoto - ou implantar no Firebase
+
+
+
+
+* Calcular potência
+* Verificar envio de email

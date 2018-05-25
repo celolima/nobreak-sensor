@@ -28,8 +28,8 @@ int Mux::getAnalogValue(byte porta) {
 double Mux::getCurrent(byte porta) {    
     setMuxPort(porta);
     EnergyMonitor emon1;
-    emon1.current(ANALOG_PORT, 17.09);
-    return emon1.calcIrms(1996);
+    emon1.current(ANALOG_PORT, 20);
+    return emon1.calcIrms(1480);
 }
 
 double Mux::getTemperature(byte porta) {

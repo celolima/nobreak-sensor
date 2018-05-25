@@ -67,6 +67,9 @@ class FullDevice extends Component {
         client.on('message', (topic, message) => {
             let topicValObj = {...this.state.topicValue};
             topicValObj[topic] = message.toString();
+            if(topic === '/nobreak01/tensao-entrada/c83036a4-124a-4fa4-b635-5f53ec1c8d04') {
+                console.log(message.toString());
+            }
             this.setState({topicValue: topicValObj});
         });
     }
