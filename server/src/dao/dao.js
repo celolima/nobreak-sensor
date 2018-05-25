@@ -16,20 +16,20 @@ let getDb = function() {
 let createDeviceParam = (data) => {
     getDb().serialize(function() {
         var stmt1 = getDb().prepare('INSERT INTO TB_DEVICE (name,key) VALUES (?,?)');
-        const id_device = stmt1.run(data.devName,data.key);
+        const id_device = stmt1.run(data.name,data.key);
         console.log('ID DEVICE :: ' + id_device);
         stmt1.finalize();
 
         data.params.forEach((param) => {
             var stmt2 = getDb().prepare('INSERT INTO TB_PARAM (name,unMed,topic,fk_device) VALUES (?,?,?,?)');
-            stmt2.run(param.paramName,param.unMed,param.topic,id_device);
+            stmt2.run(param.name,param.unMed,param.topic,id_device);
             stmt2.finalize();            
         });
 
         getDb().each('SELECT ID FROM TB_USUARIO WHERE fk_empresa = ?', [data.empresa],  (err, row) => {
             const fk_usuario = row;
             var stmt2 = getDb().prepare('INSERT INTO TB_PERMISSAO (fk_usuario,fk_device) VALUES (?,?)');
-            stmt2.run(fk_usuario,fk_device);
+            stmt2.run(fk_usuario,id_device);
             stmt2.finalize();
         });
     });
@@ -38,7 +38,7 @@ let createDeviceParam = (data) => {
 let createReact = (data) => {    
     var stmt = getDb().prepare('INSERT INTO TB_REACT (tipo,condition,valor_ref,fk_param,action_type,endereco,message) VALUES (?,?,?,?,?,?,?)');
     const msg = data.message ? message : '';
-    stmt.run(data.tipo,data.condition,data.valorRef,data.param,data.action,data.endereco,msg);
+    stmt.run(data.tipo,data.condition,data.valorRef,data.fk_param,data.action_type,data.endereco,msg);
     stmt.finalize();
 };
 

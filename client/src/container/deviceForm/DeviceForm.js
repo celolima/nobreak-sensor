@@ -11,8 +11,8 @@ let arrayTopics = [];
 
 class DeviceForm extends Component {
   state = {
-    id: uuidv4(),
-    desc: '',
+    key: uuidv4(),
+    name: '',
     fieldErrors: {},    
     submitted: false,
     serverError: false
@@ -34,9 +34,10 @@ class DeviceForm extends Component {
     if (!this.isValid()) return;
 
     const device = {
-      id: this.state.id,
-      desc: this.state.desc,
-      topics: arrayTopics
+      key: this.state.key,
+      name: this.state.name,
+      empresa: 1,
+      params: arrayTopics
     };
     
     clientApi.createDevice(device)
@@ -52,7 +53,7 @@ class DeviceForm extends Component {
     const fieldErrors = this.state.fieldErrors;
     const errMessages = Object.keys(fieldErrors).filter((k) => fieldErrors[k]);
 
-    if (!this.state.desc) return false;    
+    if (!this.state.name) return false;    
     if (arrayTopics.length === 0) return false;
     if (errMessages.length) return false;
 
@@ -67,9 +68,7 @@ class DeviceForm extends Component {
 
   render() {
     let redirect = null;
-    console.log('SUB?' + this.state.submitted);
-    if (this.state.submitted) {
-      
+    if (this.state.submitted) {     
       redirect = <Redirect to="/devices" />;
     }
 
@@ -82,15 +81,15 @@ class DeviceForm extends Component {
         <Form>
           <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
             <Field
-              title='Descrição'
-              name='desc'
-              value={this.state.desc}
+              title='Nome'
+              name='name'
+              value={this.state.name}
               onChange={this.onInputChange}
               validate={(val) => (val ? false : '*')}
             />
-            <h4>Parâmetros <Button onClick={this.handleAddTopic} className="mr-sm-2" color='primary' size='sm' disabled={this.state.desc === ''}>Add</Button>{' '}</h4>
+            <h4>Parâmetros <Button onClick={this.handleAddTopic} className="mr-sm-2" color='primary' size='sm' disabled={this.state.name === ''}>Add</Button>{' '}</h4>
             <hr/>
-            <TopicForm array={arrayTopics} dev={this.state.desc} devID={this.state.id} onError={this.handleError}/>
+            <TopicForm array={arrayTopics} dev={this.state.name} devKey={this.state.key} onError={this.handleError}/>
           </FormGroup>
           <Button onClick={this.handleCreateFormSubmit} className="mr-sm-2" color='primary' size='sm' disabled={!this.isValid()}>Save</Button>{' '}
           <Button className="mr-sm-2" size='sm' onClick={this.handleCancelClick}>Cancel</Button>

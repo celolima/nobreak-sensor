@@ -100,7 +100,7 @@ function loadAPI(app) {
     app.post('/api/devices', (req, res) => {
       const newDevice = {
         key: req.body.key,
-        devName: req.body.devName,
+        devName: req.body.name,
         empresa: req.body.empresa,
         params:  req.body.params,
       };
@@ -112,13 +112,13 @@ function loadAPI(app) {
     //CREATE NEW REACTION
     app.post('/api/reacts', (req, res) => {
       const newReact = {
-        tipo: req.body.tipo,
+        tipo: req.body.type,
         condition: req.body.condition,
-        valorRef: req.body.valorRef,
-        action: req.body.action,
-        param: req.body.param,
-        endereco: req.body.endereco,
-        message: req.body.message
+        valorRef: req.body.value,
+        fk_param: req.body.topic,
+        action_type: req.body.action.actionType,        
+        endereco: req.body.action.email,
+        message: req.body.action.message
       };
 
       dao.createDeviceParam(newReact);
