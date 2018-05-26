@@ -12,10 +12,11 @@ class Devices extends Component {
 
     componentDidMount() {
         this.loadDevicesFromServer();
-        setInterval(this.loadDevicesFormServer, 5000);
+        //setInterval(this.loadDevicesFromServer(), 5000);
     }
 
     loadDevicesFromServer = () => {
+        console.log('loading');
         clientApi.getDevices()
             .then(data => {this.setState({devices : data})})            
             .catch(()=>{this.setState({serverError: true})});

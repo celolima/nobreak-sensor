@@ -1,6 +1,5 @@
 import * as dao from './dao/dao'
 const bodyParser = require('body-parser');
-const qryAssync = 'SELECT * FROM TB_LOGEMAIL WHERE id = 999';
 function api(app) {
     console.log('Creating server API');
     loadAPI(app);
@@ -11,19 +10,20 @@ function loadAPI(app) {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
   
-    app.get('/api/devices', (req, res) => {      
+    app.get('/api/devices', (req, res) => {  
       let arr = [];
-      dao.getDb().serialize(function() {          
-        dao.getDb().each('SELECT * FROM TB_DEVICE',  (err, row) => {
+      dao.getDb().serialize(function() {
+        dao.getDb().each('SELECT * FROM TB_DEVICE ORDER BY NAME',  (err, row) => {
           let fk_device = row.id;
           let dev = {...row};
+          
           dao.getDb().all('SELECT * FROM TB_PARAM WHERE FK_DEVICE = ?', [fk_device], (err, rows) => {
             dev['topics'] = rows;            
             arr.push(dev);
           });
         });
         // RETORNO ASSYNCRONO
-        dao.getDb().get(qryAssync,  (err, rows) => {
+        dao.getDb().get(dao.qryAssync,  (err, rows) => {
           res.setHeader('Cache-Control', 'no-cache');
           res.json(arr);
         });
@@ -48,7 +48,7 @@ function loadAPI(app) {
           });
         });
         // RETORNO ASSYNCRONO
-        dao.getDb().get(qryAssync,  (err, rows) => {
+        dao.getDb().get(dao.qryAssync,  (err, rows) => {
           res.setHeader('Cache-Control', 'no-cache');
           res.json(dev);
         });
@@ -70,7 +70,7 @@ function loadAPI(app) {
           });
         });
         // RETORNO ASSYNCRONO
-        dao.getDb().get(qryAssync,  (err, rows) => {
+        dao.getDb().get(dao.qryAssync,  (err, rows) => {
           res.setHeader('Cache-Control', 'no-cache');
           res.json(param);
         });

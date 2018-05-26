@@ -1,5 +1,6 @@
 const sqlite3 = require('sqlite3');
 let db = null;
+const qryAssync = 'SELECT * FROM TB_LOGEMAIL WHERE id = 999';
 
 let getDb = function() {
     if(!db) {
@@ -48,9 +49,13 @@ let createDeviceParam = (data,callback) => {
                         }
                     });
                     stmt2.finalize();
-                });
+                });             
             }
-        });           
+        });
+        // RETORNO ASSYNCRONO
+        getDb().get(qryAssync,  (err, rows) => {
+            callback();
+        });
     });
 };
 
@@ -80,3 +85,4 @@ exports.getDb = getDb;
 exports.createDeviceParam = createDeviceParam;
 exports.createReact = createReact;
 exports.createLogEmail = createLogEmail;
+exports.qryAssync = qryAssync;

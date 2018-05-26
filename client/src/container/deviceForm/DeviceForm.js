@@ -39,7 +39,6 @@ class DeviceForm extends Component {
       empresa: 1,
       params: arrayTopics
     };
-    
     clientApi.createDevice(device)
       .then(() => { this.setState({submitted: true}) } )
       .catch(() => { this.setState({serverError: true, submitted: false}) } );
