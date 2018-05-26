@@ -20,20 +20,22 @@ class FullDevice extends Component {
 
     loadData () {
         if ( this.props.match.params.id ) {
-            if ( !this.state.loadedDevice || (this.state.loadedDevice && this.state.loadedDevice.id !== this.props.match.params.id) ) {
-                clientApi.getDeviceId(this.props.match.params.id)
-                    .then(data => {                    
-                        const topics = data.topics;
-                        if(topics) {
-                            let topicValObj = {};
-                            topics.forEach((element) => {                           
-                                topicValObj[element.topic] = '---';
-                                this.setState({topicValue: topicValObj});
-                            });
-                        }
-                        this.setState({loadedDevice: data},this.handleTopicSubscribe());
-                    })
-                    .catch(()=>{this.setState({serverError: true})});
+            if(!isNaN(this.props.match.params.id)) {
+                if ( !this.state.loadedDevice || (this.state.loadedDevice && this.state.loadedDevice.id !== this.props.match.params.id) ) {
+                    clientApi.getDeviceId(this.props.match.params.id)
+                        .then(data => {                    
+                            const topics = data.topics;
+                            if(topics) {
+                                let topicValObj = {};
+                                topics.forEach((element) => {                           
+                                    topicValObj[element.topic] = '---';
+                                    this.setState({topicValue: topicValObj});
+                                });
+                            }
+                            this.setState({loadedDevice: data},this.handleTopicSubscribe());
+                        })
+                        .catch(()=>{this.setState({serverError: true})});
+                }
             }
         }
     }
@@ -84,8 +86,17 @@ class FullDevice extends Component {
                     <Alert serverError={this.state.serverError}/>
                 </Row>
             </div>
-            
         );
+
+        if(isNaN(this.props.match.params.id)) {
+            deviceMsg = (
+                <div>
+                    <h3>Dispositivo inválido! =(</h3>
+                    <hr/>
+                </div>
+            );
+        }
+
         let topicsMsg = '';
         
         if ( this.state.loadedDevice ) {            

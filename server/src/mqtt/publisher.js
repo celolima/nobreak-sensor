@@ -8,7 +8,7 @@ const publishDevices = (useLocalBroker) => {
     setInterval(() => {
       dao.getDb().each('SELECT topic FROM TB_PARAM',  (err, row) => {
         //console.log('Publishing on '+ row.topic);
-        mqtt.publish(row.topic,(getRandomInt(0,100)).toString(), {}, (err) => {console.log('Error to publish on ', row.topic)});
+        mqtt.publish(row.topic,(getRandomInt(0,130)).toString(), {}, (err) => {console.log('Error to publish on ', row.topic)});
       });
     }, 6000);
     }, (err) => console.log('rejected: ', err));

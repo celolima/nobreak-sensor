@@ -33,20 +33,25 @@ function loadAPI(app) {
     //GET SPECIFIC DEVICE
     app.get('/api/devices/:id', (req, res) => {
       let dev = {};
-      dao.getDb().serialize(function() {          
-        dao.getDb().get('SELECT * FROM TB_DEVICE WHERE ID = ?', [req.params.id],  (err, row) => {
-          let fk_device = row.id;
-          dev = {...row};
-          dev['topics'] = [];
-          dao.getDb().each('SELECT * FROM TB_PARAM WHERE FK_DEVICE = ?', [fk_device], (err, row) => {
-            let fk_param = row.id;
-            let param = {...row};
-            dao.getDb().all('SELECT * FROM TB_REACT WHERE FK_PARAM = ?', [fk_param], (err, rows) => {
-              param['reacts'] = rows;
-              dev['topics'].push(param);
-            });
+
+      dao.getDb().serialize(function() {
+        if(!isNaN(req.params.id)) {
+          dao.getDb().get('SELECT * FROM TB_DEVICE WHERE ID = ?', [req.params.id],  (err, row) => {
+            if(row) {
+              let fk_device = row.id;
+              dev = {...row};
+              dev['topics'] = [];
+              dao.getDb().each('SELECT * FROM TB_PARAM WHERE FK_DEVICE = ?', [fk_device], (err, row) => {
+                let fk_param = row.id;
+                let param = {...row};
+                dao.getDb().all('SELECT * FROM TB_REACT WHERE FK_PARAM = ?', [fk_param], (err, rows) => {
+                  param['reacts'] = rows;
+                  dev['topics'].push(param);
+                });
+              });
+            }
           });
-        });
+        }
         // RETORNO ASSYNCRONO
         dao.getDb().get(dao.qryAssync,  (err, rows) => {
           res.setHeader('Cache-Control', 'no-cache');
