@@ -38,9 +38,12 @@ class ConditionForm extends Component {
         topics = [];
         
         if(targetVal !== 'invalid') {
-            let dev = devicesServer.find((val) => {return val.id === targetVal});
-            topics = [...dev.topics];
-            delete erros.device;
+            // eslint-disable-next-line
+            let dev = devicesServer.find((val) => {return val.id == targetVal});
+            if(dev) {
+                topics = [...dev.topics];
+                delete erros.device;
+            }
         } else  {
             erros['device'] = 'favor selecionar um dispositivo';
             targetVal = '';

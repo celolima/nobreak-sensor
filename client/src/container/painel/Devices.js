@@ -12,11 +12,9 @@ class Devices extends Component {
 
     componentDidMount() {
         this.loadDevicesFromServer();
-        //setInterval(this.loadDevicesFromServer(), 5000);
     }
 
     loadDevicesFromServer = () => {
-        console.log('loading');
         clientApi.getDevices()
             .then(data => {this.setState({devices : data})})            
             .catch(()=>{this.setState({serverError: true})});
@@ -31,7 +29,7 @@ class Devices extends Component {
         if(this.state.devices && this.state.devices.length !== 0) {
             devices = this.state.devices.map((device) => (
                 <Device 
-                    key={device.key}
+                    key={device.id}
                     id={device.id} 
                     name={device.name}
                     topics={device.topics}

@@ -8,7 +8,7 @@ const deviceTopicInfo = (props)  => {
     reactsCard = props.topic.reacts.map((react) => {
       return (
               <div className='reacts' key={react.id}>
-                {props.topic.name} {react.condition} {react.value} => 
+                {props.topic.name} {react.condition} {react.valor_ref} => 
                 {' '} envia {react['action_type']} para <span className='conditional'>{react['endereco']}</span>
               </div>
               );
