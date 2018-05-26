@@ -76,11 +76,11 @@ const checkAndSendEmail = (data) => {
         const mailOptions = {
             from: 'tel73n@gmail.com', // sender address
             to: data.endereco, // list of receivers
-            subject: '['.concat(data.dev_name,']',' Alerta! ',data.param_name, ' ', data.condition, ' ', data.conditionVal, data.unMed), // Subject line
+            subject: '['.concat(data.dev_name,']',' Alerta! ',data.param_name, ' ', data.condition, ' ', data.valor_ref, data.unMed), // Subject line
             html: msg
         };
         dao.createLogEmail(data);
-        //sendEmail(mailOptions);
+        sendEmail(mailOptions);
     }
 };
 

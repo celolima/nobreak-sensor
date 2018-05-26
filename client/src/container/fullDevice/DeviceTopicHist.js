@@ -112,7 +112,7 @@ class DeviceTopicHist extends Component {
                         return (
                             <tr key={e.id}>
                                 <th scope="row">{index}</th>
-                                <td>{e.data_hora}</td>
+                                <td>{new Date(e.data_hora)}</td>
                                 <td>{e.valor_lido}</td>
                                 <td>{e.condition}</td>
                                 <td>{e.valor_ref}</td>
@@ -124,6 +124,9 @@ class DeviceTopicHist extends Component {
             }
             tableHistoric = (
                 <div>
+                    <h4>Alertas enviados</h4>
+                    <span class="glyphicon glyphicon-warning-sign"></span>
+                    <hr/>
                     <Table>
                     <thead>
                     <tr>
