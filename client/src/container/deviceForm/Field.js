@@ -12,7 +12,7 @@ class Field extends React.Component {
   };
 
   state = {
-    value: this.props.value,
+    value: '',
     error: false,
   };
 
@@ -26,7 +26,6 @@ class Field extends React.Component {
     const error = this.props.validate ? this.props.validate(value) : false;
 
     this.setState({ value, error });
-
     this.props.onChange({ name, value, error });
   };
   

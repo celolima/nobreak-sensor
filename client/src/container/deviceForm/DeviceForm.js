@@ -68,7 +68,7 @@ class DeviceForm extends Component {
 
   render() {
     let redirect = null;
-    if (this.state.submitted) {     
+    if (this.state.submitted) {  
       redirect = <Redirect to="/devices" />;
     }
 
@@ -85,7 +85,7 @@ class DeviceForm extends Component {
               name='name'
               value={this.state.name}
               onChange={this.onInputChange}
-              validate={(val) => (val ? false : '*')}
+              validate={(val) => (val ? false : 'campo obrigatório')}
             />
             <h4>Parâmetros <Button onClick={this.handleAddTopic} className="mr-sm-2" color='primary' size='sm' disabled={this.state.name === ''}>Add</Button>{' '}</h4>
             <hr/>

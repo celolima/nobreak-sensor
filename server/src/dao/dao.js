@@ -13,25 +13,44 @@ let getDb = function() {
     return db;
 };
 
-let createDeviceParam = (data) => {
+let createDeviceParam = (data,callback) => {
     getDb().serialize(function() {
         var stmt1 = getDb().prepare('INSERT INTO TB_DEVICE (name,key) VALUES (?,?)');
-        const id_device = stmt1.run(data.name,data.key);
-        console.log('ID DEVICE :: ' + id_device);
-        stmt1.finalize();
-
-        data.params.forEach((param) => {
-            var stmt2 = getDb().prepare('INSERT INTO TB_PARAM (name,unMed,topic,fk_device) VALUES (?,?,?,?)');
-            stmt2.run(param.name,param.unMed,param.topic,id_device);
-            stmt2.finalize();            
-        });
-
-        getDb().each('SELECT ID FROM TB_USUARIO WHERE fk_empresa = ?', [data.empresa],  (err, row) => {
-            const fk_usuario = row;
-            var stmt2 = getDb().prepare('INSERT INTO TB_PERMISSAO (fk_usuario,fk_device) VALUES (?,?)');
-            stmt2.run(fk_usuario,id_device);
-            stmt2.finalize();
-        });
+        stmt1.run([data.name,data.key],function(err, row) {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            
+            const id_device = stmt1.lastID;
+            stmt1.finalize();
+    
+            if(id_device) {
+                
+                data.params.forEach((param) => {
+                    var stmt2 = getDb().prepare('INSERT INTO TB_PARAM (name,unMed,topic,fk_device) VALUES (?,?,?,?)');
+                    stmt2.run([param.name,param.unMed,param.topic,id_device], function(err,row) {
+                        if(err) {
+                            console.log(err);
+                            return;
+                        }
+                    });
+                    stmt2.finalize();
+                });
+    
+                getDb().each('SELECT ID FROM TB_USUARIO WHERE fk_empresa = ?', [data.empresa],  (err, row) => {
+                    const fk_usuario = row.id;
+                    var stmt2 = getDb().prepare('INSERT INTO TB_PERMISSAO (fk_usuario,fk_device) VALUES (?,?)');
+                    stmt2.run([fk_usuario,id_device], function(err,row) {
+                        if(err) {
+                            console.log(err);
+                            return;
+                        }
+                    });
+                    stmt2.finalize();
+                });
+            }
+        });           
     });
 };
 

@@ -2,14 +2,11 @@ import axios from './axiosInst';
 
 const getDevices = () => {
   return axios.get('/devices')
-    .then(response => response.data);
+    .then((response) => {return response.data;});
 };
 
 const createDevice = (data) => {
-  return axios.post('/devices/', data)
-    .then(response => {
-      console.log('Created' + response);
-    });
+  return axios.post('/devices/', data);
 };
 
 const createReaction = (data) => {

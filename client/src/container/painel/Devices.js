@@ -12,7 +12,7 @@ class Devices extends Component {
 
     componentDidMount() {
         this.loadDevicesFromServer();
-        //setInterval(this.loadDevicesFormServer, 5000);
+        setInterval(this.loadDevicesFormServer, 5000);
     }
 
     loadDevicesFromServer = () => {

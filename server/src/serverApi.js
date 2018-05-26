@@ -11,7 +11,7 @@ function loadAPI(app) {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
   
-    app.get('/api/devices', (req, res) => {
+    app.get('/api/devices', (req, res) => {      
       let arr = [];
       dao.getDb().serialize(function() {          
         dao.getDb().each('SELECT * FROM TB_DEVICE',  (err, row) => {
@@ -100,13 +100,15 @@ function loadAPI(app) {
     app.post('/api/devices', (req, res) => {
       const newDevice = {
         key: req.body.key,
-        devName: req.body.name,
+        name: req.body.name,
         empresa: req.body.empresa,
         params:  req.body.params,
       };
-      dao.createDeviceParam(newDevice);
-      res.setHeader('Cache-Control', 'no-cache');
-      res.json({});
+      const callback = () => {
+        res.setHeader('Cache-Control', 'no-cache');
+        res.json({});
+      };
+      dao.createDeviceParam(newDevice,callback);
     });
 
     //CREATE NEW REACTION
@@ -121,7 +123,7 @@ function loadAPI(app) {
         message: req.body.action.message
       };
 
-      dao.createDeviceParam(newReact);
+      dao.createReact(newReact);
       res.setHeader('Cache-Control', 'no-cache');
       res.json({});      
   });
