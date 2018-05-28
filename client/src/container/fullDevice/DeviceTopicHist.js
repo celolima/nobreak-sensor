@@ -5,6 +5,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
 import { Row, Button, Table } from 'reactstrap';
 import './FullDevice.css';
 import mqtt from 'mqtt';
+import icons from 'glyphicons'
 import Alert from '../ui/AlertLoadingDanger';
 
 class DeviceTopicHist extends Component {
@@ -109,14 +110,17 @@ class DeviceTopicHist extends Component {
             if(this.state.topicEmail) {
                 historicoElement = 
                     this.state.topicEmail.map((e,index) => {
+                        const d = new Date(e.data_hora);
+                        const dataFormatted = d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
                         return (
+                            
                             <tr key={e.id}>
                                 <th scope="row">{index}</th>
-                                <td>{new Date(e.data_hora)}</td>
+                                <td>{dataFormatted}</td>
                                 <td>{e.valor_lido}</td>
                                 <td>{e.condition}</td>
                                 <td>{e.valor_ref}</td>
-                                <td>{e.action_type}</td>
+                                <td>{e.action_type === 'e-mail' ? icons.mail : e.action_type}</td>
                                 <td>{e.endereco}</td>
                             </tr>
                         );
@@ -124,8 +128,7 @@ class DeviceTopicHist extends Component {
             }
             tableHistoric = (
                 <div>
-                    <h4>Alertas enviados</h4>
-                    <span class="glyphicon glyphicon-warning-sign"></span>
+                    <h4>Alertas enviados {icons.warning}</h4>
                     <hr/>
                     <Table>
                     <thead>
