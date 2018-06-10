@@ -37,10 +37,4 @@ if(subscribeAllDevs) {
     sub.subscribeDevices(useLocalBroker);
 }
 
-/* 
-dao.connect();
-dao.getDevices();
-dao.disconnect();
-*/
-
 export default app;

@@ -8,7 +8,7 @@
 #define LED_TENSAOIN 13
 #define LED_TENSAOBATT 14
 
-#define NUMBER_OF_SENSORS 7
+#define NUMBER_OF_SENSORS 8
 
 //String ssid = "NET_2GDB14C2";
 //String password = "4BDB14C2";
@@ -26,13 +26,14 @@ int mqtt_port = 1883;
     M01 -   Temperatura
 */
 
-String topics[NUMBER_OF_SENSORS] = {"/nobreak01/tensao-entrada/c83036a4-124a-4fa4-b635-5f53ec1c8d04",
-                                    "/nobreak01/tensao-saida/c83036a4-124a-4fa4-b635-5f53ec1c8d04",
-                                    "/nobreak01/tensao-bateria/c83036a4-124a-4fa4-b635-5f53ec1c8d04",
-                                    "/nobreak01/corrente-saida/c83036a4-124a-4fa4-b635-5f53ec1c8d04",
-                                    "/nobreak01/temperatura/c83036a4-124a-4fa4-b635-5f53ec1c8d04",
-                                    "/nobreak01/frequencia-entrada/c83036a4-124a-4fa4-b635-5f53ec1c8d04",
-                                    "/nobreak01/frequencia-saida/c83036a4-124a-4fa4-b635-5f53ec1c8d04"};
+String topics[NUMBER_OF_SENSORS] = {"/nobreak01/tensão-entrada/7ca340cb-d412-45c7-b377-bb8170152f4b",
+                                    "/nobreak01/tensão-saída/7ca340cb-d412-45c7-b377-bb8170152f4b",
+                                    "/nobreak01/tensão-bateria/7ca340cb-d412-45c7-b377-bb8170152f4b",
+                                    "/nobreak01/corrente-saída/7ca340cb-d412-45c7-b377-bb8170152f4b",
+                                    "/nobreak01/temperatura/7ca340cb-d412-45c7-b377-bb8170152f4b",
+                                    "/nobreak01/frequência-de-entrada/7ca340cb-d412-45c7-b377-bb8170152f4b",
+                                    "/nobreak01/frequência-de-saída/7ca340cb-d412-45c7-b377-bb8170152f4b",
+                                    "/nobreak01/potência/7ca340cb-d412-45c7-b377-bb8170152f4b"};
 
 long previousMsgMills = 0;
 byte porta[NUMBER_OF_SENSORS] = {0,1,2,5,4};
@@ -46,6 +47,8 @@ Mux mux;
 ExtInterrupt extInt;
 
 double val = 0;
+double tensao_saida = 0;
+double corrente = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -96,7 +99,7 @@ void loop() {
             val = 0;
             digitalWrite(LED_TENSAOIN, LOW);
           }
-          Serial.print("Tensão Entrada: ");
+          //Serial.print("Tensão Entrada: ");
         }
         if(i==1) {
           if(val>=0.5 && val<=1.0) {
@@ -104,7 +107,8 @@ void loop() {
           } else {
             val = 0;
           }
-          Serial.print("Tensão Saída: ");
+          //Serial.print("Tensão Saída: ");
+          tensao_saida = val;
         }
         if(i==2) {
           if(val < 2.2) {
@@ -112,23 +116,31 @@ void loop() {
           } else {
             digitalWrite(LED_TENSAOBATT, LOW);
           }
-          Serial.print("Tensão Bateria: ");   
+          //Serial.print("Tensão Bateria: ");   
         }
       } else if (i==3) { // CORRENTE
         val = mux.getCurrent(porta[i]);
-        Serial.print("Corrente: ");
+        //Serial.print("Corrente: ");
+        corrente = val;
       } else if (i==4) { // TEMPERATURA
         val = mux.getTemperature(porta[i]);
-        Serial.print("Temperatura: ");
+        //Serial.print("Temperatura: ");
       } else if(i==5) { // FREQIN
         val = extInt.getF1()/2;
-        Serial.print("Freq IN: ");
+        //Serial.print("Freq IN: ");
       } else if(i==6) { // FREQOUT
         val = extInt.getF2()/2;
-        Serial.print("Freq OUT: ");
+        //Serial.print("Freq OUT: ");
+      } else if(i==7) { //POT
+        val = tensao_saida * (corrente * 0.001);
+        tensao_saida = 0;
+        corrente = 0;
+      }
+      if (val<0) {
+        val = 0;
       }
       publick(topics[i],val);
-      Serial.println(val);
+      //Serial.println(val);
     }
   }
 }
