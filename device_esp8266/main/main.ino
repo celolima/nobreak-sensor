@@ -119,9 +119,10 @@ void loop() {
           } else {
             digitalWrite(LED_TENSAOBATT, LOW);
           }
+          val = (val * 12) / 2.47;
           //Serial.print("Tensão Bateria: ");   
         }
-        
+
       } else if (i==3) { // CORRENTE
         val = mux.getCurrent(porta[i]);
         //Serial.print("Corrente: ");
