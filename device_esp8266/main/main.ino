@@ -91,6 +91,7 @@ void loop() {
       // TEN-IN || TEN-OUT || TEN-BATT
       if(i<=2) {
         val = mux.getConvertedAnalogValue(porta[i], 3.3);
+
         if(i==0) {
           if(val>=1.2 && val<=1.4) {
             val = 127;
@@ -101,6 +102,7 @@ void loop() {
           }
           //Serial.print("Tensão Entrada: ");
         }
+
         if(i==1) {
           if(val>=0.5 && val<=1.0) {
             val = 127;
@@ -110,6 +112,7 @@ void loop() {
           //Serial.print("Tensão Saída: ");
           tensao_saida = val;
         }
+
         if(i==2) {
           if(val < 2.2) {
             digitalWrite(LED_TENSAOBATT, HIGH);            
@@ -118,6 +121,7 @@ void loop() {
           }
           //Serial.print("Tensão Bateria: ");   
         }
+        
       } else if (i==3) { // CORRENTE
         val = mux.getCurrent(porta[i]);
         //Serial.print("Corrente: ");
