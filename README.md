@@ -1,6 +1,6 @@
 ## PROJETO SENSOR DE NOBREAK
 
-O prensente projeto tem por intuito realizar a medição do sensor de nobreak.
+Este projeto tem por intuito realizar a medição do sensor de nobreak.
 
 * A medição é realizada pelo microcontrolador
 * O microcontrolador envia os dados lidos para o módulo wiFI(ESP8266)
